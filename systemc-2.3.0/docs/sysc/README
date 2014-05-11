@@ -1,0 +1,17 @@
+==========================================
+README for the SystemC 2.3.0 documentation
+==========================================
+
+This directory contains
+
+doxygen - a folder containing a command file for doxygen which may
+be used to generate browseable documentation of the SystemC class library.
+Please see www.doxygen.org for usage.
+
+archived - documentation from earlier versions of SystemC, much of which is now out-of-date.
+
+SystemC 2011 New Features.pdf
+A presentation outlining the new features of IEEE 1666-2011, first given at 
+DVCON (Design and Verification Conference) in February 2012.
+
+README - this file.
