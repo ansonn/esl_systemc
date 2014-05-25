@@ -1,0 +1,6 @@
+22:39:49 **** Incremental Build of configuration Debug for project TestSC ****
+make all 
+make: 没有什么可以做的为 `all'。
+
+22:39:50 Build Finished (took 63ms)
+

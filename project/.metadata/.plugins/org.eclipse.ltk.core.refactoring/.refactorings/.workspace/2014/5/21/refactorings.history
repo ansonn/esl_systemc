@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;risc_cpu/src/libsystemc-2.3.0.so&apos;" deleteContents="false" description="Delete resource &apos;risc_cpu/src/libsystemc-2.3.0.so&apos;" element1="/risc_cpu/src/libsystemc-2.3.0.so" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1400416885517"/>
+</session>

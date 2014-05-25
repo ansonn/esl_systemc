@@ -1,0 +1,6 @@
+21:03:45 **** Incremental Build of configuration Debug for project risc_cpu ****
+make all 
+make: 没有什么可以做的为 `all'。
+
+21:03:45 Build Finished (took 72ms)
+
