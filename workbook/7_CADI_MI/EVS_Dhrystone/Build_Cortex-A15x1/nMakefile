@@ -1,0 +1,172 @@
+#
+# nMakefile - Dhrystone platform NMAKE makefile.
+#
+# Copyright 2012 ARM Limited.
+# All rights reserved.
+#
+
+# Common rules
+!include ..\..\Common\nMakefile.common
+
+# Specify objects and target(s) to build
+SRCS = ..\Source\*.cpp
+TARGET = EVS_Dhrystone_Cortex-A15x1.exe
+
+# Determine others...
+LIBS_rel_vs8_32=scx-Dhrystone-$(CONFIG_rel_vs8_32).lib $(LIBS_common) \
+	Dhrystone-$(CONFIG_rel_vs8_32).lib
+LIBS_dbg_vs8_32=scx-Dhrystone-$(CONFIG_dbg_vs8_32).lib $(LIBS_common) \
+	Dhrystone-$(CONFIG_dbg_vs8_32).lib
+LIBS_rel_vs9_32=scx-Dhrystone-$(CONFIG_rel_vs9_32).lib $(LIBS_common) \
+	Dhrystone-$(CONFIG_rel_vs9_32).lib
+LIBS_dbg_vs9_32=scx-Dhrystone-$(CONFIG_dbg_vs9_32).lib $(LIBS_common) \
+	Dhrystone-$(CONFIG_dbg_vs9_32).lib
+LIBS_rel_vs9_64=scx-Dhrystone-$(CONFIG_rel_vs9_64).lib $(LIBS_common) \
+	Dhrystone-$(CONFIG_rel_vs9_64).lib
+LIBS_dbg_vs9_64=scx-Dhrystone-$(CONFIG_dbg_vs9_64).lib $(LIBS_common) \
+	Dhrystone-$(CONFIG_dbg_vs9_64).lib
+LIBS_rel_vs10_32=scx-Dhrystone-$(CONFIG_rel_vs10_32).lib $(LIBS_common) \
+	Dhrystone-$(CONFIG_rel_vs10_32).lib
+LIBS_dbg_vs10_32=scx-Dhrystone-$(CONFIG_dbg_vs10_32).lib $(LIBS_common) \
+	Dhrystone-$(CONFIG_dbg_vs10_32).lib
+LIBS_rel_vs10_64=scx-Dhrystone-$(CONFIG_rel_vs10_64).lib $(LIBS_common) \
+	Dhrystone-$(CONFIG_rel_vs10_64).lib
+LIBS_dbg_vs10_64=scx-Dhrystone-$(CONFIG_dbg_vs10_64).lib $(LIBS_common) \
+	Dhrystone-$(CONFIG_dbg_vs10_64).lib
+
+# Determine commands
+SIMGEN_CMD = "$(MAXCORE_HOME)\bin\simgen.exe" \
+			 -p EVS_Dhrystone_Cortex-A15x1.sgproj --enable-mi \
+			 --num-build-cpus $(J) $(SIMGENFLAGS)
+CXX_CMD = $(CXX) /Fe$(TARGET) $(SRCS)
+MT_CMD = mt -nologo -manifest $(TARGET).manifest -outputresource:$(TARGET);1
+
+# Local rules
+
+.SUFFIXES:
+
+rel_vs8_32:
+	$(SIMGEN_CMD) --configuration $(CONFIG_rel_vs8_32) -b
+	copy .\$(CONFIG_rel_vs8_32)\Dhrystone-$(CONFIG_rel_vs8_32).dll .
+	$(CXX_CMD) $(CXXFLAGS_rel_vs8_32) $(LDFLAGS_rel_vs8_32) $(LIBS_rel_vs8_32)
+	$(MT_CMD)
+
+dbg_vs8_32:
+	$(SIMGEN_CMD) --configuration $(CONFIG_dbg_vs8_32) -b
+	copy .\$(CONFIG_dbg_vs8_32)\Dhrystone-$(CONFIG_dbg_vs8_32).dll .
+	$(CXX_CMD) $(CXXFLAGS_dbg_vs8_32) $(LDFLAGS_dbg_vs8_32) $(LIBS_dbg_vs8_32)
+	$(MT_CMD)
+
+rel_vs9_32:
+	$(SIMGEN_CMD) --configuration $(CONFIG_rel_vs9_32) -b
+	copy .\$(CONFIG_rel_vs9_32)\Dhrystone-$(CONFIG_rel_vs9_32).dll .
+	$(CXX_CMD) $(CXXFLAGS_rel_vs9_32) $(LDFLAGS_rel_vs9_32) $(LIBS_rel_vs9_32)
+	$(MT_CMD)
+
+dbg_vs9_32:
+	$(SIMGEN_CMD) --configuration $(CONFIG_dbg_vs9_32) -b
+	copy .\$(CONFIG_dbg_vs9_32)\Dhrystone-$(CONFIG_dbg_vs9_32).dll .
+	$(CXX_CMD) $(CXXFLAGS_dbg_vs9_32) $(LDFLAGS_dbg_vs9_32) $(LIBS_dbg_vs9_32)
+	$(MT_CMD)
+
+rel_vs9_64:
+	$(SIMGEN_CMD) --configuration $(CONFIG_rel_vs9_64) -b
+	copy .\$(CONFIG_rel_vs9_64)\Dhrystone-$(CONFIG_rel_vs9_64).dll .
+	$(CXX_CMD) $(CXXFLAGS_rel_vs9_64) $(LDFLAGS_rel_vs9_64) $(LIBS_rel_vs9_64)
+	$(MT_CMD)
+
+dbg_vs9_64:
+	$(SIMGEN_CMD) --configuration $(CONFIG_dbg_vs9_64) -b
+	copy .\$(CONFIG_dbg_vs9_64)\Dhrystone-$(CONFIG_dbg_vs9_64).dll .
+	$(CXX_CMD) $(CXXFLAGS_dbg_vs9_64) $(LDFLAGS_dbg_vs9_64) $(LIBS_dbg_vs9_64)
+	$(MT_CMD)
+
+rel_vs10_32:
+	$(SIMGEN_CMD) --configuration $(CONFIG_rel_vs10_32) -b
+	copy .\$(CONFIG_rel_vs10_32)\Dhrystone-$(CONFIG_rel_vs10_32).dll .
+	$(CXX_CMD) $(CXXFLAGS_rel_vs10_32) $(LDFLAGS_rel_vs10_32) $(LIBS_rel_vs10_32)
+
+dbg_vs10_32:
+	$(SIMGEN_CMD) --configuration $(CONFIG_dbg_vs10_32) -b
+	copy .\$(CONFIG_dbg_vs10_32)\Dhrystone-$(CONFIG_dbg_vs10_32).dll .
+	$(CXX_CMD) $(CXXFLAGS_dbg_vs10_32) $(LDFLAGS_dbg_vs10_32) $(LIBS_dbg_vs10_32)
+
+rel_vs10_64:
+	$(SIMGEN_CMD) --configuration $(CONFIG_rel_vs10_64) -b
+	copy .\$(CONFIG_rel_vs10_64)\Dhrystone-$(CONFIG_rel_vs10_64).dll .
+	$(CXX_CMD) $(CXXFLAGS_rel_vs10_64) $(LDFLAGS_rel_vs10_64) $(LIBS_rel_vs10_64)
+
+dbg_vs10_64:
+	$(SIMGEN_CMD) --configuration $(CONFIG_dbg_vs10_64) -b
+	copy .\$(CONFIG_dbg_vs10_64)\Dhrystone-$(CONFIG_dbg_vs10_64).dll .
+	$(CXX_CMD) $(CXXFLAGS_dbg_vs10_64) $(LDFLAGS_dbg_vs10_64) $(LIBS_dbg_vs10_64)
+
+rel_vs8_32_clean:
+	-$(SIMGEN_CMD) --configuration $(CONFIG_rel_vs8_32) --clean
+	-del /f $(TARGET) 2>nul
+	-del /f $(TARGET).manifest 2>nul
+	-rmdir /s /q $(CONFIG_rel_vs8_32) 2>nul
+	-del /f Dhrystone-$(CONFIG_rel_vs8_32).dll 2>nul
+
+dbg_vs8_32_clean:
+	-$(SIMGEN_CMD) --configuration $(CONFIG_dbg_vs8_32) --clean
+	-del /f $(TARGET) 2>nul
+	-del /f $(TARGET).manifest 2>nul
+	-rmdir /s /q $(CONFIG_dbg_vs8_32) 2>nul
+	-del /f Dhrystone-$(CONFIG_dbg_vs8_32).dll 2>nul
+
+rel_vs9_32_clean:
+	-$(SIMGEN_CMD) --configuration $(CONFIG_rel_vs9_32) --clean
+	-del /f $(TARGET) 2>nul
+	-del /f $(TARGET).manifest 2>nul
+	-rmdir /s /q $(CONFIG_rel_vs9_32) 2>nul
+	-del /f Dhrystone-$(CONFIG_rel_vs9_32).dll 2>nul
+
+dbg_vs9_32_clean:
+	-$(SIMGEN_CMD) --configuration $(CONFIG_dbg_vs9_32) --clean
+	-del /f $(TARGET) 2>nul
+	-del /f $(TARGET).manifest 2>nul
+	-rmdir /s /q $(CONFIG_dbg_vs9_32) 2>nul
+	-del /f Dhrystone-$(CONFIG_dbg_vs9_32).dll 2>nul
+
+rel_vs9_64_clean:
+	-$(SIMGEN_CMD) --configuration $(CONFIG_rel_vs9_64) --clean
+	-del /f $(TARGET) 2>nul
+	-del /f $(TARGET).manifest 2>nul
+	-rmdir /s /q $(CONFIG_rel_vs9_64) 2>nul
+	-del /f Dhrystone-$(CONFIG_rel_vs9_64).dll 2>nul
+
+dbg_vs9_64_clean:
+	-$(SIMGEN_CMD) --configuration $(CONFIG_dbg_vs9_64) --clean
+	-del /f $(TARGET) 2>nul
+	-del /f $(TARGET).manifest 2>nul
+	-rmdir /s /q $(CONFIG_dbg_vs9_64) 2>nul
+	-del /f Dhrystone-$(CONFIG_dbg_vs9_64).dll 2>nul
+
+rel_vs10_32_clean:
+	-$(SIMGEN_CMD) --configuration $(CONFIG_rel_vs10_32) --clean
+	-del /f $(TARGET) 2>nul
+	-del /f $(TARGET).manifest 2>nul
+	-rmdir /s /q $(CONFIG_rel_vs10_32) 2>nul
+	-del /f Dhrystone-$(CONFIG_rel_vs10_32).dll 2>nul
+
+dbg_vs10_32_clean:
+	-$(SIMGEN_CMD) --configuration $(CONFIG_dbg_vs10_32) --clean
+	-del /f $(TARGET) 2>nul
+	-del /f $(TARGET).manifest 2>nul
+	-rmdir /s /q $(CONFIG_dbg_vs10_32) 2>nul
+	-del /f Dhrystone-$(CONFIG_dbg_vs10_32).dll 2>nul
+
+rel_vs10_64_clean:
+	-$(SIMGEN_CMD) --configuration $(CONFIG_rel_vs10_64) --clean
+	-del /f $(TARGET) 2>nul
+	-del /f $(TARGET).manifest 2>nul
+	-rmdir /s /q $(CONFIG_rel_vs10_64) 2>nul
+	-del /f Dhrystone-$(CONFIG_rel_vs10_64).dll 2>nul
+
+dbg_vs10_64_clean:
+	-$(SIMGEN_CMD) --configuration $(CONFIG_dbg_vs10_64) --clean
+	-del /f $(TARGET) 2>nul
+	-del /f $(TARGET).manifest 2>nul
+	-rmdir /s /q $(CONFIG_dbg_vs10_64) 2>nul
+	-del /f Dhrystone-$(CONFIG_dbg_vs10_64).dll 2>nul

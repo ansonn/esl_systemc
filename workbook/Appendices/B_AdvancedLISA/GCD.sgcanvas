@@ -1,0 +1,167 @@
+#//////////////////////////////////////////////////////////////////////////
+#//////////////////////////////////////////////////////////////////////////
+#//
+#//  File:    C:/PSG_Subversion/training_material/sg_training/trunk/workbook_files/Solutions/session5/WithPVBusSlave/GCD.sgcanvas
+#//  Created: Thu May 29 15:37:33 2008
+#//  By: ARM RealView System Generator Canvas 3.2.034 (Feb 26 2008 / 10:27:53) - Win32
+#//
+# *  Do NOT modify this file. It is for internal use by System Generator Canvas only.
+#//
+#//  Copyright (c) 2004-2007 by ARM Limited,  2000-2004 by AXYS Design Automation Inc.,
+#//
+#//  AXYS GmbH, Herzogenrath, Germany
+#//
+#//  ARM Limited Proprietary Information.
+#//  Disclosure to third parties is prohibited without prior consent.
+#//
+#//////////////////////////////////////////////////////////////////////////
+#//////////////////////////////////////////////////////////////////////////
+
+
+editor
+(
+    properties
+    (
+        instance "component"
+        (
+            font_family = "Times New Roman";
+            font_size = 12;
+            font_bold = true;
+            font_italic = false;
+            font_underline = false;
+        )
+        instance "component_port"
+        (
+            font_family = "Arial";
+            font_size = 10;
+            font_bold = false;
+            font_italic = false;
+            font_underline = false;
+        )
+        instance "external_port"
+        (
+            font_family = "Arial";
+            font_size = 10;
+            font_bold = false;
+            font_italic = false;
+            font_underline = false;
+        )
+        instance "grid"
+        (
+            width = 10;
+            height = 10;
+        )
+    )
+    components
+    (
+        instance "pvbusslave"
+        (
+            x = -160;
+            y = -110;
+            width = 171;
+            height = 81;
+            sheight = 21;
+            show_title = true;
+            show_name = true;
+            show_type = false;
+            show_logo = true;
+            ports
+            (
+                define "control"
+                (
+                x = 0;
+                y = 12;
+                side = 16;
+                clock_type = 0;
+                enabled = true;
+                hidden = false;
+                moved_by_user = true;
+            expanded = false;
+                )
+                define "device"
+                (
+                x = 0;
+                y = 2;
+                side = 64;
+                clock_type = 0;
+                enabled = true;
+                hidden = false;
+                moved_by_user = false;
+            expanded = false;
+                )
+                define "pvbus_s"
+                (
+                x = 0;
+                y = 42;
+                side = 16;
+                clock_type = 0;
+                enabled = true;
+                hidden = false;
+                moved_by_user = true;
+            expanded = false;
+                )
+            )
+        )
+    )
+    ports
+    (
+        define "control"
+        (
+            x = -350;
+            y = -80;
+            width = 101;
+            height = 21;
+            mirrored = true;
+            hidden = false;
+            expanded = false;
+        )
+        define "device"
+        (
+            x = 110;
+            y = -90;
+            width = 61;
+            height = 21;
+            mirrored = false;
+            hidden = false;
+            expanded = false;
+        )
+        define "irq"
+        (
+            x = -120;
+            y = 40;
+            width = 101;
+            height = 21;
+            mirrored = false;
+            hidden = false;
+            expanded = false;
+        )
+        define "pcbus_s"
+        (
+            x = -340;
+            y = -50;
+            width = 101;
+            height = 21;
+            mirrored = true;
+            hidden = false;
+            expanded = false;
+        )
+    )
+    connections
+    (
+    )
+    portmaps
+    (
+        define "pvbusslave.device=>self.device"
+        (
+        )
+        define "self.control=>pvbusslave.control"
+        (
+        )
+        define "self.pcbus_s=>pvbusslave.pvbus_s"
+        (
+        )
+    )
+    labels
+    (
+    )
+)

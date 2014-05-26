@@ -1,0 +1,124 @@
+sgproject "GCD_test_system.sgproj"
+{
+TOP_LEVEL_COMPONENT = "GCD_test_system";
+ACTIVE_CONFIG_LINUX  = "Linux32-Release-GCC-3.4";
+ACTIVE_CONFIG_WINDOWS  = "Win32-Release-VC2005";
+config "Linux32-Debug-GCC-3.4"
+{
+	ADDITIONAL_COMPILER_SETTINGS = "-Wall -g";
+	BUILD_DIR = "./Linux32-Debug-GCC-3.4";
+	COMPILER = "gcc-3.4";
+	CONFIG_DESCRIPTION = "Default Linux configuration for gcc 3.4 with debug info support";
+	CONFIG_NAME = "Linux32-Debug-GCC-3.4";
+	ENABLE_DEBUG_SUPPORT = "1";
+	PLATFORM = "Linux";
+	SIMGEN_WARNINGS_AS_ERRORS = "1";
+}
+config "Linux32-Debug-GCC-4.1"
+{
+	ADDITIONAL_COMPILER_SETTINGS = "-Wall -g";
+	BUILD_DIR = "./Linux32-Debug-GCC-4.1";
+	COMPILER = "gcc-4.1";
+	CONFIG_DESCRIPTION = "Default Linux configuration for gcc 4.1 with debug info support";
+	CONFIG_NAME = "Linux32-Debug-GCC-4.1";
+	ENABLE_DEBUG_SUPPORT = "1";
+	PLATFORM = "Linux";
+	SIMGEN_WARNINGS_AS_ERRORS = "1";
+}
+config "Linux32-Release-GCC-3.4"
+{
+	ADDITIONAL_COMPILER_SETTINGS = "-Wall -O3 ";
+	BUILD_DIR = "./Linux32-Release-GCC-3.4";
+	COMPILER = "gcc-3.4";
+	CONFIG_DESCRIPTION = "Default Linux configuration for gcc 3.4, optimized for speed";
+	CONFIG_NAME = "Linux32-Release-GCC-3.4";
+	PLATFORM = "Linux";
+	PREPROCESSOR_DEFINES = "NDEBUG";
+	SIMGEN_WARNINGS_AS_ERRORS = "1";
+}
+config "Linux32-Release-GCC-4.1"
+{
+	ADDITIONAL_COMPILER_SETTINGS = "-Wall -O3 ";
+	BUILD_DIR = "./Linux32-Release-GCC-4.1";
+	COMPILER = "gcc-4.1";
+	CONFIG_DESCRIPTION = "Default Linux configuration for gcc 4.1, optimized for speed";
+	CONFIG_NAME = "Linux32-Release-GCC-4.1";
+	PLATFORM = "Linux";
+	PREPROCESSOR_DEFINES = "NDEBUG";
+	SIMGEN_WARNINGS_AS_ERRORS = "1";
+}
+config "Linux64-Debug-GCC-4.1"
+{
+	ADDITIONAL_COMPILER_SETTINGS = "-Wall -g";
+	BUILD_DIR = "./Linux64-Debug-GCC-4.1";
+	COMPILER = "gcc-4.1";
+	CONFIG_DESCRIPTION = "Default Linux configuration for gcc 4.1 with debug info support";
+	CONFIG_NAME = "Linux64-Debug-GCC-4.1";
+	ENABLE_DEBUG_SUPPORT = "1";
+	PLATFORM = "Linux64";
+	SIMGEN_WARNINGS_AS_ERRORS = "1";
+}
+config "Linux64-Release-GCC-4.1"
+{
+	ADDITIONAL_COMPILER_SETTINGS = "-Wall -O3 ";
+	BUILD_DIR = "./Linux64-Release-GCC-4.1";
+	COMPILER = "gcc-4.1";
+	CONFIG_DESCRIPTION = "Default Linux configuration for gcc 4.1, optimized for speed";
+	CONFIG_NAME = "Linux64-Release-GCC-4.1";
+	PLATFORM = "Linux64";
+	PREPROCESSOR_DEFINES = "NDEBUG";
+	SIMGEN_WARNINGS_AS_ERRORS = "1";
+}
+config "Win32-Debug-VC2005"
+{
+	ADDITIONAL_COMPILER_SETTINGS = "/Od /RTCsu /Zi";
+	ADDITIONAL_LINKER_SETTINGS = "/DEBUG";
+	BUILD_DIR = "./Win32-Debug-VC2005";
+	COMPILER = "VC2005";
+	CONFIG_DESCRIPTION = "Default Windows configuration for VC2005 compiler with debug info support (linked to DEBUG runtime library)";
+	CONFIG_NAME = "Win32-Debug-VC2005";
+	ENABLE_DEBUG_SUPPORT = "1";
+	PLATFORM = "Win32D";
+	SIMGEN_WARNINGS_AS_ERRORS = "1";
+}
+config "Win32-Debug-VC2008"
+{
+	ADDITIONAL_COMPILER_SETTINGS = "/Od /RTCsu /Zi";
+	ADDITIONAL_LINKER_SETTINGS = "/DEBUG";
+	BUILD_DIR = "./Win32-Debug-VC2008";
+	COMPILER = "VC2008";
+	CONFIG_DESCRIPTION = "Default Windows configuration for VC2008 compiler  with debug info support (linked to DEBUG runtime library)";
+	CONFIG_NAME = "Win32-Debug-VC2008";
+	ENABLE_DEBUG_SUPPORT = "1";
+	PLATFORM = "Win32D";
+	SIMGEN_WARNINGS_AS_ERRORS = "1";
+}
+config "Win32-Release-VC2005"
+{
+	ADDITIONAL_COMPILER_SETTINGS = "/O2 /Ob1 ";
+	BUILD_DIR = "./Win32-Release-VC2005";
+	COMPILER = "VC2005";
+	CONFIG_DESCRIPTION = "Default Windows configuration for VC2005 compiler, optimized for speed, linked to RELEASE runtime library";
+	CONFIG_NAME = "Win32-Release-VC2005";
+	PLATFORM = "Win32";
+	PREPROCESSOR_DEFINES = "NDEBUG";
+	SIMGEN_WARNINGS_AS_ERRORS = "1";
+}
+config "Win32-Release-VC2008"
+{
+	ADDITIONAL_COMPILER_SETTINGS = "/O2 /Ob1 ";
+	BUILD_DIR = "./Win32-Release-VC2008";
+	COMPILER = "VC2008";
+	CONFIG_DESCRIPTION = "Default Windows configuration for VC2008 compiler , optimized for speed, linked to RELEASE runtime library";
+	CONFIG_NAME = "Win32-Release-VC2008";
+	PLATFORM = "Win32";
+	PREPROCESSOR_DEFINES = "NDEBUG";
+	SIMGEN_WARNINGS_AS_ERRORS = "1";
+}
+files
+{
+	path = "$(PVLIB_HOME)/etc/sglib.sgrepo";
+	path = "GCD_test_system.lisa";
+	path = "GCD.lisa";
+}
+}

@@ -1,6 +1,65 @@
-21:03:45 **** Incremental Build of configuration Debug for project risc_cpu ****
+15:03:15 **** Incremental Build of configuration Debug for project risc_cpu ****
 make all 
-make: 没有什么可以做的为 `all'。
+Building file: ../src/bios.cpp
+Invoking: GCC C++ Compiler
+g++ -I/usr/local/systemc230/include -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/bios.d" -MT"src/bios.d" -o "src/bios.o" "../src/bios.cpp"
+Finished building: ../src/bios.cpp
+ 
+Building file: ../src/dcache.cpp
+Invoking: GCC C++ Compiler
+g++ -I/usr/local/systemc230/include -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/dcache.d" -MT"src/dcache.d" -o "src/dcache.o" "../src/dcache.cpp"
+Finished building: ../src/dcache.cpp
+ 
+Building file: ../src/decode.cpp
+Invoking: GCC C++ Compiler
+g++ -I/usr/local/systemc230/include -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/decode.d" -MT"src/decode.d" -o "src/decode.o" "../src/decode.cpp"
+Finished building: ../src/decode.cpp
+ 
+Building file: ../src/exec.cpp
+Invoking: GCC C++ Compiler
+g++ -I/usr/local/systemc230/include -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/exec.d" -MT"src/exec.d" -o "src/exec.o" "../src/exec.cpp"
+Finished building: ../src/exec.cpp
+ 
+Building file: ../src/fetch.cpp
+Invoking: GCC C++ Compiler
+g++ -I/usr/local/systemc230/include -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/fetch.d" -MT"src/fetch.d" -o "src/fetch.o" "../src/fetch.cpp"
+Finished building: ../src/fetch.cpp
+ 
+Building file: ../src/floating.cpp
+Invoking: GCC C++ Compiler
+g++ -I/usr/local/systemc230/include -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/floating.d" -MT"src/floating.d" -o "src/floating.o" "../src/floating.cpp"
+Finished building: ../src/floating.cpp
+ 
+Building file: ../src/icache.cpp
+Invoking: GCC C++ Compiler
+g++ -I/usr/local/systemc230/include -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/icache.d" -MT"src/icache.d" -o "src/icache.o" "../src/icache.cpp"
+Finished building: ../src/icache.cpp
+ 
+Building file: ../src/main.cpp
+Invoking: GCC C++ Compiler
+g++ -I/usr/local/systemc230/include -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/main.d" -MT"src/main.d" -o "src/main.o" "../src/main.cpp"
+Finished building: ../src/main.cpp
+ 
+Building file: ../src/mmxu.cpp
+Invoking: GCC C++ Compiler
+g++ -I/usr/local/systemc230/include -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/mmxu.d" -MT"src/mmxu.d" -o "src/mmxu.o" "../src/mmxu.cpp"
+Finished building: ../src/mmxu.cpp
+ 
+Building file: ../src/paging.cpp
+Invoking: GCC C++ Compiler
+g++ -I/usr/local/systemc230/include -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/paging.d" -MT"src/paging.d" -o "src/paging.o" "../src/paging.cpp"
+Finished building: ../src/paging.cpp
+ 
+Building file: ../src/pic.cpp
+Invoking: GCC C++ Compiler
+g++ -I/usr/local/systemc230/include -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/pic.d" -MT"src/pic.d" -o "src/pic.o" "../src/pic.cpp"
+Finished building: ../src/pic.cpp
+ 
+Building target: risc_cpu
+Invoking: GCC C++ Linker
+g++ -L/usr/local/systemc230/lib-linux64 -o "risc_cpu"  ./src/bios.o ./src/dcache.o ./src/decode.o ./src/exec.o ./src/fetch.o ./src/floating.o ./src/icache.o ./src/main.o ./src/mmxu.o ./src/paging.o ./src/pic.o   -lsystemc
+Finished building target: risc_cpu
+ 
 
-21:03:45 Build Finished (took 72ms)
+15:03:23 Build Finished (took 8s.226ms)
 

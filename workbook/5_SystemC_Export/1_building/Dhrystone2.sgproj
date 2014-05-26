@@ -1,0 +1,228 @@
+sgproject "Dhrystone2.sgproj"
+{
+TOP_LEVEL_COMPONENT = "Dhrystone2";
+ACTIVE_CONFIG_LINUX  = "Linux-Debug-GCC-4.4";
+ACTIVE_CONFIG_WINDOWS  = "Win32-Debug-VC2010";
+config "Linux-Debug-GCC-4.1"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "-march=pentium-m -mtune=nocona -mfpmath=sse -msse2 -ggdb3 -Wall";
+        ADDITIONAL_LINKER_SETTINGS = "-Wl,--no-undefined";
+        BUILD_DIR = "./Linux-Debug-GCC-4.1";
+        COMPILER = "gcc-4.1";
+        CONFIG_DESCRIPTION = "Default x86 Linux configuration for GCC 4.1 with debug information";
+        CONFIG_NAME = "Linux-Debug-GCC-4.1";
+        ENABLE_DEBUG_SUPPORT = "1";
+        PLATFORM = "Linux";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 10";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Linux-Release-GCC-4.1"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "-march=pentium-m -mtune=nocona -mfpmath=sse -msse2 -O3 -fomit-frame-pointer -Wall";
+        ADDITIONAL_LINKER_SETTINGS = "-Wl,--no-undefined";
+        BUILD_DIR = "./Linux-Release-GCC-4.1";
+        COMPILER = "gcc-4.1";
+        CONFIG_DESCRIPTION = "Default x86 Linux configuration for GCC 4.1, optimized for speed";
+        CONFIG_NAME = "Linux-Release-GCC-4.1";
+        PLATFORM = "Linux";
+        PREPROCESSOR_DEFINES = "NDEBUG";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 50";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Linux64-Debug-GCC-4.1"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "-ggdb3 -Wall";
+        ADDITIONAL_LINKER_SETTINGS = "-Wl,--no-undefined";
+        BUILD_DIR = "./Linux64-Debug-GCC-4.1";
+        COMPILER = "gcc-4.1";
+        CONFIG_DESCRIPTION = "Default x86_64 Linux configuration for GCC 4.1 with debug information";
+        CONFIG_NAME = "Linux64-Debug-GCC-4.1";
+        ENABLE_DEBUG_SUPPORT = "1";
+        PLATFORM = "Linux64";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 10";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Linux64-Release-GCC-4.1"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "-O3 -Wall";
+        ADDITIONAL_LINKER_SETTINGS = "-Wl,--no-undefined";
+        BUILD_DIR = "./Linux64-Release-GCC-4.1";
+        COMPILER = "gcc-4.1";
+        CONFIG_DESCRIPTION = "Default x86_64 Linux configuration for GCC 4.1, optimized for speed";
+        CONFIG_NAME = "Linux64-Release-GCC-4.1";
+        PLATFORM = "Linux64";
+        PREPROCESSOR_DEFINES = "NDEBUG";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 50";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Linux-Debug-GCC-4.4"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "-march=pentium-m -mtune=generic -mfpmath=sse -msse2 -ggdb3 -Wall";
+        ADDITIONAL_LINKER_SETTINGS = "-Wl,--no-undefined";
+        BUILD_DIR = "./Linux-Debug-GCC-4.4";
+        COMPILER = "gcc-4.4";
+        CONFIG_DESCRIPTION = "Default x86 Linux configuration for GCC 4.4 with debug information";
+        CONFIG_NAME = "Linux-Debug-GCC-4.4";
+        ENABLE_DEBUG_SUPPORT = "1";
+        PLATFORM = "Linux";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 10";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Linux-Release-GCC-4.4"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "-march=pentium-m -mtune=generic -mfpmath=sse -msse2 -O3 -fomit-frame-pointer -Wall";
+        ADDITIONAL_LINKER_SETTINGS = "-Wl,--no-undefined";
+        BUILD_DIR = "./Linux-Release-GCC-4.4";
+        COMPILER = "gcc-4.4";
+        CONFIG_DESCRIPTION = "Default x86 Linux configuration for GCC 4.4, optimized for speed";
+        CONFIG_NAME = "Linux-Release-GCC-4.4";
+        PLATFORM = "Linux";
+        PREPROCESSOR_DEFINES = "NDEBUG";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 50";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Linux64-Debug-GCC-4.4"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "-ggdb3 -Wall";
+        ADDITIONAL_LINKER_SETTINGS = "-Wl,--no-undefined";
+        BUILD_DIR = "./Linux64-Debug-GCC-4.4";
+        COMPILER = "gcc-4.4";
+        CONFIG_DESCRIPTION = "Default x86_64 Linux configuration for GCC 4.4 with debug information";
+        CONFIG_NAME = "Linux64-Debug-GCC-4.4";
+        ENABLE_DEBUG_SUPPORT = "1";
+        PLATFORM = "Linux64";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 10";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Linux64-Release-GCC-4.4"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "-O3 -Wall";
+        ADDITIONAL_LINKER_SETTINGS = "-Wl,--no-undefined";
+        BUILD_DIR = "./Linux64-Release-GCC-4.4";
+        COMPILER = "gcc-4.4";
+        CONFIG_DESCRIPTION = "Default x86_64 Linux configuration for GCC 4.4, optimized for speed";
+        CONFIG_NAME = "Linux64-Release-GCC-4.4";
+        PLATFORM = "Linux64";
+        PREPROCESSOR_DEFINES = "NDEBUG";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 50";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Win32-Debug-VC2008"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "/arch:SSE2 /Od /RTCsu /Zi";
+        ADDITIONAL_LINKER_SETTINGS = "/DEBUG";
+        BUILD_DIR = "./Win32-Debug-VC2008";
+        COMPILER = "VC2008";
+        CONFIG_DESCRIPTION = "Default x86 Windows configuration for Visual Studio 2008 with debug information";
+        CONFIG_NAME = "Win32-Debug-VC2008";
+        ENABLE_DEBUG_SUPPORT = "1";
+        PLATFORM = "Win32D";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 10";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Win32-Release-VC2008"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "/arch:SSE2 /O2";
+        BUILD_DIR = "./Win32-Release-VC2008";
+        COMPILER = "VC2008";
+        CONFIG_DESCRIPTION = "Default x86 Windows configuration for Visual Studio 2008, optimized for speed";
+        CONFIG_NAME = "Win32-Release-VC2008";
+        PLATFORM = "Win32";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 50";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Win64-Debug-VC2008"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "/Od /RTCsu /Zi";
+        ADDITIONAL_LINKER_SETTINGS = "/DEBUG";
+        BUILD_DIR = "./Win64-Debug-VC2008";
+        COMPILER = "VC2008";
+        CONFIG_DESCRIPTION = "Default x86_64 Windows configuration for Visual Studio 2008 with debug information";
+        CONFIG_NAME = "Win64-Debug-VC2008";
+        ENABLE_DEBUG_SUPPORT = "1";
+        PLATFORM = "Win64D";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 10";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Win64-Release-VC2008"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "/O2";
+        BUILD_DIR = "./Win64-Release-VC2008";
+        COMPILER = "VC2008";
+        CONFIG_DESCRIPTION = "Default x86_64 Windows configuration for Visual Studio 2008, optimized for speed";
+        CONFIG_NAME = "Win64-Release-VC2008";
+        PLATFORM = "Win64";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 50";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Win32-Debug-VC2010"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "/arch:SSE2 /Od /RTCsu /Zi";
+        ADDITIONAL_LINKER_SETTINGS = "/DEBUG";
+        BUILD_DIR = "./Win32-Debug-VC2010";
+        COMPILER = "VC2010";
+        CONFIG_DESCRIPTION = "Default x86 Windows configuration for Visual Studio 2010 with debug information";
+        CONFIG_NAME = "Win32-Debug-VC2010";
+        ENABLE_DEBUG_SUPPORT = "1";
+        PLATFORM = "Win32D";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 10";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Win32-Release-VC2010"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "/arch:SSE2 /O2";
+        BUILD_DIR = "./Win32-Release-VC2010";
+        COMPILER = "VC2010";
+        CONFIG_DESCRIPTION = "Default x86 Windows configuration for Visual Studio 2010, optimized for speed";
+        CONFIG_NAME = "Win32-Release-VC2010";
+        PLATFORM = "Win32";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 50";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Win64-Debug-VC2010"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "/Od /RTCsu /Zi";
+        ADDITIONAL_LINKER_SETTINGS = "/DEBUG";
+        BUILD_DIR = "./Win64-Debug-VC2010";
+        COMPILER = "VC2010";
+        CONFIG_DESCRIPTION = "Default x86_64 Windows configuration for Visual Studio 2010 with debug information";
+        CONFIG_NAME = "Win64-Debug-VC2010";
+        ENABLE_DEBUG_SUPPORT = "1";
+        PLATFORM = "Win64D";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 10";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+    config "Win64-Release-VC2010"
+    {
+        ADDITIONAL_COMPILER_SETTINGS = "/O2";
+        BUILD_DIR = "./Win64-Release-VC2010";
+        COMPILER = "VC2010";
+        CONFIG_DESCRIPTION = "Default x86_64 Windows configuration for Visual Studio 2010, optimized for speed";
+        CONFIG_NAME = "Win64-Release-VC2010";
+        PLATFORM = "Win64";
+        SIMGEN_COMMAND_LINE = "--num-comps-file 50";
+        TARGET_MAXVIEW = "0";
+        TARGET_SYSTEMC = "1";
+    }
+files
+{
+	path = "$(MAXCORE_HOME)/AMBA-PV/include/";
+	path = "${PVLIB_HOME}/etc/sglib.sgrepo";
+	path = "Dhrystone2.lisa";
+}
+}

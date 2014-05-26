@@ -1,0 +1,29 @@
+/*
+ * Copyright 2007 ARM Limited. All rights reserved.
+ * Copyright 2008 ARM Limited. All rights reserved.
+ */
+component Dhrystone2
+{
+
+    composition
+    {
+        Clock100MHz : ClockDivider(mul=100000000);
+        Clock1Hz : MasterClock(),
+        Memory : RAMDevice(size=0x100000000),
+        BusDecoder : PVBusDecoder(),
+        Core : ARMCortexA15x1CT()
+    }
+    
+    connection
+    {
+        Core.pvbus_m0 => BusDecoder.pvbus_s;
+        Clock1Hz.clk_out => Clock100MHz.clk_in;
+        Clock100MHz.clk_out => Core.clk_in;
+        BusDecoder.pvbus_m_range[0x0..0xffffffff] => Memory.pvbus;
+    }
+
+    properties
+    {
+        component_type = "System";
+    }
+}

@@ -1,0 +1,398 @@
+#//////////////////////////////////////////////////////////////////////////
+#//////////////////////////////////////////////////////////////////////////
+#//
+#//  File:    IRQGen.sgcanvas
+#//  Created: Wed Oct 16 11:55:16 2013
+#//  By: Fast Models  System Canvas 8.2.040  (Aug 15 2013)
+#//
+# *  Do NOT modify this file. It is for internal use by System Canvas only.
+#//
+#//  Copyright (c) 2004-2008 by ARM Limited,  2000-2004 by AXYS Design Automation Inc.,
+#//
+#//  AXYS GmbH, Herzogenrath, Germany
+#//
+#//  ARM Limited Proprietary Information.
+#//  Disclosure to third parties is prohibited without prior consent.
+#//
+#//////////////////////////////////////////////////////////////////////////
+#//////////////////////////////////////////////////////////////////////////
+
+
+editor
+(
+    properties
+    (
+        instance "component"
+        (
+            font_family = "Times New Roman";
+            font_size = 10;
+            font_bold = true;
+            font_italic = false;
+            font_underline = false;
+        )
+        instance "component_port"
+        (
+            font_family = "Helvetica";
+            font_size = 8;
+            font_bold = false;
+            font_italic = false;
+            font_underline = false;
+        )
+        instance "external_port"
+        (
+            font_family = "Helvetica";
+            font_size = 8;
+            font_bold = false;
+            font_italic = false;
+            font_underline = false;
+        )
+        instance "grid"
+        (
+            width = 10;
+            height = 10;
+        )
+    )
+    components
+    (
+        instance "clocktimer"
+        (
+            x = 0;
+            y = 0;
+            width = 171;
+            height = 61;
+            sheight = 21;
+            show_title = true;
+            show_name = true;
+            show_type = false;
+            show_logo = true;
+            ports
+            (
+                define "clk_in"
+                (
+                x = 0;
+                y = 2;
+                side = 16;
+                clock_type = 0;
+                enabled = true;
+                hidden = false;
+                moved_by_user = false;
+            expanded = false;
+                )
+                define "timer_callback"
+                (
+                x = 0;
+                y = 2;
+                side = 64;
+                clock_type = 0;
+                enabled = true;
+                hidden = false;
+                moved_by_user = false;
+            expanded = false;
+                )
+                define "timer_control"
+                (
+                x = 0;
+                y = 22;
+                side = 16;
+                clock_type = 0;
+                enabled = true;
+                hidden = false;
+                moved_by_user = false;
+            expanded = false;
+                )
+            )
+        )
+        instance "pvbusslave"
+        (
+            x = 0;
+            y = 0;
+            width = 171;
+            height = 61;
+            sheight = 21;
+            show_title = true;
+            show_name = true;
+            show_type = false;
+            show_logo = true;
+            ports
+            (
+                define "control"
+                (
+                x = 0;
+                y = 2;
+                side = 16;
+                clock_type = 0;
+                enabled = true;
+                hidden = false;
+                moved_by_user = false;
+            expanded = false;
+                )
+                define "device"
+                (
+                x = 0;
+                y = 2;
+                side = 64;
+                clock_type = 0;
+                enabled = true;
+                hidden = false;
+                moved_by_user = false;
+            expanded = false;
+                )
+                define "pvbus_s"
+                (
+                x = 0;
+                y = 22;
+                side = 16;
+                clock_type = 0;
+                enabled = true;
+                hidden = false;
+                moved_by_user = false;
+            expanded = false;
+                )
+            )
+        )
+    )
+    ports
+    (
+        define "clk_in"
+        (
+            x = 500;
+            y = 0;
+            width = 61;
+            height = 21;
+            mirrored = true;
+            hidden = false;
+            expanded = false;
+        )
+        define "control"
+        (
+            x = 250;
+            y = 0;
+            width = 61;
+            height = 21;
+            mirrored = false;
+            hidden = false;
+            expanded = false;
+        )
+        define "irq"
+        (
+            x = 500;
+            y = 0;
+            width = 61;
+            height = 21;
+            mirrored = false;
+            hidden = false;
+            expanded = false;
+        )
+        define "pvbdevice_s"
+        (
+            x = 750;
+            y = 0;
+            width = 61;
+            height = 21;
+            mirrored = true;
+            hidden = false;
+            expanded = false;
+        )
+        define "pvbus_s"
+        (
+            x = -90;
+            y = 10;
+            width = 61;
+            height = 21;
+            mirrored = true;
+            hidden = false;
+            expanded = false;
+        )
+        define "timer_callback"
+        (
+            x = 500;
+            y = 230;
+            width = 61;
+            height = 21;
+            mirrored = true;
+            hidden = false;
+            expanded = false;
+        )
+        define "timer_control"
+        (
+            x = 750;
+            y = 230;
+            width = 61;
+            height = 21;
+            mirrored = false;
+            hidden = false;
+            expanded = false;
+        )
+    )
+    connections
+    (
+    )
+    portmaps
+    (
+        define "clocktimer.timer_callback=>self.timer_callback"
+        (
+            point
+            (
+                x = 190;
+                y = 30;
+                automatic = true;
+            )
+            point
+            (
+                x = 190;
+                y = 210;
+                automatic = true;
+            )
+            point
+            (
+                x = 580;
+                y = 210;
+                automatic = true;
+            )
+            point
+            (
+                x = 580;
+                y = 240;
+                automatic = true;
+            )
+        )
+        define "pvbusslave.device=>self.pvbdevice_s"
+        (
+            point
+            (
+                x = 196;
+                y = 30;
+                automatic = true;
+            )
+            point
+            (
+                x = 196;
+                y = 50;
+                automatic = true;
+            )
+            point
+            (
+                x = 840;
+                y = 50;
+                automatic = true;
+            )
+            point
+            (
+                x = 840;
+                y = 10;
+                automatic = true;
+            )
+        )
+        define "self.clk_in=>clocktimer.clk_in"
+        (
+            point
+            (
+                x = 590;
+                y = 10;
+                automatic = true;
+            )
+            point
+            (
+                x = 590;
+                y = -30;
+                automatic = true;
+            )
+            point
+            (
+                x = -30;
+                y = -30;
+                automatic = true;
+            )
+            point
+            (
+                x = -30;
+                y = 5;
+                automatic = true;
+            )
+            point
+            (
+                x = -15;
+                y = 5;
+                automatic = true;
+            )
+            point
+            (
+                x = -15;
+                y = 30;
+                automatic = true;
+            )
+        )
+        define "self.control=>pvbusslave.control"
+        (
+            point
+            (
+                x = 240;
+                y = 10;
+                automatic = true;
+            )
+            point
+            (
+                x = 240;
+                y = -10;
+                automatic = true;
+            )
+            point
+            (
+                x = -10;
+                y = -10;
+                automatic = true;
+            )
+            point
+            (
+                x = -10;
+                y = 30;
+                automatic = true;
+            )
+        )
+        define "self.pvbus_s=>pvbusslave.pvbus_s"
+        (
+            point
+            (
+                x = -20;
+                y = 20;
+                automatic = true;
+            )
+            point
+            (
+                x = -20;
+                y = 50;
+                automatic = true;
+            )
+        )
+        define "self.timer_control=>clocktimer.timer_control"
+        (
+            point
+            (
+                x = 720;
+                y = 240;
+                automatic = true;
+            )
+            point
+            (
+                x = 720;
+                y = 90;
+                automatic = true;
+            )
+            point
+            (
+                x = -30;
+                y = 90;
+                automatic = true;
+            )
+            point
+            (
+                x = -30;
+                y = 50;
+                automatic = true;
+            )
+        )
+    )
+    labels
+    (
+    )
+)
