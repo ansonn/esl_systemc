@@ -2294,3 +2294,46 @@ java.lang.UnsupportedOperationException: addMember method should be called inste
 	at org.eclipse.cdt.internal.core.pdom.indexer.PDOMIndexerTask.run(PDOMIndexerTask.java:141)
 	at org.eclipse.cdt.internal.core.pdom.PDOMIndexerJob.run(PDOMIndexerJob.java:137)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SESSION 2014-05-27 13:51:42.138 -----------------------------------------------
+eclipse.buildId=4.3.0.M20130911-1000
+java.version=1.7.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=zh_CN
+Framework arguments:  -product com.arm.ds.ide
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product com.arm.ds.ide
+
+!ENTRY org.eclipse.team.core 4 0 2014-05-27 13:53:42.834
+!MESSAGE Could not instantiate provider org.eclipse.egit.core.GitProvider for project TestSC.
+!STACK 1
+org.eclipse.team.core.TeamException: Could not instantiate provider org.eclipse.egit.core.GitProvider for project TestSC.
+	at org.eclipse.team.core.RepositoryProvider.mapNewProvider(RepositoryProvider.java:165)
+	at org.eclipse.team.core.RepositoryProvider.mapExistingProvider(RepositoryProvider.java:235)
+	at org.eclipse.team.core.RepositoryProvider.getProvider(RepositoryProvider.java:507)
+	at org.eclipse.team.internal.core.TeamHookDispatcher.getProvider(TeamHookDispatcher.java:97)
+	at org.eclipse.team.internal.core.TeamHookDispatcher.getRuleFactory(TeamHookDispatcher.java:105)
+	at org.eclipse.core.internal.resources.Rules.factoryFor(Rules.java:93)
+	at org.eclipse.core.internal.resources.Rules.refreshRule(Rules.java:166)
+	at org.eclipse.core.internal.resources.Resource.refreshLocal(Resource.java:1689)
+	at org.eclipse.cdt.internal.core.pdom.PDOMSetupJob.syncronizeProjectSettings(PDOMSetupJob.java:73)
+	at org.eclipse.cdt.internal.core.pdom.PDOMSetupJob.run(PDOMSetupJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 org.eclipse.team.core 4 0 2014-05-27 13:53:42.834
+!MESSAGE Could not instantiate provider org.eclipse.egit.core.GitProvider for project TestSC.
+
+!ENTRY org.eclipse.team.core 4 0 2014-05-27 13:53:43.085
+!MESSAGE Could not instantiate provider org.eclipse.egit.core.GitProvider for project risc_cpu.
+!STACK 1
+org.eclipse.team.core.TeamException: Could not instantiate provider org.eclipse.egit.core.GitProvider for project risc_cpu.
+	at org.eclipse.team.core.RepositoryProvider.mapNewProvider(RepositoryProvider.java:165)
+	at org.eclipse.team.core.RepositoryProvider.mapExistingProvider(RepositoryProvider.java:235)
+	at org.eclipse.team.core.RepositoryProvider.getProvider(RepositoryProvider.java:507)
+	at org.eclipse.team.internal.core.TeamHookDispatcher.getProvider(TeamHookDispatcher.java:97)
+	at org.eclipse.team.internal.core.TeamHookDispatcher.getRuleFactory(TeamHookDispatcher.java:105)
+	at org.eclipse.core.internal.resources.Rules.factoryFor(Rules.java:93)
+	at org.eclipse.core.internal.resources.Rules.refreshRule(Rules.java:166)
+	at org.eclipse.core.internal.resources.Resource.refreshLocal(Resource.java:1689)
+	at org.eclipse.cdt.internal.core.pdom.PDOMSetupJob.syncronizeProjectSettings(PDOMSetupJob.java:73)
+	at org.eclipse.cdt.internal.core.pdom.PDOMSetupJob.run(PDOMSetupJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 org.eclipse.team.core 4 0 2014-05-27 13:53:43.085
+!MESSAGE Could not instantiate provider org.eclipse.egit.core.GitProvider for project risc_cpu.
