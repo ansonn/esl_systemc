@@ -1,0 +1,24 @@
+//============================================================================
+// Name        : TestSC.cpp
+// Author      : 
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include <iostream>
+#include <systemc.h>
+using namespace std;
+
+int sc_main(int, char *[])
+{
+	sc_uint<13> a = 0;
+	sc_int<32> b = -1;
+	sc_int c = 90;
+
+	a = b;
+
+	cout << "!!!Hello World!!! a=" << a << endl;
+	return 0;
+
+}

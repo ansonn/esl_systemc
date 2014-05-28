@@ -1,0 +1,2 @@
+Streamline.Session=<?xml version\="1.0" encoding\="UTF-8"?>\n<session version\="1" output_path\="x" call_stack_unwinding\="yes" parse_debug_info\="yes" high_resolution\="no" buffer_mode\="streaming" sample_rate\="normal" duration\="0" target_type\="ARM - Streamline Agent" target_address\="" live_rate\="100">\n\t<energy_capture version\="1" type\="none">\n\t\t<channel id\="0" resistance\="20" power\="yes"/>\n\t</energy_capture>\n</session>\n
+eclipse.preferences.version=1
