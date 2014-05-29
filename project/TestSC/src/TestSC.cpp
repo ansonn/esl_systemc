@@ -32,6 +32,8 @@ int sc_main(int, char *[])
 
 	sc_trace(pf, clk, "main_clk");
 	sc_trace(pf, b, "b");
+	sc_trace(pf, d, "d");
+	sc_trace(pf, e, "e");
 	sc_start(1000, SC_NS, SC_RUN_TO_TIME);
 
 	sc_close_vcd_trace_file(pf);
