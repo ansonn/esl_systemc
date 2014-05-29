@@ -1,0 +1,19 @@
+/*
+ * fsm1.cpp
+ *
+ *  Created on: 2014年5月29日
+ *      Author: SPREADTRUM\ansonn.wang
+ */
+
+#include "fsm1.h"
+
+fsm_1::update_state()
+{
+	// TODO Auto-generated constructor stub
+
+}
+
+fsm_1::~fsm_1() {
+	// TODO Auto-generated destructor stub
+}
+

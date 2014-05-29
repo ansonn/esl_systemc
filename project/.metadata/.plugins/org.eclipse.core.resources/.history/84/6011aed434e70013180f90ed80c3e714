@@ -1,0 +1,34 @@
+/*
+ * fsm1.h
+ *
+ *  Created on: 2014年5月29日
+ *      Author: SPREADTRUM\ansonn.wang
+ */
+
+#ifndef FSM1_H_
+#define FSM1_H_
+#include <systemc.h>
+
+
+enum {
+	SO = 0,
+	S1,
+	S2
+};
+
+
+SC_MODULE(fsm_1)
+{
+	sc_in_clk			clk;
+	sc_in<bool>		rst;
+	sc_in<bool>		input1;
+	sc_in<bool>		input2;
+	sc_out<bool>		a;
+	sc_out<bool>		b;
+
+public:
+	fsm_1();
+	virtual ~fsm_1();
+};
+
+#endif /* FSM1_H_ */

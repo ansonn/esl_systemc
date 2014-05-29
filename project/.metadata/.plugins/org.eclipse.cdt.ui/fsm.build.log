@@ -1,0 +1,15 @@
+21:18:57 **** Incremental Build of configuration Debug for project fsm ****
+make all 
+Building file: ../src/fsm.cpp
+Invoking: GCC C++ Compiler
+g++ -I/usr/local/systemc230/include -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/fsm.d" -MT"src/fsm.d" -o "src/fsm.o" "../src/fsm.cpp"
+Finished building: ../src/fsm.cpp
+ 
+Building target: fsm
+Invoking: GCC C++ Linker
+g++ -L/usr/local/systemc230/lib-linux64 -o "fsm"  ./src/fsm.o   -lsystemc
+Finished building target: fsm
+ 
+
+21:18:57 Build Finished (took 210ms)
+

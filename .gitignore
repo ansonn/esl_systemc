@@ -22,3 +22,6 @@
 
 *.vcd
 
+Debug/
+Release/
+
