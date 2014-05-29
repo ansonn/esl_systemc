@@ -17,6 +17,7 @@ int sc_main(int, char *[])
 	sc_int<32> c = 90;
 	sc_bv<6> d = "110010";
 	sc_lv<6> e = "1100X0";
+	sc_trace_file *pf = NULL;
 
 	a = b;
 
@@ -24,6 +25,17 @@ int sc_main(int, char *[])
 	cout << "c=" << c << endl;
 	cout << "d=" << d << endl;
 	cout << "e=" << e << endl;
+
+	sc_clock clk("main_clk", 10, SC_NS, 0.5);
+
+	pf = sc_create_vcd_trace_file("test_sc");
+
+	sc_trace(pf, clk, "main_clk");
+	sc_trace(pf, b, "b");
+	sc_start(1000, SC_NS, SC_RUN_TO_TIME);
+
+	sc_close_vcd_trace_file(pf);
+	cout << "exit" << endl;
 
 	return 0;
 
