@@ -63,7 +63,7 @@ class fifo : public sc_channel, public write_if, public read_if
 				wait(read_event);
 
 			data[(first + num_elements) % size] = c;
-			++ num_elements;
+			++num_elements;
 			write_event.notify();
 		}
 
@@ -188,7 +188,7 @@ class top : public sc_module
 
 int sc_main (int argc , char *argv[])
 {
-	int size = 10;
+	int size = 100;
 
 	if (argc > 1)
 		size = atoi(argv[1]);
