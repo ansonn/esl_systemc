@@ -188,7 +188,7 @@ class top : public sc_module
 
 int sc_main (int argc , char *argv[])
 {
-	int size = 100;
+	int size = 10;
 
 	if (argc > 1)
 		size = atoi(argv[1]);
