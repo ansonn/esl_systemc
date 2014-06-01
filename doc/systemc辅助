@@ -1,0 +1,1223 @@
+自从2003年底我和徐宁仪合作出版《SystemC片上系统设计》一书以来，得到了很多
+　　有意义的作者反馈，总结各种意见，完成了下面的辅助学习资料。随着SystemC逐渐成为跟
+　　Verilog/VHDL一样的Simulator native language，越来越多的读者开始阅读《SystemC片上系统设计》，在这里十分感谢读者的支持。正在筹划写《SysetemVerilog&SystemC》，以对《SystemC片上系统设计》进行改进。
+　　 如果您在非商业用途中参考和使用本文档中的任何内容，请指明出处；
+　　如果是商用用途，请先与作者联系，
+　　版权所有
+　　2004-2-24
+　　
+　　目录
+　　1.写在前面 3
+　　2.关于SystemC China Maillist 3
+　　3.《SystemC片上系统设计》释疑 3
+　　3.1教材第26页，第2.2节上面那一小段中，还请您详细解释一下为什么不需要析构函数 3
+　　3.3我编译systemc master-slave库时，vc报告出现错误 4
+　　3.4 第2.4.15节能否说一下“fs(x-iT)”是什么意思。 4
+　　3.5. 第62页全加器例子中，为什么要用到#ifdef和#endif语句？ 5
+　　3.6. 此页例子中没有敏感量表，wait()语句怎么起作用？ 5
+　　3.7. 能否解释一下第70页例子中哪里体现了信号rst.delayed()会有高低的变化？ 5
+　　3.8. 第78页例子中的NAME后面的“＋”是什么意思? 5
+　　3.9. 第78页倒数第三行“sc_signal*v”中的“*”号是否应为“&”？ 5
+　　3.10 SystemC_win下载不到？ 5
+　　3.11 在Redhat 9上开发SystemC可以么? 6
+　　3.12 C_CTHREAD进程，是每遇到敏感变量就从头开始执行，还是从while（）语句开始执行？ 6
+　　3.13 我的代码就是编译不通过，所有的设置都是对的啊 6
+　　3.14例化一个模块时出现stack overflow错误 8
+　　3.15 SystemC的优势该如何体现那? 9
+　　4.《SystemC片上系统设计》更正 9
+　　4.1教材第13页在Debug目录下应该改为Nand2目录 9
+　　4.2教材第31页怎么是两个ctrl_alu? 9
+　　4.3教材第46页－0.5q应写成0.5q. 10
+　　4.4 shifter编译通不过，您帮我看看 10
+　　4.5．第2.4.5和2.4.7节的第一句话：“对于小于0的无符号数”？ 12
+　　4.6．第2.4.6节第二行“SC_MIN_INF”还是“SC_RND_MIN_INF”? 12
+　　4.7. 第64页例子中的“m_sum”、“m_count”是否应为sc_out型的？“SC_time_stamp()”是什么意思？ 12
+　　4.8关于工具的使用。第10章还将给予介绍 13
+　　4.9其它建议的更正 13
+　　5.用VC6和ModelSim进行SystemC的设计输入、编译和仿真 14
+　　5.1. 用VC6进行SystemC的设计输入和编译 14
+　　5.2 利用ModelSim 查看SystemC产生的波形文件 17
+　　6.我讲授的SystemC课程的课后习题 18
+　　6.1经典跨越时钟域解决方案——双D触发器同步电路 18
+　　6.2 经典ASIC异步复位电路 19
+　　6.3编写简单分频器 21
+　　6.4 2选1的选择器（组合逻辑），请说明问题所在并请改正 25
+　　6.5. 有限状态机的的不同写法的优劣 26
+　　6.6．用SystemC描述一个倍频电路的行为模型。 29
+　　6.7.无线局域网媒体接入控制与物理层握手协议的SystemC TLM实现 32
+　　7.需要习题的答案，请与作者联系 39
+　　
+　　
+　　1.写在前面
+　　大家好：
+　　自从2003年12月《SystemC片上系统设计》出版以来，我们得到了很多读者的反馈。大家对本书的评价是很高的，让我十分感动。其实对于写这本书，我和徐宁仪的想法是最大希望是希望能够为SystemC在中国的发展做出自己的一份贡献。看到世界范围内SystemC越来越普及开来，三大EDA巨头(Cadence,Synopsys,Mentor)都推出的SystemC的开发工具，现在连作者最熟悉的ModelSim5.8也支持SystemC，真的是非常高兴。对于EDA领域，作者虽然有一些经验，但是越发的觉得自己还有很多不足之处，所以在各种论坛上以newbie的身份虔诚的问问题，大家也许也有类似的经验。
+　　清华大学现在已经在研究生中讲授2个学期的SystemC了，我感觉最大的问题是大家对SystemC的前途的关心和SystemC到底有什么好处的疑问。SystemC的确给我们提供了EDA领域的功能强大的新工具，但是不推荐我不推荐SystemC做小型开发中的RTL描述语言。我现在在用SystemC描述802.15.3 Media Access Controller，我同样仔细阅读了C++在Network Simulator 2的Intel的802.15.3 Media Access Controller，发现使用SystemC进行描述要容易的多。SystemC更加贴近“RealTime”，实际的嵌入式系统是“伪多进程”的，SystemC是真正的多进程的，两者还是有差别。
+　　书中有一些错误，这是意料之中的。关于本书的一些问题，我一直是否关心。非常感谢有一针见血的指出书中错误并提出修改意见，也衷心的感谢大家对本书的厚爱。特别感谢科学出版社出版此书，感谢国防科大四院于红旗同学，也十分感谢王继祥同学。
+　　2.关于SystemC China Maillist
+　　我申请了一个很大的信箱:
+　　systemc@wmc.ee.tsinghua.edu.cn
+　　大家以后有什么问题就发往这个信箱，我会及时回信给大家。关于SystemC的一些消息我也会发给大家。
+　　 我建议大家进行广泛的宣传，我们努力将这个信箱变成大家讨论SystemC的一个共同乐园，建成一个很好的公共的Mail List。
+　　 购买和没有购买我的书的同仁我都十分欢迎。
+　　3.《SystemC片上系统设计》释疑
+　　3.1教材第26页，第2.2节上面那一小段中，还请您详细解释一下为什么不需要析构函数
+　　Q:教材第26页，第2.2节上面那一小段中，还请您详细解释一下为什么不需要析构函数。A:析构函数的主要目的是释放不能自动释放的内存。因为代码中只有使用栈，没有使用如new等语句在堆上分配内存。栈的内存是自动释放的。
+　　3.2问您一下：systemc用什么工具进行布局布线以及后仿真？
+　　 还是用传统工具，因为后仿真的输入是网表，SystemC被综合以后就变成了verilog网表了。如果是开发FPGA，布局布线工具可以是Xilinx的Foundation ISE,Altera的Quartus II等，如果是ASIC，需要ASIC专门的开发工具。后仿真无论FPGA还是ASIC，都需要同时支持SystemC和VHDL/Verilog的工具,现在Synopsys,cadence和Mentor (ModelSim5.8)都有。
+　　3.3我编译systemc master-slave库时，vc报告出现错误
+　　Q:我编译systemc master-slave库时，vc报告出现以下错误：
+　　>--------------------Configuration: sc_ms - Win32 Debug--------------------
+　　>Compiling...
+　　>sc_master_slave.cpp
+　　>d:\systemc\systemc-2.0.1\src\sc_ms\sc_slave_process.h(39) : fatal error C1083:
+　　>Cannot open include file: 'systemc/kernel/sc_process.h': No such file or
+　　>directory
+　　>sc_ms_ids.cpp
+　　>d:\systemc\systemc-2.0.1\src\sc_ms\sc_ms_ids.cpp(29) : fatal error C1083: Cannot
+　　>open include file: 'systemc/utils/sc_report.h': No such file or directory
+　　>Error executing cl.exe.
+　　>
+　　>sc_ms.lib - 2 error(s), 0 warning(s)
+　　>
+　　>这是怎么回事？
+　　A：
+　　 在VC6 project->settings->c/C++->Preprocessor->Add additional directories中添加两个路径，就是sc_mslib.h和systemc.h所在的目录即可。我的机器上的位置如下：
+　　 D:\systemc\sc20lib\SystemC-2.0.1-MS2.0.1\src,D:\systemc\sc20lib\systemc-2.0.1\systemc-2.0.1\src
+　　 请按照你的机器修改。
+　　3.4 第2.4.15节能否说一下“fs(x-iT)”是什么意思。
+　　fs(x)只在[Min,Max+1)上直接可以取到值，其它点都必须周期平移到[Min,Max+1)范围才行。
+　　比如Min=-4,Max=3,T=Max+1-Min=8;则fs(9)=fs(9-1*8)=fs(1)
+　　fs(1)是可以直接取到值的，因为它在[Min,Max+1]上。
+　　3.5. 第62页全加器例子中，为什么要用到#ifdef和#endif语句？
+　　不用也可以，但是在标准的C++代码中，所有的.h文件中都应该用#ifdef和#endif语句，避免重复编译引起的错误。
+　　书上所有.h代码都应该加，只不过有些考虑篇幅原因没有加，不加是不规范的。
+　　3.6. 此页例子中没有敏感量表，wait()语句怎么起作用？
+　　有感表的啊！
+　　3.7. 能否解释一下第70页例子中哪里体现了信号rst.delayed()会有高低的变化？
+　　之所以使用delayed()是SystemC开发者建议的，我认为是考虑到实际系统中信号要等到下一个有效时钟边沿到来才能采样。
+　　但对于异步的rst，我没有看出delayed()有什么用处。你问哪里体现了信号rst.delayed()会有高低的变化，我认为
+　　只有当rst＝1的时候跳出循环执行pattern＝0，而其它时候执行死循环中的内容，则就是体现了信号rst.delayed()会有高低的变化
+　　而引起的不同结果
+　　3.8. 第78页例子中的NAME后面的“＋”是什么意思?
+　　“+”是字符串的加操作，结果是将字符串连接成更大的字符串，如"Iam"+"chenxi"="Iamchenxi"
+　　3.9. 第78页倒数第三行“sc_signal*v”中的“*”号是否应为“&”？
+　　应该没有问题，因为它是数组指针。是否"&"也可以我没有尝试过。
+　　3.10 SystemC_win下载不到？
+　　的确已经下载不到。我们建议大家使用syncad(http://www.syncad.com)公司的免费版本的waveviewer（需要申请）和Visual C++。
+　　3.11 在Redhat 9上开发SystemC可以么?
+　　我用gcc在Redhat 9上开发SystemC没有任何问题，我已经用过了。我们使用VC是考虑到多数读者的现有条件。
+　　3.12 C_CTHREAD进程，是每遇到敏感变量就从头开始执行，还是从while（）语句开始执行？
+　　 您书中讲到的SC_CTHREAD进程，是每遇到敏感变量就从头开始执行，还是从while（）语句开始执行？
+　　 从wait()语句开始执行。
+　　 就举例说吧，书的第66页的void Driver::prc_driver()进程在遇到时钟上升沿时被激活，然后要对pattern赋值，再接着执行while（）内容，那么再次遇到时钟沿，它是从头运行还是从while（）执行？若从头执行，那么pattern的值始终是0，与程序本意相悖！
+　　
+　　 我试图想从书中找到这方面的说明，可看到的只是“**钟控线程进程，它对clk的上升沿敏感”。
+　　 另外，这里的while（1）中的“1”是否表示的是clk上升沿有效？
+　　 表示while语句进入的条件永远成立，这是一个死循环
+　　3.13 我的代码就是编译不通过，所有的设置都是对的啊
+　　//rtl_b.h
+　　#ifndef _RTL_B_H_
+　　#define _RTL_B_H_
+　　#include
+　　SC_MODULE(Rtl_b)
+　　{
+　　 sc_inclk;
+　　 sc_indata;
+　　 sc_outrega,regb;
+　　 bool rega_v,regb_v;
+　　 void reg_proc()
+　　 {
+　　 rega_v=data.read();
+　　 regb_v=rega_v;
+　　 rega.write(rega_v);
+　　 regb.write(regb_v);
+　　 }
+　　 SC_CTOR(Rtl_b)
+　　 {
+　　 SC_METHOD(reg_proc);
+　　 sensitive_pos<
+　　 }
+　　} //位置1
+　　#endif
+　　//testbench Rtl_b
+　　#ifndef _RTL_TB_H
+　　#define _RTL_TB_H
+　　#include
+　　SC_MODULE(tb)
+　　{
+　　 sc_out tb_data;
+　　 sc_in tb_rega;
+　　 sc_in tb_regb;
+　　 sc_in_clk clk;
+　　 void gen_input()
+　　 {
+　　 wait();tb_data＝0;
+　　 wait();tb_data＝1;
+　　 wait();tb_data＝0;
+　　 wait();tb_data＝1;
+　　 wait(100);
+　　 }
+　　 void display_variable()
+　　 {
+　　 cout<<"tb_data＝"<<<",tb_rega="<<<",tb_regb="<<
+　　 }
+　　
+　　 SC_CTOR(tb)
+　　 {
+　　 SC_CTHREAD(gen_input,clk.pos());
+　　 SC_METHOD(display_variable);
+　　 sensitive_pos<
+　　 dont_initialize();
+　　 }
+　　}//位置2
+　　#endif;
+　　//main.cpp
+　　#include
+　　#include "rtl_b.h"
+　　#include "tb.h"
+　　int sc_main(int,char**)
+　　{
+　　 sc_signal signal_data,signal_rega,signal_regb;
+　　 sc_clock clk("Clk",20,SC_NS);
+　　 tb tb1("tb");
+　　 tb1.tb_data(signal_data);
+　　 tb1.tb_rega(signal_rega);
+　　 tb1.tb_regb(signal_regb);
+　　 tb1.clk(clk);
+　　 sc_start(200);
+　　 Rtl_b rtl_b1("Rtl_b");
+　　 rtl_b1.data(signal_data);
+　　 rtl_b1.rega(signal_rega);
+　　 rtl_b1.regb(signal_regb);
+　　 rtl_b1.clk(clk);
+　　 return 0;
+　　};
+　　编译时出现以下错误：
+　　Compiling...
+　　main.cpp
+　　d:\systemc\rtl_b\rtl_b\tb.h(5) : error C2236: unexpected 'struct' 'tb'
+　　d:\systemc\rtl_b\rtl_b\tb.h(5) : error C2143: syntax error : missing ';' before ':'
+　　d:\systemc\rtl_b\rtl_b\tb.h(5) : error C2143: syntax error : missing ';' before ':'
+　　d:\systemc\rtl_b\rtl_b\tb.h(6) : error C2143: syntax error : missing ';' before '{'
+　　…….
+　　答案：位置1和2处缺少“;”.
+　　Jinwen Xi,您好！
+　　3.14例化一个模块时出现stack overflow错误
+　　 不好意思又打扰你。我现在在用systemC做一个并行处理系统的modeling，里面有一个control unit和若干个processing unit.他们通过数据和控制总线连接起来，采用公共的clock信号驱动。我发现当系统里只有一 个control unit和一个processing unit时，系统可以正常运行，当我增加一个processing unit时，哪怕就仅仅是一句PU PU_2("PU_2");运行时就不能进入simualtion mode了，有个stack overflow的error。请问你碰到过类似的情况吗？如果有，请问你是如何处理这种情况的.
+　　答案：
+　　这是C++的问题，通常说的堆栈实际上是只的栈，而堆与栈在C++中是不同的概念。你定义的PU一定是一个很复杂的类， PU PU_2("PU_2");语句将PU创建在Stack上，而一般stack是很小的，所以容易出现stack overflow.你不妨使用pPU2= new PU("PU_2");
+　　这句话将PU_2 建立在heap上，heap一般很大，应该不会出现你说的问题了。
+　　 这是我的理解，不一定正确，一般在例化一个类的时候都建议使用new来在heap上创建，就是考虑到了stack的溢出问题。
+　　陈曦
+　　3.15 SystemC的优势该如何体现那?
+　　你好，我看了你的书和讲义，正在自学systemc。看了几个例子，知道了与非门、寄存器一类的描述，还有FSM的描述。但这些，用Verilog来实现也非常的方便，我想systemc的优势应该在系统级。
+　　可是这个优势该如何体现那？在systemc2。01自带的例子中，有一个RSA方面的程序，我看了一下。因为我用verilog也实现过RSA算法。当然这个用systemc描述要简洁明了，可是这个如何能够变成硬件电路呢？难道有这么强大的综合器？
+　　还有在ActiveHDL6。2自带的一个例子中，用Verilog和systemc混合设计，但是从代码效率上，systemc很差，一个简单的10bit计数器，它要用5个文件才能实现。而Verilog大概10几行就搞定了。大概我还没入门，所有还无法理解systemc的优势，你给说一说。如果用systemc设计一个芯片，具体的步骤如何？
+　　还有请教一下，systemc和PLI的关系？
+　　谢谢。
+　　回答：
+　　你的问题问的很好。你的RSA算法的SystemC描述很明了，这就是SystemC的优势。这种描述是高层次的，很难编程硬件电路，这说明这种优势就是系统级的优势。SystemC主要还是用来描述系统，不建议用它做RTL设计。
+　　有了SystemC综合器如SystemC Compiler，它就能够变成硬件电路。用systemc设计一个芯片，跟 Verilog一样。显然SystemC的RTL效率不如Verilog。Verilog是最好的RTL语言。
+　　SystemC不同于PLI，PLI是C/C++与Verilog//VHDL的接口，通过它C/C++与Verilog//VHDL可以进行通信。我认为在混合语言设计的情况下，SystemC也必须通过PLI与Verilog//VHDL进行通信。
+　　4.《SystemC片上系统设计》更正
+　　1. 编者序，第一页，到数第三行，Erission拼写错误，应为Ericsson。Synopsys被写了两次。
+　　
+　　2. 编者序，第一页，倒数第三段，硅谷的所在地为San Jose，文章的Saint Jose是否笔误？
+　　
+　　3. 编者序，第二页，多次提到“设计规范，系统规范”，实际上，据我猜测，规范一次应该从Specification一次翻译过来，
+　　如果是，则应该译为“规格”，更符合业界当前的术语习惯。
+　　
+　　4.1教材第13页在Debug目录下应该改为Nand2目录
+　　Q:教材第13页中您写道：“编译并运行新的代码，将会在Debug目录下产生Nand2.vcd文件，这就是我们需要的波形文件”。这里Debug目录是不是应写成Nand2目录？
+　　A:应该改为Nand2目录。
+　　4.2教材第31页怎么是两个ctrl_alu?
+　　Q:教材第31页，第2.2.5节的第二段有这么一句话：“ALU作为CPU的子模块，它的输入端口ctrl_alu和CPU的输入端口ctrl_alu可以直接绑定”。这里怎么是两个ctrl_alu？
+　　A:～～～改为ctrl_in
+　　4.3教材第46页－0.5q应写成0.5q.
+　　Q:教材第46页，第2.4.4节第一段中有这么一句话：“x∈[-0.5q,1.5q]”，这里－0.5q是不是应写成0.5q?
+　　A:你是对的，应该是0.5q。
+　　4.4 shifter编译通不过，您帮我看看
+　　shifter还是编译通不过，您帮我看看
+　　#include "shifter.h"
+　　void shifter::do_shift()
+　　{
+　　 if(load)
+　　 {
+　　 dout = din;
+　　 }
+　　 else if(!LR)
+　　 {
+　　 dout.range(6,0) = dout.range(7,1);
+　　 dout[7] = 0;
+　　 }
+　　 else if(LR)
+　　 {
+　　 dout.range(7,1) = dout.range(6,0);
+　　 dout[0] = 0;
+　　 }
+　　}
+　　#include "systemc.h"
+　　SC_MODULE(shifter)
+　　{
+　　 sc_in<8> > din;
+　　 sc_in clk;
+　　 sc_in load;
+　　 sc_in LR;
+　　 sc_out<8> > dout;
+　　 void do_shift();
+　　 SC_CTOR(shifter)
+　　 {
+　　 SC_METHOD(do_shift);
+　　 sensitive_pos(clk);
+　　 }
+　　};
+　　Compiling...
+　　main.cpp
+　　shifter.cpp
+　　c:\temp\compare\shifter.cpp(8) : error C2678: binary '!' : no operator
+　　defined which takes a left-hand operand of type 'class sc_in' (or
+　　there is no acceptable conversion)
+　　c:\temp\compare\shifter.cpp(10) : error C2039: 'range' : is not a member of
+　　'sc_out<8=""> >'
+　　c:\temp\compare\shifter.cpp(10) : error C2039: 'range' : is not a member of
+　　'sc_out<8=""> >'
+　　c:\temp\compare\shifter.cpp(11) : error C2106: '=' : left operand must be
+　　l-value
+　　c:\temp\compare\shifter.cpp(15) : error C2039: 'range' : is not a member of
+　　'sc_out<8=""> >'
+　　c:\temp\compare\shifter.cpp(15) : error C2039: 'range' : is not a member of
+　　'sc_out<8=""> >'
+　　c:\temp\compare\shifter.cpp(16) : error C2106: '=' : left operand must be
+　　l-value
+　　Error executing cl.exe.
+　　
+　　A:编译不过的原因：range(a,b)是sc_bv的方法而不是sc_in/sc_out的方法。LR是sc_in，没有定义“！”操作，“！”是对bool型进行的。
+　　Refined version for the shifter,verified via VC6:
+　　#ifndef _SHIFTER_SC_H
+　　#define _SHIFTER_SC_H
+　　#include "systemc.h"
+　　SC_MODULE(shifter)
+　　{
+　　 sc_in<8> > din;
+　　 sc_in clk;
+　　 sc_in load;
+　　 sc_in LR;
+　　 sc_out<8> > dout;
+　　 void do_shift();
+　　 SC_CTOR(shifter)
+　　 {
+　　 SC_METHOD(do_shift);
+　　 sensitive_pos(clk);
+　　 }
+　　};
+　　#endif
+　　 #include "shifter.h"
+　　void shifter::do_shift()
+　　{
+　　 sc_bv<8> temp;
+　　 if(load)
+　　 {
+　　 dout = din;
+　　 }
+　　 else if(!LR.read())
+　　 {
+　　 temp=dout.read();
+　　 temp.range(6,0)= temp.range(7,1);
+　　 temp[7]=0;
+　　 dout.write(temp);
+　　 }
+　　 else if(LR)
+　　 {
+　　
+　　 temp.range(7,1) = temp.range(6,0);
+　　 temp[0] = 0;
+　　 dout=temp;
+　　 }
+　　}
+　　4.5．第2.4.5和2.4.7节的第一句话：“对于小于0的无符号数”？
+　　应该改为对于小于0的数
+　　4.6．第2.4.6节第二行“SC_MIN_INF”还是“SC_RND_MIN_INF”?
+　　应该是SC_RND_MIN_INF
+　　4.7. 第64页例子中的“m_sum”、“m_count”是否应为sc_out型的？“SC_time_stamp()”是什么意思？
+　　的确应该改为sc_out型。SC_time_stamp()返回当前的仿真时间，带单位，单位根据当前仿真时间可能为ns/us/ms
+　　
+　　 1 我是systemc片上系统设计的读者，在指的网站上找不到systemc_win,能不能
+　　E-MAIL给我。
+　　 2 问？systemc_win能不能产生烧写文件给CPLD FPGA使用。
+　　
+　　 答1：根据我的经验，systemc_win的确现在已经不能从网上下载。我这里有，太大了不能作为email附件，我的FTP: ftp://systemc:systemc@166.111.66.53:320，你们要什么时候下载，请提前跟我预约，我把ftp打开，和告诉你们最新的ip。（我们这里抢ip现在很严重）
+　　 答2： systemc_win不能产生烧写文件给CPLD FPGA使用，它只是设计输入和仿真软件。
+　　 产生烧写文件给CPLD FPGA使用的工具只能由fpga的厂商Xilinx,Altera来提供.
+　　　　　　　　　　致
+　　4.8关于工具的使用。第10章还将给予介绍
+　　P14“关于工具的使用。第10章还将给予介绍”－－可是全书只有9章 显然应当是第9章。
+　　4.9其它建议的更正
+　　1、 P2第三段的“市场时间（Time to Market）”建议改为“面市时间（Time to Market）”或“上市时间（Time to Market）”；
+　　2、 P2第三段第7行的“人们迫切需要一种语言单一地完成全部设计”建议去掉“一种”二字；
+　　3、 P2第三段第10行的“HLDL”是否应为“SLDL”；
+　　4、 P3第一段第2行的“Integrate”应改为“Integrated”；
+　　5、 P3第三段最后一行的“VHDL则在行为级描述能力更强”建议改为“VHDL则在行为级描述能力方面更强”；
+　　6、 P3第四段第2行的两个“内嵌式”建议改为“嵌入式”；
+　　7、 P3第四段第6行的分号建议改为逗号，并在其后添加“这些EDA供货商”；
+　　8、 P3第五段第4行的“交易级别”建议改为“交换级别”；
+　　9、 P4第二段第2行的分号建议改为句号；
+　　10、 P4第二段第6行的最后一个字前添加“或VHDL的代码”；
+　　11、 P4第二段第7行的“也可以综合为门级电路”建议改为“也可以综合为EDIF网表”；
+　　12、 P4第三段第3行的“SystemC还支持多个时钟之间的任意相位关系”建议改为“SystemC还支持具有任意相位关系的多个时钟”；
+　　13、 P6最后一段第一行最后一个字“和”建议改为“的”；
+　　14、 P9第四段最后一行的“以ModelSim作为仿真工具”建议改为“以ModelSim作为查看波形的工具”；
+　　15、 P9最后一行的“工作间”建议改为“工作区窗口”；
+　　16、 P10第一段第2行的“工作间”建议改为“工作区窗口”；
+　　17、 P10第三段第2行的“C++”应改为“Win32”；
+　　18、 P10最后一段第2行的“页面”应改为“选项卡”；
+　　19、 P12第二行的“工作间”建议改为“工作区窗口”；
+　　20、 P12第三段第1行的“设计的波形”建议改为“设计的仿真波形”；
+　　21、 P13页的使用ModelSim查看波形的方法可以简化为两步，如下：
+　　(1)打开ModelSim，在命令行下输入命令vcd2wlf D:/YHQProj/VC/Nand2/Nand2.vcd D:/YHQProj/VC/Nand2/Nand2.wlf，这时候，若没有任何提示，则转换完成；
+　　(2)在ModelSim主界面下，点击 ，打开Nand2.wlf，这时候自动打开波形窗口
+　　22、 P13倒数第2行的“具备”建议去掉；
+　　23、 P14第3行的“10”应改为“9”；
+　　
+　　第二章
+　　24、 P17第二段的第二句建议修改一下；
+　　25、 P17第三段的“方程”应改为“方法”；
+　　26、 P17第三段的“变换”建议改为“转换”；
+　　27、 P17第四段的第一个“物理”建议改为“实际”，第二个“物理”建议去掉；
+　　28、 P17第四段的“当端口确定”建议改为“当端口确定了”；
+　　29、 P18第三行的“与信号result”后建议添加“，名称相同但属于不同的层次”；
+　　30、 P18第五行的最后一句建议去掉；
+　　31、 P20第二行的“已初试化模块的”建议改为“已初试化模块”；
+　　32、 P21第二段的“初试化中”建议改为“初试化时”；
+　　33、 P21第二段最后一行的“的”应改为“地”
+　　34、 P22第四行的“任意顺序的”应改为“任意顺序地”；
+　　35、 P22程序的倒数第三行建议添加到倒数第四行后；
+　　P23第四行的“count_val”建议在其后添加“变量上”；
+　　5.用VC6和ModelSim进行SystemC的设计输入、编译和仿真
+　　陈曦
+　　chenx@wmc.ee.tsinghua.edu.cn
+　　2003-12-10
+　　5.1. 用VC6进行SystemC的设计输入和编译
+　　
+　　Visual C++是广泛使用的Windows操作系统下的C++编译工具，目前最新的版本是Visual C++.net。这里讲述如何使用使用VC6.0编辑和编译你的SystemC设计。这里我们以2输入与非门为例。
+　　为了能够使用SystemC的核心库，我们首先对它进行编译，假设你从http://www.systemc.org下载了SystemC的库代码并解压缩到D:\systemc\目录下，这时你可以看到src子目录下有一个systemc.h文件，这是你的所有SystemC设计必须包含的头文件。Src目录包含了所有的systemc的核心源代码，与src同级的目录还有msVisual C++6.0x、docs、examples和config。我们切换到D:\systemc\msVisual C++6.0x\systemc目录，用Visual C++6.0x打开systemc.dsw。这时Visual C++6.0x的工作间（WorkSpace）应该出现所有的SystemC的核心文件，展开systemc文件夹，则工作间会如下图所示。
+　　
+　　图1 编译SystemC库时VISUAL C++6.0X的工作间
+　　编译这个项目。正常编译的结果是产生一个systemc.lib文件，被放在Debug目录下。这个库文件是我们在所有SystemC项目中必须包括的库文件。
+　　关闭systemc项目，我们来新建一个自己的项目。新建项目时选择Win32 Console Application。我们假设项目的目录为D:\SC_LIB\BOOK，项目的名字为Nand2。如下图所示。
+　　
+　　图2 新建一个名为Nand2的项目
+　　选择Ok，在接下来出现的对话框中选择“An Empty Project”（默认），然后选择“Finish”，再选择“Ok”。
+　　这个时候一个空的Nand2项目就建立了。
+　　为了能够让Visual C++6.0x正常工作，我们还需要设置一些选项。选择Project->settings菜单，切换到C/C++页面（Tab），在Category中选择C++ Language，选定Enable exception handling(默认)和Enable run time type information项，如下图所示。
+　　
+　　图3 选定Enable run time type information项
+　　然后再在Category中选择Preprocessor，在Addition Include Directories中指定一个源文件目录，这个目录就是SystemC.h所在的那个目录。在这里我们已经假设systemc.h在D:\systemc\src目录下，所以这里我们应该填入D:\systemc\src。如下图。
+　　
+　　图4 指定systemc.h的路径
+　　 然后再将编译好的systemc.lib包括到你的设计中。这时所有的准备工作就都做好了，你只需再加入你的SystemC设计文件，可以编译整个设计了。如果还通不过，那就是设计本身有问题了，你需要认真修改你的设计直到编译通过。
+　　我们将设计文件nand2.h、tb.h和main.cpp加入到Nand2的项目中。这时的工作间如下图所示。
+　　
+　　图5 Nand2项目的工作间显示
+　　我们编译并执行这个设计。
+　　5.2 利用ModelSim 查看SystemC产生的波形文件
+　　到此读者可能还不满意，因为你还想看看这个设计的波形，不用着急，这一节我们就将如何使用ModelSim查看波形。当然如果你没有ModelSim，就要使用其它波形查看器了。
+　　我们首先修改一下main.cpp的设计。修改后的代码如下：
+　　//By chenxi,all rights reserved
+　　//main.h
+　　#include
+　　#include "nand2.h"
+　　#include "tb.h"
+　　int sc_main(int, char**){
+　　 sc_signal a,b,f;
+　　 sc_clock clk("Clk",20,SC_NS);
+　　 nand2 N2("Nand2");
+　　 N2.A(a);
+　　 N2.B(b);
+　　 N2.F(f);
+　　 tb tb1("tb");
+　　 tb1.clk(clk);
+　　 tb1.a(a);
+　　 tb1.b(b);
+　　 tb1.f(f);
+　　 // trace file creation
+　　 sc_trace_file *tf = sc_create_vcd_trace_file("Nand2");
+　　 sc_trace(tf,N2.A, "A");
+　　 sc_trace(tf,N2.B, "B");
+　　 sc_trace(tf,N2.F, "F");
+　　 sc_start(200);
+　　 sc_close_vcd_trace_file(tf);
+　　 return 0;
+　　}
+　　斜体部分是增加的代码，它们用于产生波形文件Nand2.vcd，代码的含义我们将在后面的章节讲解。目前SystemC支持生成VCD或者WIF或者ISDB波形文件。
+　　编译并运行新的代码，将会在Debug目录下产生Nand2.vcd文件，这就是我们需要的波形文件。
+　　请读者注意WIF和WLF的区别。WIF的中文意思是波形中间格式，是一种标准波形格式；而WLF是ModeSim所专有的波形日志文件。由于在ModelSim下只能打开WLF文件，所以推荐的ModelSim下看波形的办法是：
+　　新建一个ModelSim项目，将Nand2.vcd复制到该项目的目录下。
+　　使用ModelSim行命令vcd2wlf 将VCD文件转化为WLF文件。命令格式为:
+　　vcd2wlf
+　　这里我们输入: vcd2wlf Nand2.vcd Nand2.wlf。请读者注意vcd2wlf与Nand2.vcd、Nand2.vc与Nand2.wlf之间都有空格。如果没有任何提示，则命令被正确执行，这时将产生一个Nand2.wlf文件。
+　　然后打开signal、structure和wave窗口。对应的ModelSim行命令为:
+　　view signals
+　　view wave
+　　view structure
+　　在wave窗口下选择Open dataset菜单，将生成的Nand2.wlf文件导入进来。这时你将在structure窗口中看到设计SystemC:，在signal窗口中选择所要看的信号放到wave窗口中你就可以看到波形了。所显示的波形如下图所示：
+　　
+　　图6 Nand2设计的仿真波形
+　　这里我们假设读者对ModelSim有一定的了解。当然还有其它波形工具可以查看波形如signalscan和virsim，它们都可以直接查看vcd文件记录的波形而不必进行格式转换。
+　　另外有一些免费的工具如SystemC_win可以编译和查看波形，请参考<>（陈曦 等 科学出版社，2003.10）
+　　6.我讲授的SystemC课程的课后习题
+　　陈曦
+　　2003-11-11
+　　注意：可以只做前6或者只作第7题,我给的答案可以参考，可以直接Copy到作业中，但是必须给出仿真结果（波形或者数据）以确认你自己的确照着做了。这部分习题占10分。
+　　题目比较简单，原因是这门课的VHDL和Verilog的习题都出的十分复杂。
+　　6.1经典跨越时钟域解决方案——双D触发器同步电路
+　　在实际电子系统中，不同的模块通常工作于不同的时钟域，一个典型的情况就是输入信号常常同步于输入时钟，而输出模块常常同步于输出时钟。输入和输出时钟之间并没有固定的相位和频率关系，如异步FIFO。如图1，模块Modu1同步于时钟Clk1，而Modu2同步于Clk2。而Modu1和Modu2之间需要交换一个比特的数据DataIn。这时不能够直接利用工作于Clk2的D触发器直接采样DataIn，因为无法保证DataIn满足触发器的建
+　　
+　　图1跨越时钟域的同步方法示意图
+　　立和保持时间。一个典型的解决办法是引入同步模块，在同步模块中采用双D触发器同步。虽然D触发器D1的输出DataD1有可能是不稳定的中间电平，但经过一个Clk2周期的时间，DataD1的电平已经以很高的概率稳定为逻辑0或者1，这样D触发器2的输出就可以认为是稳定的了，理论分析表明，这样的同步方法可以保证常见工艺芯片连续工作几十年不出现同步错误。当需要多个比特同时跨越时钟域时，需要使用进一步的解决方案，如在异步FIFO中使用的格雷码编码。请使用SystemC描述图2-28中的同步模块SynModuClk1Clk2。
+　　6.2 经典ASIC异步复位电路
+　　虚线部分描述的是常用的ASIC异步复位电路。当复位信号从1->0的时候，整个ASIC立刻被复位。当复位信号从0->1的时候，由于复位信号rst_n是与系统时钟不同步的，不能使用该信号作为去除复位的信号（有可能造成不同的触发器在不同的时钟周期进入工作状态，从而导致系统不能正常工作）。请使用SystemC描述下图(图2)虚线部分的电路。
+　　
+　　图2 ASIC经典复位电路
+　　Email1：
+　　陈曦：你的代码完全没有问题，在我的机器上运行的很好，也没有Warning。注意项目设置: project->settings->C/C++,在category中选择C++ language，勾上Enable run time type information.(附件)
+　　 再在category中选择Preprocessor,添加SystemC.h的路径。 附件是在我的机器上运行的很好的代码，你可能需要修改systemc.lib。
+　　～～～～～～～～～～～～～～～～～
+　　陈老师：
+　　 您好！
+　　 在SystemC的学习过程当中我碰到了一个问题。向您求救！
+　　 比如，实现已经有一个D触发器的描述，叫dff
+　　 现在在调用这一模块时，我采用下面两种方法在调试时都会出错
+　　这是用指针的
+　　 dff *dff1,*dff2;
+　　 SC_CTOR(reset)
+　　 {
+　　 high.write(true);
+　　 dff1=new dff("dff1");
+　　 dff1->clk(clk);
+　　 dff1->rst(rst);
+　　 dff1->din(high);
+　　 dff1->dout(rst1);
+　　 dff2=new dff("dff2");
+　　 dff2->clk(clk);
+　　 dff2->rst(rst);
+　　 dff2->din(rst1);
+　　 dff2->dout(rst_syn);
+　　 }
+　　 ~reset()
+　　 {
+　　 if(dff1) {delete dff1;dff1=0;}
+　　 if(dff2) {delete dff2;dff2=0;}
+　　 }
+　　这是不用指针的
+　　dff dff1("dff1");
+　　dff1.--------------
+　　dff dff2("dff2");
+　　dff2.-------------
+　　在编译的时候都显示没有错误（但有几个warning，其中一个说defaultlib "LIBC" conflicts with use of other libs; use /NODEFAULTLIB:library），但是正常执行时却会 出错。Debug的时候发现就是执行到调用模块的实例时发生错误，返回码是3。您碰到过这种情况么？怎么解决？
+　　 盼复！
+　　 谢谢！
+　　6.3编写简单分频器
+　　编写并仿真下图所示的分频器。CLKIN为输入时钟，CLKOut1为CLKIN的2分频，CLKOut2为CLKIN的4分频。
+　　
+　　图3 分频器输入输出关系图
+　　Email:
+　　一定是类的定义有错误，比如类的结尾处没有“;”或者类内的某一个函数定义时少了一个“}”，
+　　出现了下面的错误
+　　:\systemc课程\h3_clkbrk\h3_clkbrk\main.cpp(4) : error C2059: syntax error : 'PCH creation point'
+　　e:\systemc课程\h3_clkbrk\h3_clkbrk\main.cpp(6) : error C2334: unexpected token(s) preceding '{'; skipping apparent function body
+　　e:\systemc课程\h3_clkbrk\h3_clkbrk\main.cpp(32) : fatal error C1004: unexpected end of file found
+　　Error executing cl.exe.
+　　> 我找了好久也找不出问题来。
+　　> 我把project也发给您了，请陈老师帮忙看看，谢谢！
+　　>
+　　Email:
+　　下面是对的：
+　　 sc_uint<2> a;
+　　 cout<<
+　　而下面是错的：
+　　 sc_signal<2> > a;
+　　 cout<<
+　　 正确的写法应该为：
+　　 sc_signal<2> > a;
+　　 cout<<
+　　======= 2003-12-14 15:07:00 您在来信中写道：=======
+　　
+　　>我试了一下，这种写法也不能通过编译，编译提示sc_uint<2>不支持[]符号。
+　　>f:\mywork\systemc_hwk\h3_clkbrk\clkbrk.h(29) : error C2676: binary '[' : 'class sc_signal<2=""> >' does not define this operator or a conversion to a type acceptable to the predefined operator
+　　>f:\mywork\systemc_hwk\h3_clkbrk\clkbrk.h(30) : error C2676: binary '[' : 'class sc_signal<2=""> >' does not define this operator or a conversion to a type acceptable to the predefined operator
+　　>Error executing cl.exe.
+　　Email: sc_uint和sc_int是模板类，必须指定宽度，且宽度不能大于64
+　　 template
+　　class sc_uint
+　　 : public sc_uint_base
+　　{
+　　public:
+　　 ....
+　　}
+　　使用的例子：
+　　sc_signal<2> > cnt;
+　　 ~~~~~~~~~~注意空格
+　　clkQ1=cnt[0];
+　　clkQ2=cnt[1];
+　　
+　　======= 2003-12-14 13:27:00 您在来信中写道：=======
+　　
+　　>陈老师：
+　　> 您发的ppt已经收到，VC的问题也解决了，我现在已经做到第三题，但是遇到了问题，
+　　>我根据VHDL中用std_logic_vector类型的信号，来一个clk就加1，输出信号的最低位就是
+　　>clk的二分频，次低位就是clk的四分频，于是我写的systemc程序如下。我试过cnt用
+　　>sc_signal,sc_signal,都出问题，不知道什么原因。
+　　>//clkbrk.h
+　　>//By Tang Shigang,2003.12.3
+　　>#ifndef _clkbrk_h
+　　>#define _clkbrk_h
+　　>#include "systemc.h"
+　　>
+　　>SC_MODULE(clkbrk)
+　　>{
+　　> sc_in rst,clk;
+　　> sc_out clkQ1,clkQ2;
+　　> sc_signal cnt;
+　　> void do_clkbrk()
+　　> {
+　　> if(rst.read())
+　　> cnt.write(0);
+　　> else if(cnt.read()==3)
+　　> cnt.write(0);
+　　> else
+　　> cnt.write(cnt.read()+1);
+　　> }
+　　> void do_output()
+　　> {
+　　> clkQ1=cnt[0];
+　　> clkQ2=cnt[1];
+　　> }
+　　> SC_CTOR(clkbrk)
+　　> {
+　　> SC_METHOD(do_clkbrk);
+　　> SC_METHOD(do_output);
+　　> sensitive_pos<
+　　> }
+　　>};
+　　>#endif;
+　　Email1:
+　　 陈曦： ^_^！快别跟我客气了，共同进步吧，我也在学习中。
+　　~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+　　学生：你的题目出的没有问题：）
+　　我知道我的问题了，我的程序中count设置为sc_int型（sc_uint型也是一样的效果），所以导
+　　致对其赋值之后马上读取的时候不知道读的是赋值之后还是之前的数据，也就是延时问题不明
+　　确。把它改成signal型之后就没有问题了。^_^实在是太叨扰了！不好意思：）
+　　不过，你的程序很牛啊，资源很节约哦，只用一位寄存器就可以了，呵呵，我的两个count都是2位的，浪费啊，哈
+　　Email2:
+　　陈曦：我做的一个答案：
+　　#include "systemc.h"
+　　SC_MODULE(div_clk)
+　　{
+　　 sc_in_clk clk;
+　　 sc_out clk_out1;
+　　 sc_out clk_out2;
+　　 sc_signal count1;
+　　 sc_signal<1> > count2;
+　　 void gen_ctrl(){
+　　 count1=!count1.read();
+　　 if(count1) count2.write(count2.read()+1);
+　　 //cout<<<",clk_out1="<<<",count1="<<
+　　 };
+　　void gen_clk_out1(){
+　　 clk_out1=clk.read()&&count1.read();
+　　};
+　　void gen_clk_out2(){
+　　 clk_out2=(clk_out1.read()) && (count2.read()==0);
+　　 cout<<<",clk_out2"<
+　　
+　　};
+　　
+　　 SC_CTOR(div_clk)
+　　 {
+　　 SC_METHOD(gen_ctrl);
+　　 sensitive_pos(clk);
+　　
+　　 SC_METHOD(gen_clk_out1);
+　　 sensitive<<
+　　
+　　 SC_METHOD(gen_clk_out2);
+　　 sensitive<<　　 }
+　　};
+　　Email3:
+　　我刚刚的试验结果表明：下面的语法都是对的：
+　　 sc_bit a;
+　　 a=true;
+　　 a=1;
+　　 a='1';
+　　 sc_int<4> b;
+　　 b=14;
+　　 但是sc_out 、sc_out <4> > 出现问题可能有两个原因：
+　　 1.你的其它部分设计或者编译器设置有问题。
+　　 2.可能存在sc_out的类型转换问题，建议用D.write(1); out.write(14);尝试一下。
+　　 如果你不介意，把设计发给我，我给你看看就知道了。
+　　~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+　　陈曦老师，您好！
+　　 我遇到两个问题，都是赋值的问题
+　　 您书上说sc_bit可以赋值为1 ，0 但是我定义 sc_out D 然后D='1';系统提示不支持这样的操作符。
+　　 我又定义sc_out <4> > out 然后out=14;系统也提示不支持这样的操作符。这是为什么，请您解答.　　
+　　多谢！
+　　Email4：
+　　陈曦：There are other problems with your code,I dont think your description of target circuit is correct, though the simulation result seems to be.
+　　陈曦：你认为count的最大值是3？我认为最大值是1，最小是－2，count永远都不会等于3。 将 count定义为sc_uint<2>或者sc_int<3>，应该不会有你说的问题。
+　　----------------------------------------------------------
+　　您好！
+　　 又碰到一个问题，不好意思：）
+　　作业题2分频的那个电路（好像是第4题）我描述如下，没有问题，仿真出来的是2分频
+　　#include "systemc.h"
+　　SC_MODULE(clkgen){
+　　 sc_in_clk clk_in;
+　　 sc_inrst;
+　　 sc_out clk_out;
+　　 sc_int<2> count;
+　　 void gen(){
+　　 if(rst) {count=0;clk_out=false;}
+　　 else{
+　　 if(count==1) {clk_out=true;count=count+1;}
+　　 else if(count==3){clk_out=false;count=0;}
+　　 else{clk_out=false;count=count+1;}
+　　 }
+　　 };
+　　 SC_CTOR(clkgen) {
+　　 SC_METHOD(gen);
+　　 sensitive<<
+　　 }
+　　};
+　　但是，如果中间计数部分改成
+　　 void gen(){
+　　 if(rst) {count=0;clk_out=false;}
+　　 else{
+　　 if(count==3) {clk_out=true;count=0;}
+　　 else{clk_out=false;count=count+1;}
+　　 }
+　　就会出错，仿真出来的不是2分频。好像从波形中看，是count=1,2,3,0，但是，clk_out一直
+　　为0，我觉得可能是count=3之后马上执行了else{clk_out=false;count=count+1;}语句，所以
+　　clk_out马上变0了。
+　　我觉得这个东西是不是有点蹊跷？
+　　在Verilog和VHDL中，Count应该不影响clk_out的啊，因为clk_out在Count之前变啊。何况，
+　　敏感列表里面没有Count的。
+　　两种仿真的波形在附件里面。
+　　有劳！
+　　
+　　6.4 2选1的选择器（组合逻辑），请说明问题所在并请改正
+　　. 下面的代码描述的是2选1的选择器（组合逻辑）。如果代码有任何问题，请说明问题所在并请改正, 给出SystemC描述和仿真结果。如果没有问题，请将用SC_THREAD进程来描述该电路的行为, 给出SystemC描述和仿真结果。
+　　#include "systemc.h"
+　　SC_MODULE( selector ) {
+　　sc_in in_data1, in_data2;
+　　sc_in ctrl;
+　　sc_out out_q;
+　　void do_selection () {
+　　out_q.write(ctrl.read()?in_data1.read():in_data2.read());
+　　}
+　　SC_CTOR(selector ) {
+　　SC_METHOD(do_selection);
+　　sensitive << ctrl;
+　　}
+　　};
+　　6.5. 有限状态机的的不同写法的优劣
+　　有限状态机的常见写法之一是三段法：state shift,next state logic和output loigc，如下图。
+　　
+　　图4
+　　然而这样的有限状态机在很多IP核的设计中是不使用的，因为这种方法不利于设计复用。其主要原因是它的输出为组合逻辑。如下图，在设计中模块1和模块2的时序都是收敛的，但将它们连接在一起时由于组合逻辑过长（图中虚线部分）时序就可能不收敛了。
+　　
+　　图5 组合逻辑影响设计重用的示意图
+　　解决方法是在设计模块1时不使用组合逻辑2，即保证每个模块的输出都是时序逻辑的。
+　　如图6，这是一个简单的通信系统同步部分的状态机示意图。复位以后系统处于失步状态（LOST），如果检查到detect信号为高，认为已经检测到一次同步，则进入预同步状态（PRE_SYN），在预同步状态下如果连续N1+1个周期检测到detect信号为高，则认为已经同步上并进入同步态(SYN)。在预同步状态，如果检查到detect为0，则认为前面的detect的高电平是由于伪同步造成的，系统重新退到失步状态（LOST）。如果在同步状态（SYN）下连续N2+1次检测到detect信号为低，则认为已经失去同步，系统回到失步状态（LOST）重新进行同步。如果在同步状态（SYN）下检查到detect信号为低电平的周期小于N2+1，则认为是系统误码造成的，系统仍保持同步状态。在同步状态下输出同步指示syn_ind（高电平有效）。
+　　这是一个实际系统的简化。
+　　
+　　图6 系统目标状态转移图
+　　该系统的VHDL描述如下：
+　　--a simple FSM,By chenxi,2003.5.5
+　　--define a package
+　　package syn_pack is
+　　type syn_state is (LOST,PRE_SYN,SYN);
+　　
+　　end syn_pack;
+　　
+　　use work.syn_pack.all;
+　　library ieee;
+　　use ieee.std_logic_1164.all;
+　　use ieee.std_logic_unsigned.all;
+　　entity fsm is
+　　generic (
+　　 N1 : integer := 3;
+　　 N2 : integer := 5
+　　 );
+　　port( clk,rst,detect : in std_logic;
+　　 syn_ind : out std_logic);
+　　end fsm;
+　　
+　　architecture rtl of fsm is
+　　signal next_state, state : syn_state;
+　　signal N1_counter,N2_counter:std_logic_vector(2 downto 0);
+　　begin
+　　--state shift
+　　state_shift:process(clk,rst)
+　　begin
+　　if(rst='1') then state<=LOST;
+　　elsif clk'event and clk='1' then
+　　state<=next_state;
+　　end if;
+　　end process;
+　　
+　　--next_state logic
+　　process(state, N1_counter,N2_counter,detect)
+　　begin
+　　case state is
+　　when LOST =>
+　　 if detect='1' then next_state <= PRE_SYN;
+　　 else next_state <= LOST;
+　　 end if;
+　　when PRE_SYN =>
+　　 if detect/='1' then next_state <= LOST;
+　　 elsif N1_counter=N1 then next_state <= SYN;
+　　 else next_state <= PRE_SYN;
+　　end if;
+　　when SYN =>
+　　 if N2_counter=N2 then next_state <= LOST;
+　　 else next_state <= SYN;
+　　 end if;
+　　when others => next_state <= LOST;
+　　end case;
+　　end process;
+　　--output logic
+　　gen_syn_ind:process(state)
+　　begin
+　　 if state=SYN then syn_ind<= '1';
+　　 else syn_ind<= '0';
+　　 end if;
+　　end process;
+　　--N1_counter logic
+　　n1_counter_logic:process(clk)
+　　begin
+　　if clk'event and clk='1' then
+　　 case state is
+　　 when LOST => N1_counter<= (others=>'0');
+　　 when PRE_SYN =>
+　　 if detect='1' then
+　　 if N1_counter<="N1_counter+1;<BR">　　 end if;
+　　 else N1_counter<= (others=>'0');
+　　 end if;
+　　 when others =>
+　　 N1_counter<= (others=>'0');
+　　 end case;
+　　end if;
+　　end process;
+　　
+　　--N2_counter logic
+　　n2_counter_logic:process(clk)
+　　begin
+　　if clk'event and clk='1' then
+　　 case state is
+　　 when LOST => N2_counter<= (others=>'0');
+　　 when SYN =>
+　　 if detect/='1' then
+　　 if N2_counter<="N2_counter+1;<BR">　　 end if;
+　　 else N2_counter<= (others=>'0');
+　　 end if;
+　　 when others =>
+　　 N2_counter<= (others=>'0');
+　　 end case;
+　　end if;
+　　end process;
+　　
+　　end rtl;
+　　仿真结果如下图：
+　　
+　　图7 状态机设计的仿真结果
+　　（1）用SystemC描述并仿真本题所述有限状态机，并保证原始满足设计要求并且输出是时序逻辑。给出SystemC描述和仿真结果。(2)简要说明one-hot, binary, Gray三种状态编码的各自优缺点。
+　　6.6．用SystemC描述一个倍频电路的行为模型。
+　　输入信号是频率在1M - 400Mhz内的任何的频率的时钟信号。可以用你认为可行的任何方法，只要能够倍频就行（如果用纯组合逻辑实现最好）。给出设计源码和仿真结果。使用数字频率合成也是一个很好的办法
+　　
+　　图8 倍频器输入输出示意图
+　　Email1
+　　
+　　 我认为SC_THREAD一旦退出后就不再存在，所以也不再响应敏感表得事件，这是它与SC_METHOD的本质不同。这就是第二个do_it的buf_out为0的原因。
+　　 THREAD不仅碰到wait()时挂起，而且碰到wait(*!@#~)之类的也会挂起。Wait()的用法如下：在SC_CTHREAD中,只能用wait()或者wait(n),n是时钟个数，wait(n, time_unit)也可以用，此时wait((n mod clock_period)+1)。在SC_THREAD中,不能使用waint(n)，可以使用wait()或者wait(n, time_unit)。
+　　
+　　======= 2003-12-03 23:06:00 您在来信中写道：=======
+　　
+　　>第6题倍频电路。本来我已经仿真出结果了，但是中间有个疑问，还是搞不太明白。
+　　> void do_it()
+　　> {
+　　> while(true)
+　　> {
+　　> wait(halfcycle,SC_NS);
+　　> buf_out.write(buf_in.read());
+　　> wait();
+　　> }
+　　> };
+　　> void do_it()
+　　> {
+　　> wait(halfcycle,SC_NS);
+　　> buf_out.write(buf_in.read());
+　　> };
+　　>它们的敏感表都是sensitive<
+　　>输出是对buf_in和buf_out异或，对两者都敏感
+　　>第一个仿真结果正确，第二个不正确（见附件）。第二个加了wait（）语句也不行
+　　>
+　　>我的想法是这样的，不知道对不对。
+　　>对于第一个do_it，每当buf_in上有事件发生时，执行一次，它将buf_in延时halfcycle输出后
+　　>碰到wait()挂起，然后等到下一次buf_in有时间发生时，继续执行while里面的东西，再次挂
+　　>起，如此反复.....
+　　>但对于第二个do_it，从语法上讲，每当buf_in上有事件发生时，执行一次，将buf_in延时hal
+　　>fcycle输出。但是为什么从波形上看的时候总是0呢？
+　　>
+　　>另外，弱弱的问，THREAD是仅仅碰到wait()时挂起，还是碰到wait(*!@#~)之类的都会挂起？
+　　>教材上写的是wait()。
+　　如果你的设计是用组合逻辑实现，可能需要buffer单元。下面是一个定义的例子：
+　　#ifndef _MODULE_H
+　　#define _MODULE_H
+　　#include
+　　#define DELAY 1
+　　SC_MODULE(unit_buffer)
+　　{
+　　public:
+　　 sc_in bufin ;
+　　 sc_out bufout ;
+　　 bool temp;
+　　 void do_buffer ()
+　　 {
+　　 temp=bufin.read();
+　　 wait (DELAY,SC_NS) ;
+　　 bufout.write (temp);
+　　 }
+　　SC_CTOR(unit_buffer)
+　　 {
+　　 SC_THREAD (do_buffer) ;
+　　 sensitive << bufin ;
+　　 }
+　　} ;
+　　Email2
+　　对！说白了你就是要想办法在你仍然需要它的时候不让它退出。
+　　
+　　======= 2003-12-03 23:10:00 您在来信中写道：=======
+　　
+　　>实际上，就是说THREAD激活之后要执行某个代码，是不是必须用
+　　>while(true)
+　　>{
+　　> execution;
+　　> wait();
+　　>}
+　　>的形式？METHOD是每次激活之后都执行，THREAD是不是必须每次都要寻找上一次wait()的地方
+　　>继续执行？没有wait()语句它就无法再次执行？
+　　 Email:
+　　
+　　其定义如下
+　　 #define SC_HAS_PROCESS(user_module_name) \
+　　 typedef user_module_name SC_CURRENT_USER_MODULE
+　　 将用户定义的user_module_name转换成同用的SC_CURRENT_USER_MODULE，以保证库代码的正确执行，
+　　更具体的意义我也说不清楚，我只知道如果用class a:public sc_module{...};定义模块的时候需要使用。
+　　 我也发现提示说wait（n）语句只能在SC_CTHREAD中执行，此时参数n是时钟周期的个数的意思，我给的那个例子是错的.
+　　
+　　 THREAD不仅碰到wait()时挂起，而且碰到wait(*!@#~)之类的也会挂起。Wait()的用法如下：在SC_CTHREAD中,只能用wait()或者wait(n),n是时钟个数，wait(n, time_unit)也可以用，此时wait((n mod clock_period)+1)。在SC_THREAD中,不能使用waint(n)，可以使用wait()或者wait(n, time_unit)。
+　　
+　　
+　　======= 2003-12-12 17:50:00 您在来信中写道：=======
+　　
+　　>陈老师，您好！
+　　> 题目给的代码似乎无法编译，而且我不知道开始的
+　　>“class unit_buffer：public sc_module”的定义是什么意思。
+　　>里边的SC_HAS_PROCESS(unit_buffer)这些函数是什么意思。
+　　>－－－－－－－－－－－－－－－－－－－－－
+　　>在执行的时候，给出的提示里说wait（n）语句只能在SC_CTHREAD中执行；
+　　>我试着自己写buffer文件，可是总是不对——SC中的wait（n）和VHDL
+　　>仿真中的wait语句似乎完全不一样，比如我的do_it函数对时钟（周期5ns）
+　　>上升沿敏感，我想得到一个时钟延迟1ns的信号；关于do_it的代码段如下：
+　　>void do_it(){
+　　> while(true){
+　　> cout<<<"\t";
+　　> wait(BUF_DELAY);
+　　 ～～～～此处错误，应该改为wait(BUF_DELAY,SC_NS);
+　　> temp1.write(!temp1.read());
+　　> cout<<
+　　> };
+　　> };
+　　>可是最后运行时输出的时间，间隔就是一个时钟周期。
+　　
+　　>而且SC_CHTREAD（func，edge），这是不是就意味着只能对时钟的一个沿敏感了？
+　　 ～～～～～～～～～～～～对。
+　　>不能再添加其他的敏感信号了吧？
+　　 ～～～～～～～～～～～不能了
+　　6.7.无线局域网媒体接入控制与物理层握手协议的SystemC TLM实现
+　　 这是一个当前流行的802.11无线局域网媒体接入控制(MAC)与物理层(PHY)握手协议的一个实现。我们首先定义
+　　struct packet{
+　　#define MAX_PACKET_LENGTH=2034;
+　　unsigned short total_length;
+　　char[20] header;
+　　char[MAX_PACKET_LENGTH] payload;
+　　};
+　　目标系统的方框图如下：
+　　
+　　图9 目标系统方框图
+　　系统行为描述如下：包产生器模块随机的产生packet，并送给物理层发送模块。物理层发送模块将数据发送给物理层行为模型。物理层行为模型将接收到的包发送给物理层接收模块。包接收模块读取并显示接收到的数据包。（可选的）系统误码性能分析模块.
+　　定义接口1为抽象接口:
+　　class phy_send_service_if:public sc_interface{
+　　bool phy_data_request(char* pdata, unsigned length)=0;//non_blocking
+　　void phd_tx_start(bool start_or_not)=0;//non_blocking
+　　};
+　　定义接口4为抽象接口:
+　　class phy_recv_service_if:public sc_interface{
+　　bool phy_data_read (char* pdata, unsigned length)=0;//non_blocking
+　　void phy_recv_start(bool start_or_not)=0;
+　　};
+　　除了抽象接口外，接口4处应该有一个中断信号请求，可以定义为recv_intr.
+　　接口2的信号握手如下图：
+　　
+　　图10 数据发送过程
+　　信号说明如下：当物理层发送模块希望发送数据时，将TX_PE置为高。物理层行为模型在若干周期后将TX_RDY置为高，并产生TXCLK，物理层行为模型在TXCLK的第一个上升沿开始采样发送数据TXD。当数据发送完毕，物理层发送模块将TxPE拉低，物理层停止产生TxCLK,同时复位TX_RDY.
+　　接口3的握手如下图：
+　　
+　　图11 数据接收过程
+　　接口描述如下：当物理层接收模块希望接收数据时，将RX_PE置为高，当物理层行为模型有数据希望发给物理层接收模块，它首先产生RXCLK，然后将MD_RDY置为高，这
+　　时数据开始有效。当物理层接收模块接收数据完毕，它将RX_PE复位为0，这时MD_RDY和RXCLK无效。
+　　用SystemC行为模型描述整个系统，给出仿真结果和设计源码。细化物理层发送模块或者物理层接收模块。此题可以根据自己的能力或者2个人合作完成(2个人合作必须完成包括系统无码性能分析模块在内的全部设计)或者一个人独立完成部分或者全部设计。（也可以使用SystemC Master-Slave library中定义的方法来实现。）
+　　说明：该作业最好打印出来（考虑到有些同学不方便打印，所以不强求），因为人太多了我不方便看电子版的东东，最好有能够说明问题的部分源码，题目5、6、7的最终VC项目给我发到chenx@wmc.ee.tsinghua.edu.cn。不用抄原题，标清题号。第6题比较e，是一个公司的面试题，原题要求用纯组合逻辑实现，我觉得应该用到buffer，但是我也没有想出很好的答案。我改了一下，简单多了。大家好好想一想，比较忙的同学可以不做这道题。第7题也有点e，但该题是锻炼大家能力的好题。所有题目中我没有说清楚地方大家可以发挥自己的想象力，合理就行，也可以打电话问我（比如第7题的pkt_gen中包的产生，可以是泊松分布或者其它任何分布，包的长度可以是定长，也可以是高斯分布）。
+　　 物理层行为模型我需要再说明一下：它只能对数据产生延迟，而不能储存一个或者多个数据包。如果到达的数据包MAC层不能及时接收，那么这个包就丢失了。只有RX_PE为高，物理层的接收部分才工作。只有TX_PE为高，物理层发送部分才工作。
+　　第3题的意义不是很大，其它题目我都觉得大家可以学到东西。大家如果觉得第七题跟你的专业不是很相关，也可以结合你的实际情况选一个难度差不多的题目，可以使用你在实验室做的SystemC相关工作。
+　　Email:
+　　
+　　 使用SC_THREAD进程，没有敏感表的。
+　　 class assign:public sc_module{
+　　 bool a;
+　　 int b;
+　　 SC_HAS_PROCESS(assign);
+　　 void assign_a(){wait(1,SC_NS);a=1;wait(4,SC_NS);a=0;};
+　　 void assign_b(){wait(10,SC_NS);b=23;wait(10,SC_NS);b=11;};
+　　 SC_CTOR(assign){
+　　 SC_THREAD(assign_a);SC_THREAD(assign_b);
+　　 }
+　　};
+　　SystemC是系统级语言，不是最好的RTL语言，最好的RTL语言是Verilog和SystemVerilog。
+　　======= 2003-12-12 18:47:00 您在来信中写道：=======
+　　
+　　>陈老师：
+　　> 你好，请问systemC中怎样产生激励信号，比如我在VHDL中可以这样产生激励
+　　>a<='1' after 1 ns, '0' after 5 ns
+　　>b<= 23 after 10 ns, 11 after 20 ns
+　　>请问相对应的在systemC中怎样产生这些激励，谢谢！！
+　　Email:
+　　"
+　　
+　　 其定义如下
+　　 #define SC_HAS_PROCESS(user_module_name) \
+　　 typedef user_module_name SC_CURRENT_USER_MODULE
+　　 将用户定义的user_module_name转换成同用的SC_CURRENT_USER_MODULE，以保证库代码的正确执行，
+　　更具体的意义我也说不清楚，我只知道如果用class a:public sc_module{...};定义模块的时候需要使用。
+　　
+　　 SC_CTHREAD是为了行为综合而设计，我想 wait_until(data.delayed() == true)的目的是为了模仿实际硬件的行为。
+　　 data有效以后再等到有效时钟边沿才能执行进一步的行为。
+　　
+　　
+　　
+　　======= 2003-12-12 22:58:00 您在来信中写道：=======
+　　
+　　>你好：
+　　> 谢谢你这么快给我回复，你的回答中的SC_HAS_PROCESS(assign); 是什么意思啊，为什么
+　　>要用这个语句？
+　　> 另外还有一个问题，就是在wait_until(data.delayed() ==
+　　>true)中，为什么要delayed()
+　　>而且书上还强调一定要用delayed()，这是为什么？
+　　Email:
+　　Tang Shigang,您好！
+　　
+　　 附件是我编译通过的一个Nand2的项目。
+　　 你的项目源码应该没有问题，可能是systemc.lib没有添加到项目中，到底是什么错我需要具体看了才知道。
+　　 已经有一些同学把作业交了，这说明我上传的库文件应该没有什么问题。
+　　
+　　======= 2003-12-13 15:37:00 您在来信中写道：=======
+　　
+　　>陈老师：
+　　> 我照着您的书上做，已经编译好了lib文件，现在做nand2，编译出错：
+　　>--------------------Configuration: nand2 - Win32 Debug--------------------
+　　>Linking...
+　　>systemc.lib(sc_main.obj) : error LNK2001: unresolved external symbol _sc_main
+　　>Debug/nand2.exe : fatal error LNK1120: 1 unresolved externals
+　　>Error executing link.exe.
+　　>
+　　>nand2.exe - 2 error(s), 0 warning(s)
+　　>
+　　>这是什么问题呢？
+　　Email:
+　　""
+　　
+　　 我认为源码没有问题，应该是项目的设置的问题，可是我也没有搞定。
+　　 附件是我重新写并编译通过的一个Nand2的项目，希望能够对你有用。
+　　
+　　
+　　======= 2003-12-13 17:59:00 您在来信中写道：=======
+　　
+　　>陈老师：
+　　> 你好，我把第一章的源程序按书上一摸一样的抄上去，可是最后执行的时候有问题
+　　>编译都通过了，连接的时候出现了下面的问题：
+　　>Linking...
+　　>LIBCD.lib(wincrt0.obj) : error LNK2001: unresolved external symbol _WinMain@16
+　　>Debug/nand2.exe : fatal error LNK1120: 1 unresolved externals
+　　>Error executing link.exe.
+　　>
+　　>nand2.exe - 2 error(s), 0 warning(s)
+　　>
+　　>我把源程序附给你，你帮我看看，问题出在什么地方，谢谢！！
+　　Email:
+　　
+　　
+　　
+　　 #include "systemc.h"
+　　
+　　SC_MODULE(dff)
+　　{
+　　 sc_in_clk clk;
+　　 sc_in rst;
+　　 sc_in din;
+　　 sc_out dout;
+　　 bool temp;
+　　 void do_ff(){
+　　 while(true) {
+　　 if(rst)
+　　 {
+　　 dout=false;
+　　 cout<<<":dout="<<
+　　 }
+　　 else
+　　 { temp=din;
+　　 wait(5,SC_NS) ;//here 5 is a random number
+　　 dout=temp;
+　　
+　　 cout<<<":dout="<<
+　　 }
+　　 wait();
+　　 }
+　　 };
+　　 SC_CTOR(dff)
+　　 {
+　　 SC_THREAD(do_ff);
+　　 sensitive_pos(rst);
+　　 sensitive_pos(clk);
+　　 }
+　　};
+　　其实用SC_METHOD+next_trigger()是一样的。
+　　那应该怎么构造啊，我翻书翻了半天了，没有找到相应的例程啊，
+　　换成thread是可以运行的，但是出来的仿真波形有误，所以我怀疑这样作是错误的。
+　　能不能多提示一下啊，^_^
+　　
+　　在您的来信中曾经提到:
+　　>From: "陈曦"
+　　>Reply-To:
+　　>To: zpc03@mails.tsinghua.edu.cn
+　　>Subject: Re: Re: Re: systemc SOS
+　　>
+　　>zpc03,您好！
+　　>
+　　> wait(5,SC_NS);不能用在SC_METHOD中，其它部分应该没有问题。
+　　>
+　　>======= 2003-12-17 22:26:00 您在来信中写道：=======
+　　>
+　　>>您好！
+　　>>
+　　>>请问怎么构造一个带延时的d触发器啊，我这样做的，编译通过了运行时有错。
+　　>>#include
+　　>>
+　　>>SC_MODULE(dff)
+　　>>{
+　　>> sc_in_clk clk;
+　　>> sc_in reset;
+　　>> sc_in din;
+　　>> sc_out dout;
+　　>> sc_out ndout;
+　　>> void dump()
+　　>> {
+　　>> if(reset)
+　　>> dout=false;
+　　>> else
+　　>> {
+　　>> wait(5,SC_NS);
+　　>> dout=din;
+　　>> ndout=!(din.read());
+　　>> };
+　　>> };
+　　>> SC_CTOR(dff)
+　　>> {
+　　>> SC_METHOD(dump);
+　　>> sensitive_pos(reset);
+　　>> sensitive_pos(clk);
+　　>> };
+　　>>};
+　　Email:
+　　这个问题问的好，此题目的确本意是用next_trigger或者wait()实现,结果当然不能综合。
+　　 数字电路对任意输入时钟实现1/4移相也是可行的，这是需要数字频率合成，其原理是电路内部产生一个频率很高的f0，同时要求输入时钟频率fin远低于f0,再设计辅助电路利用f0合成“任意”输入频率fin的1/4移项。具体做起来比较复杂。
+　　
+　　======= 2003-12-18 14:33:00 您在来信中写道：=======
+　　
+　　>就是书上第二章的习题第9题，对输入时钟进行1/2和1/4周期移相，输入的时钟周期应该是
+　　>未知的吧，那怎样对他进行移项呢，况且用wait也是不能综合的吧，还有没有别的办法呢
+　　zpc03,您好！
+　　
+　　 十分感谢！
+　　
+　　======= 2003-12-18 23:33:00 您在来信中写道：=======
+　　
+　　>您好！
+　　>我发现您的书上一个bug,page 281页您介绍waveviewer，但是里面出现的图却不是，而是blue
+　　>pacificHDL的截图。；） 下一版可以修正哦。
+　　>
+　　> 致
+　　>礼！
+　　谢谢陈老师，我已经在
+　　http://www.syncad.com上下了waveview，比你的那个稍大一点，功能不错。
+　　p56的例(2)我对其中的y值计算结果和书上说的不一致,
+　　(2) sc_fixed<4,4>x;
+　　sc_fixed<3,3,SC_TRN,SC_WRAP,2>y;
+　　x=-5;
+　　y=x;//这里发生饱和
+　　x的值:二进制为1011(十进制-5).
+　　书上y的值:二进制101(十进制-3).
+　　可是我按照书上p55的规则,计算,首先对于有符号数,从高位开始,符号位保留,那么就是第一个1被保留,将剩下n_bits-1位(此处n_bits=2)置为1,此时得到的应该是11,然后剩下的位复制,由于是3位数,所以将最后的1复制,那么我得到的结果是y=111(十进制-1)?请帮忙解释一下原因
+　　
+　　2 .我在阅读中,也发现一些我觉得需要纠正的地方,不知道正确否,提出如下:
+　　p29倒数第一行有两个输出,是否应去除一个?
+　　p35 表2.3中systemc的专有数据类型中sc_bigint下面的那个sc_biuint,应该改成sc_biguint
+　　p39 第3行,整数填0应该改成正数填0
+　　p42 第17行和倒数第2行,出现了两个sc_uint,其中一个是否应改成sc_int
+　　～～～～～～～～～～～～～～～～～～～～～～～～
+　　我的描述有错误。这里对于负数，将剩下n_bits-1位(此处n_bits=2)应置为0（体现了溢出时要将溢出的部分值表示为能够表示的最大值），才对，最后得到101（－3），同样对于正数，将剩下n_bits-1位(此处n_bits=2)应置为1
+　　～～～～～～～～～～～～～～～～～～～～～～～～～
+　　
+　　您好！
+　　
+　　在看您写的《systemC片上系统设计》的第四章关于通道细化中有点疑问。
+　　
+　　P169, write_data＝data赋值中，write_data是否应是din？data_count信号的赋值操作是否是在W_Adaptor中完成的？
+　　 ~~~~~是的 ～～～是的，但是我的例子中好像没有给出来
+　　对于通道细化的示例流程我还不是看的很懂，能否请您给我这个示例的可以编译运行的源码？（网上下载过所有源码，但对于通道细化的示例源码中，只有细化前的代码，没有细化后的。）
+　　有人反应无法编译SystemC2.1
+　　 原因:1.必须使用MSVC 7.0以上版本。
+　　 2. 将sc_process_base.h中的
+　　 void set_sensitivity(sc_interface* interface)
+　　 { m_sensitive_interfaces.push_back(interface); }
+　　 改为
+　　void set_sensitivity(sc_interface* interface1)
+　　 { m_sensitive_interfaces.push_back(interface1); }
+　　 这里是关键字冲突
+　　7.需要习题的答案，请与作者联系<<":dout="<<
+<<":dout="<<
+
+
+<
+<<"\t";
+
+<
+<4><4><<
+<<",clk_out2"<
+<<",clk_out1="<<<",count1="<<
+<1>
+<2><
+<2><
+<2><
+<8><8><8><8>
+<<",tb_rega="<<<",tb_regb="<<
+
+

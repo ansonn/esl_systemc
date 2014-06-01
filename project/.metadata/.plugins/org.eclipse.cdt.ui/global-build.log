@@ -1,12 +1,8 @@
-11:53:53 **** Incremental Build of configuration Debug for project simple_perf ****
+15:06:08 **** Incremental Build of configuration Debug for project simple_perf ****
 make all 
 Building file: ../src/simple_perf.cpp
 Invoking: GCC C++ Compiler
 g++ -I/usr/local/systemc230/include -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/simple_perf.d" -MT"src/simple_perf.d" -o "src/simple_perf.o" "../src/simple_perf.cpp"
-Finished building: ../src/simple_perf.cpp
- 
-Building target: simple_perf
-Invoking: GCC C++ Linker
-g++ -L/usr/local/systemc230/lib-linux64 -o "simple_perf"  ./src/simple_perf.o   -lsystemc
-Finished building target: simple_perf
- 
+../src/simple_perf.cpp:154: 错误： ISO C++ 不允许声明无类型的‘sc_inmaster’
+../src/simple_perf.cpp:154: 错误： expected ‘;’ before ‘<’ token
+make: *** [src/simple_perf.o] 错误 1
