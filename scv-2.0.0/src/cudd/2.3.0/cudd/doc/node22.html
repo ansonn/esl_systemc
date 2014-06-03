@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>The SIS/VIS Interface</TITLE>
+<META NAME="description" CONTENT="The SIS/VIS Interface">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html476" HREF="node23.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html474" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html468" HREF="node21.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html478" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html477" HREF="node23.html">Writing Decision Diagrams to </A>
+<B>Up:</B> <A NAME="tex2html475" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html469" HREF="node21.html">Hooks</A>
+<BR> <P>
+<H2><A NAME="SECTION000317000000000000000">The SIS/VIS Interface</A></H2>
+<P>
+<A NAME="650">&#160;</A><A NAME="651">&#160;</A><A NAME="secsisvis">&#160;</A>
+<P>
+The CUDD package contains interface functions that emulate the
+behavior of the original BDD package used in SIS [<A HREF="node39.html#Sentov92">17</A>] and
+in the newer
+<A NAME="tex2html98" HREF="http://www-cad.EECS.Berkeley.EDU/~vis/">VIS</A>
+[<A HREF="node39.html#VIS">4</A>]. How to build VIS with CUDD is described
+in the installation documents of VIS. (Version 1.1 and later.)
+<P>
+<H3><A NAME="SECTION000317100000000000000">Using the CUDD Package in SIS</A></H3>
+<P>
+<A NAME="658">&#160;</A><A NAME="secsis">&#160;</A>
+<P>
+This section describes how to build SIS with the CUDD package.  Let
+<TT>SISDIR<A NAME="660">&#160;</A></TT> designate the root of the directory
+hierarchy where the sources for SIS reside. Let <TT>
+  CUDDDIR<A NAME="661">&#160;</A></TT> be the root of the directory hierarchy where
+the distribution of the CUDD package resides.  To build SIS with the
+CUDD package, follow these steps.
+<OL>
+<LI> Create directories <TT>SISDIR/sis/cudd</TT> and <TT>
+    SISDIR/sis/mtr</TT>.
+<LI> Copy all files from <TT>CUDDDIR/cudd</TT> and <TT>CUDDDIR/sis</TT> to
+  <TT>SISDIR/sis/cudd</TT> and all files from <TT>CUDDDIR/mtr</TT> to <TT>
+  SISDIR/sis/mtr</TT>.
+<LI> Copy <TT>CUDDDIR/cudd/doc/cudd.doc</TT> to <TT>SISDIR/sis/cudd</TT>;
+  also copy <TT>CUDDDIR/mtr/doc/mtr.doc</TT> to <TT>SISDIR/sis/mtr</TT>.
+<LI> In <TT>SISDIR/sis/cudd</TT> make <TT>bdd.h</TT> a symbolic link to
+  <TT>cuddBdd.h</TT>. (That is: <TT>ln -s cuddBdd.h bdd.h</TT>.)
+<LI> In <TT>SISDIR/sis/cudd</TT> delete <TT>Makefile</TT> and rename <TT>
+    Makefile.sis</TT> as <TT>Makefile</TT>. Do the same in <TT>
+    SISDIR/sis/mtr</TT>.
+<LI> Copy <TT>CUDDDIR/sis/st.[ch]</TT> and <TT>CUDDDIR/st/doc/st.doc</TT>
+  to <TT>SISDIR/sis/st</TT>. (This will overwrite the original files: You
+  may want to save them beforehand.)
+<LI> From <TT>CUDDDIR/util</TT> copy <TT>datalimit.c</TT>
+  to <TT>SISDIR/sis/util</TT>. Update <TT>util.h</TT> and <TT>Makefile</TT>
+  in <TT>SISDIR/sis/util</TT>. Specifically, add the declaration
+  <TT>EXTERN long getSoftDataLimit();</TT> to <TT>util.h</TT> and add
+  <TT>datalimit.c</TT> to the list of source files (PSRC) in <TT>Makefile</TT>.
+<LI> In <TT>SISDIR/sis</TT> remove the link from <TT>bdd</TT> to <TT>
+    bdd_cmu</TT> or <TT>bdd_ucb</TT> (that is, <TT>rm bdd</TT>) and make <TT>
+    bdd</TT> a symbolic link to <TT>cudd</TT>.  (That is: <TT>ln -s cudd
+    bdd</TT>.)
+<LI> Still in <TT>SISDIR/sis</TT>, edit <TT>Makefile</TT>, <TT>
+    Makefile.oct</TT>, and <TT>Makefile.nooct</TT>. In all three files add
+  mtr to the list of directories to be made (DIRS).
+<LI> In <TT>SISDIR/sis/include</TT> make <TT>mtr.h</TT> a symbolic link to
+  <TT>../mtr/mtr.h</TT>.
+<LI> In <TT>SISDIR/sis/doc</TT> make <TT>cudd.doc</TT> a symbolic link to
+  <TT>../cudd/cudd.doc</TT> and <TT>mtr.doc</TT> a symbolic link to <TT>
+    ../mtr/mtr.doc</TT>. (That is: <TT>ln -s ../cudd/cudd.doc .; ln -s
+    ../mtr/mtr.doc .</TT>.)
+<LI> From <TT>SISDIR</TT> do <TT>make clean</TT> followed by <TT>make -i</TT>.
+  This should create a working copy of SIS that uses the CUDD package.
+</OL>
+<P>
+The replacement for the <TT>st</TT> library is because the version
+shipped with the CUDD package tests for out-of-memory conditions.
+Notice that the version of the <TT>st</TT> library to be used for
+replacement is not the one used for the normal build, because the
+latter has been modified for C++ compatibility. The above installation
+procedure has been tested on SIS 1.3. SIS can be obtained via
+anonymous FTP<A NAME="723">&#160;</A> from <A NAME="tex2html99" HREF="ftp://ic.eecs.berkeley.edu"><TT>
+    ic.eecs.berkeley.edu</TT></A>.  To build SIS
+1.3, you need <TT>sis-1.2.tar.Z</TT> and <TT>sis-1.2.patch1.Z</TT>. When
+compiling on a DEC Alpha<A NAME="728">&#160;</A>, you should add the <TT>
+  -ieee_with_no_inexact</TT> flag. (See
+Section&nbsp;<A HREF="node10.html#secpredefconst">3.5.2</A>.) Refer to the <TT>Makefile</TT> in the
+top level directory of the distribution for how to compile with 32-bit
+pointers.
+<P>
+<HR><A NAME="tex2html476" HREF="node23.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html474" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html468" HREF="node21.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html478" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html477" HREF="node23.html">Writing Decision Diagrams to </A>
+<B>Up:</B> <A NAME="tex2html475" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html469" HREF="node21.html">Hooks</A>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

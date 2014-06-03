@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Compiling and Linking</TITLE>
+<META NAME="description" CONTENT="Compiling and Linking">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html300" HREF="node7.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html298" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html292" HREF="node5.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html302" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html301" HREF="node7.html">Basic Data Structures</A>
+<B>Up:</B> <A NAME="tex2html299" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html293" HREF="node5.html">User's Manual</A>
+<BR> <P>
+<H2><A NAME="SECTION00031000000000000000">Compiling and Linking</A></H2>
+<P>
+<A NAME="seccompileExt">&#160;</A><A NAME="79">&#160;</A>
+<P>
+To build an application that uses the CUDD package, you should add
+<PRE>#include &quot;util.h&quot;
+#include &quot;cudd.h&quot;</PRE>
+<A NAME="80">&#160;</A>
+to your source files, and should link
+<code>libcudd.a</code><A NAME="81">&#160;</A>,
+<code>libmtr.a</code><A NAME="82">&#160;</A>,
+<code>libst.a</code><A NAME="83">&#160;</A>, and
+<code>libutil.a</code><A NAME="84">&#160;</A> to your executable. (All these
+libraries are part of the distribution.) Some
+platforms require specific compiler and linker flags.  Refer to the
+<TT>Makefile<A NAME="85">&#160;</A></TT> in the top level directory of the
+distribution.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

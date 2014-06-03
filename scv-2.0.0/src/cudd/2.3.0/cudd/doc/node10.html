@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Constant Functions</TITLE>
+<META NAME="description" CONTENT="Constant Functions">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html344" HREF="node11.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html342" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html336" HREF="node9.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html346" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html345" HREF="node11.html">Creating Variables</A>
+<B>Up:</B> <A NAME="tex2html343" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html337" HREF="node9.html">Setting Parameters</A>
+<BR> <P>
+<H2><A NAME="SECTION00035000000000000000">Constant Functions</A></H2>
+<P>
+<A NAME="196">&#160;</A><A NAME="secconst">&#160;</A>
+<P>
+The CUDD Package defines several constant functions. These functions
+are created when the manager<A NAME="198">&#160;</A> is initialized, and are accessible
+through the manager itself.
+<P>
+<H3><A NAME="SECTION00035100000000000000">One, Logic Zero, and Arithmetic Zero</A></H3>
+<P>
+<A NAME="200">&#160;</A><A NAME="201">&#160;</A><A NAME="seczero">&#160;</A>
+<P>
+The constant<A NAME="203">&#160;</A> 1 (returned by <A NAME="tex2html16" HREF="cuddExtDet.html#Cudd_ReadOne"><EM>
+  Cudd_ReadOne</EM></A><A NAME="1374">&#160;</A>) is common to BDDs,
+ADDs, and ZDDs.  However, its meaning is different for ADDs and BDDs,
+on the one hand, and ZDDs, on the other hand. The diagram consisting
+of the constant 1 node only represents the constant 1 function for
+ADDs and BDDs. For ZDDs, its meaning depends on the number of
+variables: It is the conjunction of the complements of all variables.
+Conversely, the representation of the constant 1 function depends on
+the number of variables. The constant 1 function of <I>n</I> variables is
+returned by <A NAME="tex2html17" HREF="cuddExtDet.html#Cudd_ReadZddOne"><EM>Cudd_ReadZddOne</EM></A><A NAME="1376">&#160;</A>.
+<P>
+The constant 0 is common to ADDs and ZDDs, but not to BDDs.  The
+BDD<A NAME="210">&#160;</A> logic 0 is <B>not</B> associated
+with the constant 0 function: It is obtained by complementation (<A NAME="tex2html18" HREF="cuddExtDet.html#Cudd_Not"><EM>
+  Cudd_Not</EM></A><A NAME="1378">&#160;</A>) of the constant 1. (It is also
+returned by <A NAME="tex2html19" HREF="cuddExtDet.html#Cudd_ReadLogicZero"><EM>
+  Cudd_ReadLogicZero</EM></A><A NAME="1380">&#160;</A>.)  All
+other constants are specific to ADDs.
+<P>
+<H3><A NAME="SECTION00035200000000000000">Predefined Constants</A></H3>
+<P>
+<A NAME="secpredefconst">&#160;</A>
+<P>
+Besides 0 (returned by <A NAME="tex2html24" HREF="cuddExtDet.html#Cudd_ReadZero"><EM>Cudd_ReadZero</EM></A><A NAME="1382">&#160;</A>)
+and 1, the following constant<A NAME="223">&#160;</A> functions are
+created at initialization time.
+<OL>
+<LI> PlusInfinity<A NAME="225">&#160;</A> and
+  MinusInfinity<A NAME="226">&#160;</A>: On computers implementing the
+  IEEE<A NAME="227">&#160;</A> standard 754 for
+  floating-point<A NAME="228">&#160;</A> arithmetic, these two constants
+  are set to the signed infinities<A NAME="229">&#160;</A>. On the DEC
+  Alphas<A NAME="230">&#160;</A>, the option <code>-ieee_with_no_inexact</code> or
+  <code>-ieee_with_inexact</code> must be passed to the DEC compiler to get
+  support of the IEEE standard. (The compiler still produces a
+  warning, but it can be ignored.) Compiling<A NAME="231">&#160;</A> with
+  those options may cause substantial performance degradation on the
+  Evolution IV CPUs. (Especially if the application does use the
+  infinities.)  The problem is reportedly solved in the Evolution V
+  CPUs.  If <TT>gcc<A NAME="232">&#160;</A></TT> is used to compile CUDD on the
+  Alphas, the symbol <TT>HAVE_IEEE_754<A NAME="233">&#160;</A></TT> must
+  be undefined. (See the Makefile<A NAME="234">&#160;</A> for the details.)
+  The values of these constants are returned by <A NAME="tex2html20" HREF="cuddExtDet.html#Cudd_ReadPlusInfinity"><EM>
+    Cudd_ReadPlusInfinity</EM></A><A NAME="1384">&#160;</A> and <A NAME="tex2html21" HREF="cuddExtDet.html#Cudd_ReadMinusInfinity"><EM>
+    Cudd_ReadMinusInfinity</EM></A><A NAME="1386">&#160;</A>.
+<LI> Epsilon<A NAME="241">&#160;</A>: This constant, initially set to
+  <IMG WIDTH=40 HEIGHT=16 ALIGN=BOTTOM ALT="tex2html_wrap_inline2292" SRC="img2.gif">, is used in comparing floating point values for equality.
+  Its value is returned by <A NAME="tex2html22" HREF="cuddExtDet.html#Cudd_ReadEpsilon"><EM>
+    Cudd_ReadEpsilon</EM></A><A NAME="1388">&#160;</A>, and it can be
+  modified by calling <A NAME="tex2html23" HREF="cuddExtDet.html#Cudd_SetEpsilon"><EM>
+    Cudd_SetEpsilon</EM></A><A NAME="1390">&#160;</A>. Unlike the other
+  constants, it does not correspond to a node.
+</OL><H3><A NAME="SECTION00035300000000000000">Background</A></H3>
+<P>
+<A NAME="251">&#160;</A><A NAME="secbackground">&#160;</A>
+<P>
+The background value is a constant<A NAME="253">&#160;</A> typically used
+to represent non-existing arcs in graphs. Consider a shortest path
+problem. Two nodes that are not connected by an arc can be regarded as
+being joined by an arc<A NAME="254">&#160;</A> of infinite length. In
+shortest path problems, it is therefore convenient to set the
+background value to PlusInfinity<A NAME="255">&#160;</A>. In network flow
+problems, on the other hand, two nodes not connected by an arc can be
+regarded as joined by an arc<A NAME="256">&#160;</A> of 0 capacity.
+For these problems, therefore, it is more convenient to set the
+background value to 0.  In general, when representing
+sparse<A NAME="257">&#160;</A> matrices, the background value is the value that
+is assumed implicitly.
+<P>
+At initialization, the background value is set to 0. It can be read
+with <A NAME="tex2html25" HREF="cuddExtDet.html#Cudd_ReadBackground"><EM>Cudd_ReadBackground</EM></A><A NAME="1392">&#160;</A>,
+and modified with <A NAME="tex2html26" HREF="cuddExtDet.html#Cudd_SetBackground"><EM>Cudd_SetBackground</EM></A>.  The background value
+affects procedures that read sparse matrices/graphs (<A NAME="tex2html27" HREF="cuddExtDet.html#Cudd_addRead"><EM>
+  Cudd_addRead</EM></A><A NAME="1394">&#160;</A> and <A NAME="tex2html28" HREF="cuddExtDet.html#Cudd_addHarwell"><EM>
+  Cudd_addHarwell</EM></A><A NAME="1396">&#160;</A>), procedures that
+print out sum-of-product<A NAME="269">&#160;</A> expressions
+for ADDs (<A NAME="tex2html29" HREF="cuddExtDet.html#Cudd_PrintMinterm"><EM>
+  Cudd_PrintMinterm</EM></A><A NAME="1398">&#160;</A>), generators
+of cubes (<A NAME="tex2html30" HREF="cuddExtDet.html#Cudd_ForeachCube"><EM>Cudd_ForeachCube</EM></A><A NAME="1400">&#160;</A>),
+and procedures that count minterms<A NAME="276">&#160;</A> (<A NAME="tex2html31" HREF="cuddExtDet.html#Cudd_CountMinterm"><EM>
+  Cudd_CountMinterm</EM></A><A NAME="1402">&#160;</A>).
+<P>
+<H3><A NAME="SECTION00035400000000000000">New Constants</A></H3>
+<P>
+<A NAME="secnewconst">&#160;</A>
+<P>
+New constant<A NAME="282">&#160;</A> can be created by calling <A NAME="tex2html32" HREF="cuddExtDet.html#Cudd_addConst"><EM>
+  Cudd_addConst</EM></A><A NAME="1404">&#160;</A>. This function will
+retrieve the ADD<A NAME="286">&#160;</A> for the desired
+constant, if it already exist, or it will create a new one. Obviously,
+new constants should only be used when manipulating ADDs.
+<P>
+<HR><A NAME="tex2html344" HREF="node11.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html342" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html336" HREF="node9.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html346" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html345" HREF="node11.html">Creating Variables</A>
+<B>Up:</B> <A NAME="tex2html343" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html337" HREF="node9.html">Setting Parameters</A>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

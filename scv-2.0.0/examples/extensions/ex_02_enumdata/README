@@ -1,0 +1,41 @@
+This is a very simple example to show how a user can create
+a special enumerated data type. SystemC SCV uses a special
+C++ methodology called partial-template specialization to
+support arbitrary data types with randomization, transaction
+recording, callbacks, and other features that deconstruct
+the elements of an object.
+
+The extension of an enumerated type creates a mapping
+between the enumeration value and the string name associated
+with the enumeration.
+
+The following source files are part of this example:
+
+  state.h      The definition of a user-defined structure that
+               contains an enumerated data type
+  state_ext.h  Extensions for the user-defined data types.
+  test.cc      A test that uses the introspection interface
+               into the user-defined data structure
+  Makefile     Targets for sun-gnu, hppa-native and linux
+
+In order for a structure to have introspection capability, a
+user must define a scv_extensions<> specialization for the
+particular struct and enums.
+
+A makefile for use with SystemC is provided with targets for
+three different platforms:
+
+  make sun-gnu        # Gnu C++ compiler on Sun
+  make hppa-native    # HP C++ compiler on HP
+  make linux          # Gnu C++ compiler on Linux
+
+
+%%CATEGORIES            notebook examples introspection
+%%TBARGS        ncsc    --stop hdl_elab --sconly sctop
+%%LinePrefix    all
+%%Files         none    %%REGSRC/test.cc %%REGSRC/test_reg.cc
+%%Files         osci    %%REGSRC/test.cc
+%%Files         schdl   %%REGSRC/test.cc
+%%Files         ncsc    %%REGSRC/test_reg.cc
+%%CheckTest     all     %%REGSRC/checktest.sh %%TBLOG %%REGSRC/tb_log.au
+%%REALCLEAN             %%REGBLD/logfile.diff

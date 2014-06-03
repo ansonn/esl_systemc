@@ -1,0 +1,43 @@
+This example shows how you can create hierarchical
+constraints.  A constraint class is created to specify an
+initial set of constraints.  A derived constraint class is
+then generated, which inherits all of the base constraints
+and adds a few more.
+
+This example also shows how keep_only()/keep_out() methods
+can be used in conjunction with constraints.
+
+NOTE: keep_only()/keep_out() methods can only be used on
+objects that are not involved with complex constraints.  In
+this case, the msg variable is independent of all of the
+other variables in the packet, so we can use simple
+constraints on it. This makes constraint solving much faster
+for this variable.
+
+The following source files are part of this example:
+
+  test.cc       A test that contains a derived constraint definition
+                and a test that uses the constraint
+  packet.h      Definition of a user-defined type with three
+                unsigned fields and one array field
+  packet_ext.h  Extensions for the user-defined data type
+  packet_constraint.h  Base constraint for the packet type
+  Makefile      Targets for sun-gnu, hppa-native and linux
+
+A makefile for use with SystemC is provided with targets for
+three different platforms:
+
+  make sun-gnu        # Gnu C++ compiler on Sun
+  make hppa-native    # HP C++ compiler on HP
+  make linux          # Gnu C++ compiler on Linux
+
+
+%%CATEGORIES            notebook examples randomization constraints 
+%%TBARGS        ncsc    --stop hdl_elab --sconly sctop
+%%LinePrefix    all
+%%Files         none    %%REGSRC/test.cc %%REGSRC/test_reg.cc
+%%Files         osci    %%REGSRC/test.cc
+%%Files         schdl   %%REGSRC/test.cc
+%%Files         ncsc    %%REGSRC/test_reg.cc
+%%CheckTest     all     %%REGSRC/checktest.sh %%TBLOG %%REGSRC/tb_log.au
+%%REALCLEAN             %%REGBLD/logfile.diff

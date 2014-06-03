@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>The Cache</TITLE>
+<META NAME="description" CONTENT="The Cache">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html560" HREF="node30.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html558" HREF="node25.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html552" HREF="node28.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html562" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html561" HREF="node30.html">The Unique Table</A>
+<B>Up:</B> <A NAME="tex2html559" HREF="node25.html">Programmer's Manual</A>
+<B> Previous:</B> <A NAME="tex2html553" HREF="node28.html">Complement Arcs</A>
+<BR> <P>
+<H2><A NAME="SECTION00044000000000000000">The Cache</A></H2>
+<P>
+<A NAME="922">&#160;</A><A NAME="seccache">&#160;</A>
+<P>
+Each entry of the cache consists of five fields: The operator, three
+pointers to operands and a pointer to the result. The operator and the
+three pointers to the operands are combined to form three words. The
+combination relies on two facts:
+<UL>
+<LI> Most operations have one or two operands. A few bits are
+  sufficient to discriminate all three-operands operations.
+<LI> All nodes are aligned to 16-byte boundaries. (32-byte boundaries
+  if 64-bit pointers are used.) Hence, there are a few bits available
+  to distinguish the three-operand operations from te others and to
+  assign unique codes to them.
+</UL>
+<P>
+The cache does not contribute to the reference
+<A NAME="926">&#160;</A>
+counts of the nodes.  The fact that the cache contains a
+pointer to a node does not imply that the node is alive. Instead, when
+garbage<A NAME="927">&#160;</A> collection takes place, all entries
+of the cache pointing to dead<A NAME="928">&#160;</A> nodes are cleared.
+<P>
+The cache is also cleared (of all entries) when dynamic
+reordering<A NAME="929">&#160;</A> takes place. In both cases, the entries
+removed from the cache are about to become invalid.
+<P>
+All operands and results in a cache entry must be pointers to
+DdNodes<A NAME="930">&#160;</A>.  If a function produces more than one result,
+or uses more than three arguments, there are currently two solutions:
+<UL>
+<LI> Build a separate, local, cache<A NAME="932">&#160;</A>. (Using, for
+  instance, the <EM>st</EM> library<A NAME="934">&#160;</A>.)
+<LI> Combine multiple results, or multiple operands, into a single
+  diagram, by building a ``multiplexing structure&quot; with reserved
+  variables.
+</UL>
+Support of the former solution is under development. (See <TT>
+  cuddLCache.c</TT>..)  Support for the latter solution may be provided
+in future versions of the package.
+<P>
+There are three sets of interface<A NAME="937">&#160;</A> functions to
+the cache. The first set is for functions with three operands: <A NAME="tex2html145" HREF="cuddAllDet.html#cuddCacheInsert"><EM>
+  cuddCacheInsert</EM></A><A NAME="1590">&#160;</A> and <A NAME="tex2html146" HREF="cuddAllDet.html#cuddCacheLookup"><EM>
+  cuddCacheLookup</EM></A><A NAME="1592">&#160;</A>. The second set is for
+functions with two operands: <A NAME="tex2html147" HREF="cuddAllDet.html#cuddCacheInsert2"><EM>
+  cuddCacheInsert2</EM></A><A NAME="1594">&#160;</A> and <A NAME="tex2html148" HREF="cuddAllDet.html#cuddCacheLookup2"><EM>
+  cuddCacheLookup2</EM></A><A NAME="1596">&#160;</A>.
+The second set is for
+functions with one operand: <A NAME="tex2html149" HREF="cuddAllDet.html#cuddCacheInsert1"><EM>
+  cuddCacheInsert1</EM></A><A NAME="1598">&#160;</A> and <A NAME="tex2html150" HREF="cuddAllDet.html#cuddCacheLookup1"><EM>
+  cuddCacheLookup1</EM></A><A NAME="1600">&#160;</A>.
+The second set is
+slightly faster than the first, and the third set is slightly faster
+than the second.
+<P>
+<H3><A NAME="SECTION00044100000000000000">Cache Sizing</A></H3>
+<P>
+<A NAME="957">&#160;</A><A NAME="seccachesizing">&#160;</A>
+<P>
+The size of the cache can increase during the execution of an
+application. (There is currently no way to decrease the size of the
+cache, though it would not be difficult to do it.) When a cache miss
+occurs, the package uses the following criteria to decide whether to
+resize the cache:
+<OL>
+<LI> If the cache already exceeds the limit given by the <TT>
+    maxCache<A NAME="960">&#160;</A></TT> field of the manager, no resizing takes
+  place. The limit is the minimum of two values: a value set at
+  initialization time and possibly modified by the application, which
+  constitutes the hard limit beyond which the cache will never grow;
+  and a number that depends on the current total number of slots in
+  the unique<A NAME="961">&#160;</A> table.
+<LI> If the cache is not too large already, resizing is decided based
+  on the hit rate. The policy adopted by the CUDD package is
+  ``reward-based<A NAME="962">&#160;</A>.&quot; If the cache hit
+  rate is high, then it is worthwhile to increase the size of the
+  cache.
+</OL>
+When resizing takes place, the statistical counters <A NAME="964">&#160;</A> used to compute the hit rate are reinitialized so as to
+prevent immediate resizing. The number of entries is doubled.
+<P>
+The rationale for the ``reward-based<A NAME="965">&#160;</A>&quot;
+policy is as follows. In many BDD/ADD applications the hit rate is
+not very sensitive to the size of the cache: It is primarily a
+function of the problem instance at hand.  If a large hit rate is
+observed, chances are that by using a large cache, the results of
+large problems (those that would take longer to solve) will survive in
+the cache without being overwritten long enough to cause a valuable
+cache hit. Notice that when a large problem is solved more than once,
+so are its recursively generated subproblems.  If the hit rate is
+low, the probability of large problems being solved more than once is
+low.
+<P>
+The other observation about the cache sizing policy is that there is
+little point in keeping a cache which is much larger than the unique
+table. Every time the unique table ``fills up,&quot; garbage collection is
+invoked and the cache is cleared of all dead entries. A cache that is
+much larger than the unique<A NAME="966">&#160;</A> table is therefore
+less than fully utilized.
+<P>
+<H3><A NAME="SECTION00044200000000000000">Local Caches</A></H3>
+<P>
+<A NAME="968">&#160;</A><A NAME="seclocalcaches">&#160;</A>
+<P>
+Sometimes it may be necessary or convenient to use a local cache.  A
+local cache can be lossless<A NAME="970">&#160;</A> (no results are ever
+overwritten), or it may store objects for which
+canonical<A NAME="971">&#160;</A> representations are not available.  One
+important fact to keep in mind when using a local cache is that local
+caches are not cleared during garbage<A NAME="972">&#160;</A>
+collection or before reordering. Therefore, it is necessary to
+increment the reference<A NAME="973">&#160;</A> count of all nodes
+pointed by a local cache. (Unless their reference counts are
+guaranteed positive in some other way. One such way is by including
+all partial results in the global result.) Before disposing of the
+local cache, all elements stored in it must be passed to <A NAME="tex2html151" HREF="cuddExtDet.html#Cudd_RecursiveDeref"><EM>
+  Cudd_RecursiveDeref</EM></A><A NAME="1602">&#160;</A>. As
+consequence of the fact that all results in a local cache are
+referenced, it is generally convenient to store in the local cache
+also the result of trivial problems, which are not usually stored in
+the global cache. Otherwise, after a recursive call, it is difficult
+to tell whether the result is in the cache, and therefore referenced,
+or not in the cache, and therefore not referenced.
+<P>
+An alternative approach to referencing the results in the local caches
+is to install hook functions (see Section&nbsp;<A HREF="node21.html#sechooks">3.16</A>) to be
+executed before garbage collection.
+<P>
+<HR><A NAME="tex2html560" HREF="node30.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html558" HREF="node25.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html552" HREF="node28.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html562" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html561" HREF="node30.html">The Unique Table</A>
+<B>Up:</B> <A NAME="tex2html559" HREF="node25.html">Programmer's Manual</A>
+<B> Previous:</B> <A NAME="tex2html553" HREF="node28.html">Complement Arcs</A>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

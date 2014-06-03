@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Initializing and Shutting Down a DdManager</TITLE>
+<META NAME="description" CONTENT="Initializing and Shutting Down a DdManager">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html322" HREF="node9.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html320" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html314" HREF="node7.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html324" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html323" HREF="node9.html">Setting Parameters</A>
+<B>Up:</B> <A NAME="tex2html321" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html315" HREF="node7.html">Basic Data Structures</A>
+<BR> <P>
+<H2><A NAME="SECTION00033000000000000000">Initializing and Shutting Down a DdManager</A></H2>
+<P>
+<A NAME="154">&#160;</A><A NAME="secinit">&#160;</A>
+<P>
+To use the functions in the CUDD package, one has first to initialize
+the package itself by calling <A NAME="tex2html11" HREF="cuddExtDet.html#Cudd_Init"><EM>
+  Cudd_Init</EM></A><A NAME="1364">&#160;</A>.  This function takes four
+parameters:
+<UL>
+<LI> numVars<A NAME="160">&#160;</A>: It is the initial number of variables
+  for BDDs and ADDs. If the total number of variables needed by the
+  application is known, then it is slightly more efficient to create a
+  manager with that number of variables. If the number is unknown, it
+  can be set to 0, or to any other lower bound on the number of
+  variables.  Requesting more variables than are actually needed is
+  not incorrect, but is not efficient.
+<LI> numVarsZ<A NAME="161">&#160;</A>: It is the initial number of variables
+  for ZDDs. See Sections&nbsp;<A HREF="node14.html#secbasicZDD">3.9</A> and&nbsp;<A HREF="node16.html#secconvertZ">3.11</A> for
+  a discussion of the value of this argument.
+<LI> numSlots<A NAME="164">&#160;</A>: Determines the initial size of each
+  subtable<A NAME="165">&#160;</A> of the unique<A NAME="166">&#160;</A> table.
+  There is a subtable for each variable. The size of each subtable is
+  dynamically adjusted to reflect the number of nodes.  It is normally
+  O.K. to use the default value for this parameter, which is
+  CUDD_UNIQUE_SLOTS<A NAME="167">&#160;</A>.
+<LI> cacheSize<A NAME="168">&#160;</A>: It is the initial size (number of
+  entries) of the cache<A NAME="169">&#160;</A>. Its default value is
+  CUDD_CACHE_SLOTS<A NAME="170">&#160;</A>.
+<LI> maxMemory<A NAME="171">&#160;</A>: It is the target value for the
+  maximum memory occupation (in bytes). The package uses this value to
+  decide two parameters.
+  <UL>
+<LI> the maximum size to which the cache will grow, regardless of
+    the hit rate or the size of the unique<A NAME="173">&#160;</A> table.
+<LI> the maximum size to which growth of the unique table will be
+    preferred to garbage collection.
+  </UL>
+  If maxMemory is set to 0, CUDD tries to guess a good value based on
+  the available memory.
+</UL>
+A typical call to <A NAME="tex2html12" HREF="cuddExtDet.html#Cudd_Init"><EM>Cudd_Init</EM></A><A NAME="1366">&#160;</A> may look
+like this:
+<PRE>  manager = Cudd_Init(0,0,CUDD_UNIQUE_SLOTS,CUDD_CACHE_SLOTS,0);</PRE>
+To reclaim all the memory associated with a manager, an application
+must call <A NAME="tex2html13" HREF="cuddExtDet.html#Cudd_Quit"><EM>Cudd_Quit</EM></A><A NAME="1368">&#160;</A>. This is normally
+done before exiting.
+<P>
+<HR><A NAME="tex2html322" HREF="node9.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html320" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html314" HREF="node7.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html324" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html323" HREF="node9.html">Setting Parameters</A>
+<B>Up:</B> <A NAME="tex2html321" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html315" HREF="node7.html">Basic Data Structures</A>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>The Unique Table</TITLE>
+<META NAME="description" CONTENT="The Unique Table">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html571" HREF="node31.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html569" HREF="node25.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html563" HREF="node29.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html573" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html572" HREF="node31.html">Allowing Asynchronous Reordering</A>
+<B>Up:</B> <A NAME="tex2html570" HREF="node25.html">Programmer's Manual</A>
+<B> Previous:</B> <A NAME="tex2html564" HREF="node29.html">The Cache</A>
+<BR> <P>
+<H2><A NAME="SECTION00045000000000000000">The Unique Table</A></H2>
+<P>
+<A NAME="979">&#160;</A><A NAME="secunique">&#160;</A>
+<P>
+A recursive procedure typically splits the operands by expanding with
+respect to the topmost variable. Topmost in this context refers to the
+variable that is closest to the roots in the current variable order.
+The nodes, on the other hand, hold the index, which is invariant with
+reordering. Therefore, when splitting, one must use the
+permutation<A NAME="981">&#160;</A> array maintained by the
+package to get the right level. Access to the permutation array is
+provided by the macro <A NAME="tex2html152" HREF="cuddAllDet.html#cuddI"><EM>cuddI</EM></A><A NAME="1604">&#160;</A> for BDDs and ADDs,
+and by the macro <A NAME="tex2html153" HREF="cuddAllDet.html#cuddIZ"><EM>cuddIZ</EM></A><A NAME="1606">&#160;</A> for ZDDs.
+<P>
+The unique table consists of as many hash<A NAME="988">&#160;</A> tables as there are
+variables in use. These has tables are called <EM>unique subtables</EM>.
+The sizes of the unique subtables are determined by two criteria:
+<OL>
+<LI> The collision<A NAME="991">&#160;</A> lists should be short
+  to keep access time down.
+<LI> There should be enough room for dead<A NAME="992">&#160;</A> nodes, to
+  prevent too frequent garbage<A NAME="993">&#160;</A> collections.
+</OL>
+While the first criterion is fairly straightforward to implement, the
+second leaves more room to creativity. The CUDD package tries to
+figure out whether more dead node should be allowed to increase
+performance.  (See also Section&nbsp;<A HREF="node9.html#secparams">3.4</A>.) There are two
+reasons for not doing garbage collection too often. The obvious one is
+that it is expensive.  The second is that dead nodes may be
+reclaimed<A NAME="996">&#160;</A>, if they are the result of a
+successful cache lookup. Hence dead nodes may provide a substantial
+speed-up if they are kept around long enough.  The usefulness of
+keeping many dead nodes around varies from application to application,
+and from problem instance to problem instance. As in the sizing of the
+cache, the CUDD package adopts a
+``reward-based<A NAME="997">&#160;</A>&quot; policy to
+decide how much room should be used for the unique table. If the
+number of dead nodes reclaimed is large compared to the number of
+nodes directly requested from the memory manager, then the CUDD
+package assumes that it will be beneficial to allow more room for the
+subtables, thereby reducing the frequency of garbage collection.  The
+package does so by switching between two modes of operation:
+<OL>
+<LI> Fast growth<A NAME="999">&#160;</A>: In this mode, the
+  ratio of dead nodes to total nodes required for garbage collection
+  is higher than in the slow growth mode to favor resizing
+  of the subtables.
+<LI> Slow growth<A NAME="1000">&#160;</A>: In this
+  mode keeping many dead nodes around is not as important as
+  keeping memory requirements low.
+</OL>
+Switching from one mode to the other is based on the following
+criteria:
+<OL>
+<LI> If the unique table is already large, only slow growth is
+  possible.
+<LI> If the table is small and many dead nodes are being reclaimed,
+  then fast growth is selected.
+</OL>
+This policy is especially effective when the diagrams being
+manipulated have lots of recombination. Notice the interplay of the
+cache sizing and unique sizing: Fast growth normally occurs when the
+cache hit rate is large. The cache and the unique table then grow in
+concert, preserving a healthy balance between their sizes.
+<P>
+<HR><A NAME="tex2html571" HREF="node31.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html569" HREF="node25.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html563" HREF="node29.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html573" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html572" HREF="node31.html">Allowing Asynchronous Reordering</A>
+<B>Up:</B> <A NAME="tex2html570" HREF="node25.html">Programmer's Manual</A>
+<B> Previous:</B> <A NAME="tex2html564" HREF="node29.html">The Cache</A>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

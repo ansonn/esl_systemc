@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Creating Variables</TITLE>
+<META NAME="description" CONTENT="Creating Variables">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html355" HREF="node12.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html353" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html347" HREF="node10.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html357" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html356" HREF="node12.html">Basic BDD Manipulation</A>
+<B>Up:</B> <A NAME="tex2html354" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html348" HREF="node10.html">Constant Functions</A>
+<BR> <P>
+<H2><A NAME="SECTION00036000000000000000">Creating Variables</A></H2>
+<P>
+<A NAME="secnewvar">&#160;</A>
+<P>
+Decision diagrams are typically created by combining simpler decision
+diagrams. The simplest decision diagrams, of course, cannot be created
+in that way.  Constant functions have been discussed in
+Section&nbsp;<A HREF="node10.html#secconst">3.5</A>. In this section we discuss the simple
+variable functions, also known as <EM>
+  projection<A NAME="290">&#160;</A> functions</EM>.
+<P>
+<H3><A NAME="SECTION00036100000000000000">New BDD and ADD Variables</A></H3>
+<P>
+<A NAME="secBDDADDvar">&#160;</A>
+<P>
+The projection<A NAME="293">&#160;</A> functions are distinct for
+BDDs and ADDs. A projection function for BDDs consists of an internal
+node with both outgoing arcs pointing to the constant 1. The <EM>
+  else</EM> arc<A NAME="295">&#160;</A> is complemented.
+<P>
+An ADD projection function, on the other hand, has the <EM>else</EM>
+pointer directed to the arithmetic<A NAME="297">&#160;</A> zero
+function. One should never mix the two types of variables. BDD
+variables should be used when manipulating BDDs, and ADD variables
+should be used when manipulating ADDs.  Three functions are provided
+to create BDD variables:
+<UL>
+<LI> <A NAME="tex2html33" HREF="cuddExtDet.html#Cudd_bddIthVar"><EM>Cudd_bddIthVar</EM></A><A NAME="1406">&#160;</A>: Returns
+  the projection<A NAME="302">&#160;</A> function with index <I>i</I>.
+  If the function does not exist, it is created.
+<LI> <A NAME="tex2html34" HREF="cuddExtDet.html#Cudd_bddNewVar"><EM>Cudd_bddNewVar</EM></A><A NAME="1408">&#160;</A>: Returns a
+  new projection<A NAME="306">&#160;</A> function, whose index is
+  the largest index in use at the time of the call, plus 1.
+<LI> <A NAME="tex2html35" HREF="cuddExtDet.html#Cudd_bddNewVarAtLevel"><EM>
+    Cudd_bddNewVarAtLevel</EM></A><A NAME="1410">&#160;</A>:
+  Similar to <A NAME="tex2html36" HREF="cuddExtDet.html#Cudd_bddNewVar"><EM>Cudd_bddNewVar</EM></A><A NAME="1412">&#160;</A>.  In
+  addition it allows to specify the position in the variable
+  order<A NAME="313">&#160;</A> at which the new variable should be
+  inserted. By contrast, <A NAME="tex2html37" HREF="cuddExtDet.html#Cudd_bddNewVar"><EM>
+    Cudd_bddNewVar</EM></A><A NAME="1414">&#160;</A> adds the new
+  variable at the end of the order.
+</UL>
+The analogous functions for ADDs are <A NAME="tex2html38" HREF="cuddExtDet.html#Cudd_addIthVar"><EM>
+  Cudd_addIthVar</EM></A><A NAME="1416">&#160;</A>, <A NAME="tex2html39" HREF="cuddExtDet.html#Cudd_addNewVar"><EM>
+  Cudd_addNewVar</EM></A><A NAME="1418">&#160;</A>, and <A NAME="tex2html40" HREF="cuddExtDet.html#Cudd_addNewVarAtLevel"><EM>
+  Cudd_addNewVarAtLevel</EM></A><A NAME="1420">&#160;</A>.
+<P>
+<H3><A NAME="SECTION00036200000000000000">New ZDD Variables</A></H3>
+<P>
+<A NAME="328">&#160;</A><A NAME="secZDDvars">&#160;</A>
+<P>
+Unlike the projection functions of BDDs and ADDs, the
+projection<A NAME="330">&#160;</A> functions of ZDDs have diagrams
+with <I>n</I>+1 nodes, where <I>n</I> is the number of variables. Therefore the
+ZDDs of the projection functions change when new variables are added.
+This will be discussed in Section&nbsp;<A HREF="node14.html#secbasicZDD">3.9</A>. Here we assume
+that the number of variables is fixed. The ZDD of the <I>i</I>-th
+projection function is returned by <A NAME="tex2html41" HREF="cuddExtDet.html#Cudd_zddIthVar"><EM>
+  Cudd_zddIthVar</EM></A><A NAME="1422">&#160;</A>.
+<P>
+<HR><A NAME="tex2html355" HREF="node12.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html353" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html347" HREF="node10.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html357" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html356" HREF="node12.html">Basic BDD Manipulation</A>
+<B>Up:</B> <A NAME="tex2html354" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html348" HREF="node10.html">Constant Functions</A>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

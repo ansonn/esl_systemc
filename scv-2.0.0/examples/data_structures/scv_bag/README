@@ -1,0 +1,30 @@
+This example shows basic usage of a SystemC SCV bag
+data structure useful is controlling the distribution
+of randomization.
+
+The following source files are part of this example:
+
+  packet.h   The definition of a user defined structure with
+             TestBuilder extensions already in the file.
+  test.cc    A test which uses a bag to randomly access
+             objects with a weighting based on the source
+             address of the packet.
+  Makefile   Targets for sun-gnu, hppa-native and linux
+
+A makefile for use with SystemC is provided with targets for
+three different platforms:
+
+  make sun-gnu        # Gnu C++ compiler on Sun
+  make hppa-native    # HP C++ compiler on HP
+  make linux          # Gnu C++ compiler on Linux
+
+
+%%CATEGORIES            notebook introspection data scvexamples
+%%TBARGS        ncsc    --stop hdl_elab --sconly sctop
+%%Files         none    %%REGSRC/test.cc %%REGSRC/test_reg.cc
+%%Files         osci    %%REGSRC/test.cc
+%%Files         schdl   %%REGSRC/test.cc
+%%Files         ncsc    %%REGSRC/test_reg.cc
+%%CheckTest     all     %%REGSRC/checktest.sh %%TBLOG %%REGSRC/tb_log.au
+%%LinePrefix    all
+%%REALCLEAN             %%REGBLD/logfile.diff

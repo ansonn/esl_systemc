@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Reference Counts</TITLE>
+<META NAME="description" CONTENT="Reference Counts">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html538" HREF="node28.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html536" HREF="node25.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html530" HREF="node26.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html540" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html539" HREF="node28.html">Complement Arcs</A>
+<B>Up:</B> <A NAME="tex2html537" HREF="node25.html">Programmer's Manual</A>
+<B> Previous:</B> <A NAME="tex2html531" HREF="node26.html">Compiling and Linking</A>
+<BR> <P>
+<H2><A NAME="SECTION00042000000000000000">Reference Counts</A></H2>
+<P>
+<A NAME="779">&#160;</A><A NAME="secref">&#160;</A>
+<P>
+Garbage<A NAME="781">&#160;</A> collection in the CUDD package is
+based on reference counts.  Each node stores the sum of the external
+references and internal references. An internal BDD or ADD node is
+created by a call to <A NAME="tex2html115" HREF="cuddAllDet.html#cuddUniqueInter"><EM>cuddUniqueInter</EM></A><A NAME="1530">&#160;</A>, an
+internal ZDD node is created by a call to <A NAME="tex2html116" HREF="cuddAllDet.html#cuddUniqueInterZdd"><EM>
+  cuddUniqueInterZdd</EM></A><A NAME="1532">&#160;</A>, and a
+terminal<A NAME="788">&#160;</A> node is created by a call to <A NAME="tex2html117" HREF="cuddAllDet.html#cuddUniqueConst"><EM>
+  cuddUniqueConst</EM></A><A NAME="1534">&#160;</A>. If the node returned by
+these functions is new, its reference count is zero.  The function
+that calls <A NAME="tex2html118" HREF="cuddAllDet.html#cuddUniqueInter"><EM>cuddUniqueInter</EM></A><A NAME="1536">&#160;</A>, <A NAME="tex2html119" HREF="cuddAllDet.html#cuddUniqueInterZdd"><EM>
+  cuddUniqueInterZdd</EM></A><A NAME="1538">&#160;</A>, or <A NAME="tex2html120" HREF="cuddAllDet.html#cuddUniqueConst"><EM>
+  cuddUniqueConst</EM></A><A NAME="1540">&#160;</A> is responsible for
+increasing the reference count of the node. This is accomplished by
+calling <A NAME="tex2html121" HREF="cuddExtDet.html#Cudd_Ref"><EM>Cudd_Ref</EM></A><A NAME="1542">&#160;</A>.
+<P>
+When a function is no longer needed by an application, the memory used
+by its diagram can be recycled by calling <A NAME="tex2html122" HREF="cuddExtDet.html#Cudd_RecursiveDeref"><EM>
+  Cudd_RecursiveDeref</EM></A><A NAME="1544">&#160;</A> (BDDs and
+ADDs) or <A NAME="tex2html123" HREF="cuddExtDet.html#Cudd_RecursiveDerefZdd"><EM>
+  Cudd_RecursiveDerefZdd</EM></A><A NAME="1546">&#160;</A>
+(ZDDs).  These functions decrease the reference
+<A NAME="810">&#160;</A> count of the node passed to them.
+If the reference count becomes 0, then two things happen:
+<OL>
+<LI> The node is declared ``dead<A NAME="812">&#160;</A>;&quot; this entails
+  increasing the counters<A NAME="813">&#160;</A> of the dead
+  nodes. (One counter for the subtable<A NAME="814">&#160;</A> to which the
+  node belongs, and one global counter for the
+  unique<A NAME="815">&#160;</A> table to which the node belongs.) The
+  node itself is not affected.
+<LI> The function is recursively called on the two children of the
+  node.
+</OL>
+For instance, if the diagram of a function does not share any nodes
+with other diagrams, then calling <A NAME="tex2html124" HREF="cuddExtDet.html#Cudd_RecursiveDeref"><EM>
+  Cudd_RecursiveDeref</EM></A><A NAME="1548">&#160;</A> or <A NAME="tex2html125" HREF="cuddExtDet.html#Cudd_RecursiveDerefZdd"><EM>
+  Cudd_RecursiveDerefZdd</EM></A><A NAME="1550">&#160;</A> on
+its root will cause all the nodes of the diagram to become dead.
+<P>
+When the number of dead nodes reaches a given level (dynamically
+determined by the package) garbage collection takes place. During
+garbage<A NAME="823">&#160;</A> collection dead nodes are returned
+to the node free list<A NAME="824">&#160;</A>.
+<P>
+When a new node is created, it is important to increase its
+reference<A NAME="825">&#160;</A> count before one of the two
+following events occurs:
+<OL>
+<LI> A call to <A NAME="tex2html110" HREF="cuddAllDet.html#cuddUniqueInter"><EM>cuddUniqueInter</EM></A><A NAME="1552">&#160;</A>,
+  to <A NAME="tex2html111" HREF="cuddAllDet.html#cuddUniqueInterZdd"><EM>cuddUniqueInterZdd</EM></A><A NAME="1554">&#160;</A>, to
+  <A NAME="tex2html112" HREF="cuddAllDet.html#cuddUniqueConst"><EM>cuddUniqueConst</EM></A><A NAME="1556">&#160;</A>, or to a
+  function that may eventually cause a call to them.
+<LI> A call to <A NAME="tex2html113" HREF="cuddExtDet.html#Cudd_RecursiveDeref"><EM>
+    Cudd_RecursiveDeref</EM></A><A NAME="1558">&#160;</A>, to <A NAME="tex2html114" HREF="cuddExtDet.html#Cudd_RecursiveDerefZdd"><EM>
+    Cudd_RecursiveDerefZdd</EM></A><A NAME="1560">&#160;</A>, or
+  to a function that may eventually cause a call to them.
+</OL>
+In practice, it is recommended to increase the reference count as soon
+as the returned pointer has been tested for not being NULL.
+<P>
+<H3><A NAME="SECTION00042100000000000000">NULL Return Values</A></H3>
+<P>
+<A NAME="secnull">&#160;</A>
+<P>
+The interface to the memory management functions (e.g., malloc) used by CUDD
+intercepts NULL return values and calls a handler. The default handler
+exits with an error message. If the application does not install
+another handler, therefore, a NULL return value from an exported
+function of CUDD signals an internal error.
+<P>
+If the aplication, however, installs another handler that lets
+execution continue, a NULL pointer returned by an exported function
+typically indicates that the process has run out of memory. <A NAME="tex2html126" HREF="cuddExtDet.html#Cudd_ReadErrorCode"><EM>
+  Cudd_ReadErrorCode</EM></A><A NAME="1562">&#160;</A> can be used to
+ascertain the nature of the problem.
+<P>
+An application that tests for the result being NULL can try some
+remedial action, if it runs out of memory.  For instance, it may free
+some memory that is not strictly necessary, or try a slower algorithm
+that takes less space. As an example, CUDD overrides the default
+handler when trying to enlarge the cache or increase the number of
+slots of the unique table. If the allocation fails, the package prints
+out a message and continues without resizing the cache.
+<P>
+<A NAME="tex2html128" HREF="cuddExtDet.html#Cudd_Deref"><EM>Cudd_Deref</EM></A><H3><A NAME="SECTION00042200000000000000"><A NAME="tex2html127" HREF="cuddExtDet.html#Cudd_RecursiveDeref"><EM>Cudd_RecursiveDeref</EM></A> vs. </A></H3>
+<P>
+<A NAME="secderef">&#160;</A>
+<P>
+It is often the case that a recursive procedure has to protect the
+result it is going to return, while it disposes of intermediate
+results.  (See the previous discussion on when to increase reference
+counts.)  Once the intermediate results have been properly disposed
+of, the final result must be returned to its pristine state, in which
+the root node may have a reference count of 0. One cannot use <A NAME="tex2html129" HREF="cuddExtDet.html#Cudd_RecursiveDeref"><EM>
+  Cudd_RecursiveDeref</EM></A><A NAME="1564">&#160;</A> (or <A NAME="tex2html130" HREF="cuddExtDet.html#Cudd_RecursiveDerefZdd"><EM>
+  Cudd_RecursiveDerefZdd</EM></A>) for this purpose, because it may
+erroneously make some nodes dead.  Therefore, the package provides a
+different function: <A NAME="tex2html131" HREF="cuddExtDet.html#Cudd_Deref"><EM>Cudd_Deref</EM></A><A NAME="1566">&#160;</A>. This
+function is not recursive, and does not change the dead node counts.
+Its use is almost exclusively the one just described: Decreasing the
+reference count of the root of the final result before returning from
+a recursive procedure.
+<P>
+<H3><A NAME="SECTION00042300000000000000">When Increasing the Reference Count is Unnecessary</A></H3>
+<P>
+<A NAME="862">&#160;</A><A NAME="secnoref">&#160;</A>
+<P>
+When a copy of a predefined constant<A NAME="864">&#160;</A> or of a
+simple BDD variable is needed for comparison purposes, then calling
+<A NAME="tex2html132" HREF="cuddExtDet.html#Cudd_Ref"><EM>Cudd_Ref</EM></A><A NAME="1568">&#160;</A> is not necessary, because
+these simple functions are guaranteed to have reference counts greater
+than 0 at all times. If no call to <A NAME="tex2html133" HREF="cuddExtDet.html#Cudd_Ref"><EM>Cudd_Ref</EM></A> is made, then no
+attempt to free the diagram by calling <A NAME="tex2html134" HREF="cuddExtDet.html#Cudd_RecursiveDeref"><EM>
+  Cudd_RecursiveDeref</EM></A><A NAME="1570">&#160;</A> or <A NAME="tex2html135" HREF="cuddExtDet.html#Cudd_RecursiveDerefZdd"><EM>
+  Cudd_RecursiveDerefZdd</EM></A><A NAME="1572">&#160;</A>
+should be made.
+<P>
+<H3><A NAME="SECTION00042400000000000000">Saturating Increments and Decrements</A></H3>
+<P>
+<A NAME="877">&#160;</A><A NAME="878">&#160;</A><A NAME="secsatur">&#160;</A>
+<P>
+On 32-bit machines, the CUDD package stores the
+reference<A NAME="880">&#160;</A> counts in unsigned short int's.
+For large diagrams, it is possible for some reference counts to exceed
+the capacity of an unsigned short int.  Therefore, increments and
+decrements of reference counts are <EM>saturating</EM>. This means that
+once a reference count has reached the maximum possible value, it is
+no longer changed by calls to <A NAME="tex2html136" HREF="cuddExtDet.html#Cudd_Ref"><EM>Cudd_Ref</EM></A>, <A NAME="tex2html137" HREF="cuddExtDet.html#Cudd_RecursiveDeref"><EM>
+  Cudd_RecursiveDeref</EM></A><A NAME="1574">&#160;</A>, <A NAME="tex2html138" HREF="cuddExtDet.html#Cudd_RecursiveDerefZdd"><EM>
+  Cudd_RecursiveDerefZdd</EM></A><A NAME="1576">&#160;</A>, or
+<A NAME="tex2html139" HREF="cuddExtDet.html#Cudd_Deref"><EM>Cudd_Deref</EM></A><A NAME="1578">&#160;</A>. As a consequence, some
+nodes that have no references may not be declared dead. This may
+result in a small waste of memory, which is normally more than offset
+by the reduction in size of the node structure.
+<P>
+When using 64-bit pointers, there is normally no memory advantage from
+using short int's instead of int's in a DdNode. Therefore, increments
+and decrements are not saturating in that case. What option is in
+effect depends on two macros, SIZEOF_VOID_P<A NAME="893">&#160;</A>
+and SIZEOF_INT<A NAME="894">&#160;</A>, defined in the external
+header<A NAME="895">&#160;</A> file (<EM>cudd.h</EM><A NAME="897">&#160;</A>). The
+increments and decrements of the reference counts are performed using
+two macros: <A NAME="tex2html140" HREF="cuddAllDet.html#cuddSatInc"><EM>cuddSatInc</EM></A><A NAME="1580">&#160;</A> and <A NAME="tex2html141" HREF="cuddAllDet.html#cuddSatDec"><EM>
+  cuddSatDec</EM></A><A NAME="1582">&#160;</A>, whose definitions depend on
+SIZEOF_VOID_P<A NAME="904">&#160;</A> and
+SIZEOF_INT<A NAME="905">&#160;</A>.
+<P>
+<HR><A NAME="tex2html538" HREF="node28.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html536" HREF="node25.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html530" HREF="node26.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html540" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html539" HREF="node28.html">Complement Arcs</A>
+<B>Up:</B> <A NAME="tex2html537" HREF="node25.html">Programmer's Manual</A>
+<B> Previous:</B> <A NAME="tex2html531" HREF="node26.html">Compiling and Linking</A>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

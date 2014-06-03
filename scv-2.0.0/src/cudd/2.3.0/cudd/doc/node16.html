@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Converting BDDs to ZDDs and Vice Versa</TITLE>
+<META NAME="description" CONTENT="Converting BDDs to ZDDs and Vice Versa">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html410" HREF="node17.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html408" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html402" HREF="node15.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html412" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html411" HREF="node17.html">Variable Reordering for BDDs </A>
+<B>Up:</B> <A NAME="tex2html409" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html403" HREF="node15.html">Converting ADDs to BDDs </A>
+<BR> <P>
+<H2><A NAME="SECTION000311000000000000000">Converting BDDs to ZDDs and Vice Versa</A></H2>
+<P>
+<A NAME="439">&#160;</A>
+<A NAME="440">&#160;</A><A NAME="secconvertZ">&#160;</A>
+<P>
+Many applications first build a set of BDDs and then derive ZDDs from
+the BDDs. These applications should create the manager with 0
+ZDD<A NAME="442">&#160;</A> variables and
+create the BDDs. Then they should call <A NAME="tex2html62" HREF="cuddExtDet.html#Cudd_zddVarsFromBddVars"><EM>
+  Cudd_zddVarsFromBddVars</EM></A><A NAME="1460">&#160;</A> to
+create the necessary ZDD variables--whose number is likely to be
+known once the BDDs are available.  This approach eliminates the
+difficulties that arise when the number of ZDD variables changes while
+ZDDs are being built.
+<P>
+The simplest conversion from BDDs to ZDDs is a simple change of
+representation, which preserves the functions. Simply put, given a BDD
+for <I>f</I>, a ZDD for <I>f</I> is requested. In this case the correspondence
+between the BDD variables and ZDD variables is one-to-one. Hence, <A NAME="tex2html63" HREF="cuddExtDet.html#Cudd_zddVarsFromBddVars"><EM>
+  Cudd_zddVarsFromBddVars</EM></A> should be called with the <EM>
+  multiplicity</EM> parameter equal to 1. The conversion proper can then
+be performed by calling <A NAME="tex2html64" HREF="cuddExtDet.html#Cudd_zddPortFromBdd"><EM>
+  Cudd_zddPortFromBdd</EM></A><A NAME="1462">&#160;</A>. The
+inverse transformation is performed by <A NAME="tex2html65" HREF="cuddExtDet.html#Cudd_zddPortToBdd"><EM>
+  Cudd_zddPortToBdd</EM></A><A NAME="1464">&#160;</A>.
+<P>
+ZDDs are quite often used for the representation of <EM>
+  covers</EM><A NAME="456">&#160;</A>. This is normally done by associating
+two ZDD variables to each variable of the function. (And hence,
+typically, to each BDD variable.) One ZDD variable is associated with
+the positive literal of the BDD variable, while the other ZDD variable
+is associated with the negative literal.  A call to <A NAME="tex2html66" HREF="cuddExtDet.html#Cudd_zddVarsFromBddVars"><EM>
+  Cudd_zddVarsFromBddVars</EM></A><A NAME="1466">&#160;</A>
+with <EM>multiplicity</EM> equal to 2 will associate to BDD variable
+<I>i</I> the two ZDD variables 2<I>i</I> and 2<I>i</I>+1.
+<P>
+If a BDD variable group tree exists when <A NAME="tex2html67" HREF="cuddExtDet.html#Cudd_zddVarsFromBddVars"><EM>
+  Cudd_zddVarsFromBddVars</EM></A> is called (see Section&nbsp;<A HREF="node18.html#secgroup">3.13</A>)
+the function generates a ZDD variable group tree consistent to it.  In
+any case, all the ZDD variables derived from the same BDD variable are
+clustered into a group.
+<P>
+If the ZDD for <I>f</I> is created and later a new ZDD variable is added to
+the manager, the function represented by the existing ZDD changes.
+Suppose, for instance, that two variables are initially created, and
+that the ZDD for <IMG WIDTH=87 HEIGHT=25 ALIGN=MIDDLE ALT="tex2html_wrap_inline2334" SRC="img7.gif"> is built. If a third variable is
+added, say <IMG WIDTH=15 HEIGHT=15 ALIGN=MIDDLE ALT="tex2html_wrap_inline2336" SRC="img8.gif">, then the ZDD represents <IMG WIDTH=118 HEIGHT=29 ALIGN=MIDDLE ALT="tex2html_wrap_inline2338" SRC="img9.gif">
+instead.  This change in function obviously applies regardless of what
+use is made of the ZDD. However, if the ZDD is used to represent a
+cover<A NAME="464">&#160;</A>, the cover itself is not changed by the
+addition of new variable. (What changes is the
+characteristic<A NAME="465">&#160;</A> function of the cover.)
+<P>
+<HR><A NAME="tex2html410" HREF="node17.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html408" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html402" HREF="node15.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html412" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html411" HREF="node17.html">Variable Reordering for BDDs </A>
+<B>Up:</B> <A NAME="tex2html409" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html403" HREF="node15.html">Converting ADDs to BDDs </A>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Basic Manipulation</TITLE>
+<META NAME="description" CONTENT="Basic Manipulation">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html646" HREF="node38.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html644" HREF="node35.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html640" HREF="node36.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html648" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html647" HREF="node38.html">Acknowledgments</A>
+<B>Up:</B> <A NAME="tex2html645" HREF="node35.html">The C++ Interface</A>
+<B> Previous:</B> <A NAME="tex2html641" HREF="node36.html">Compiling and Linking</A>
+<BR> <P>
+<H2><A NAME="SECTION00052000000000000000">Basic Manipulation</A></H2>
+<P>
+<A NAME="secbasicCpp">&#160;</A>
+<P>
+The following fragment of code illustrates some simple operations on
+BDDs using the C++ interface.
+<PRE>        Cudd mgr(0,0);
+        BDD x = mgr.bddVar();
+        BDD y = mgr.bddVar();
+        BDD f = x * y;
+        BDD g = y + !x;
+        cout &lt;&lt; &quot;f is&quot; &lt;&lt; (f &lt;= g ? &quot;&quot; : &quot; not&quot;)
+             &lt;&lt; &quot; less than or equal to g\n&quot;;</PRE>
+This code creates a manager called <code>mgr</code> and two variables in it.
+It then defines two functions <code>f</code> and <code>g</code> in terms of the
+variables. Finally, it prints a message based on the comparison of the
+two functions. No explicit referencing or dereferencing is required.
+The operators are overloaded in the intuitive way. BDDs are freed when
+execution leaves the scope in which they are defined or when the
+variables referring to them are overwritten.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

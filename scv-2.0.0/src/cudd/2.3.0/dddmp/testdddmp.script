@@ -1,0 +1,92 @@
+#! /bin/sh
+rm -f *.bdd2
+echo "... TESTING basic Load/Store ..." 
+testdddmp <<END
+bl
+0.bdd
+0
+bl
+1.bdd
+1
+op
+or
+0
+1
+2
+bs
+2
+0or1.bdd2
+bl
+2.bdd
+2
+bl
+3.bdd
+3
+op
+and
+2
+3
+4
+bs
+4
+2and3.bdd2
+bl
+4.bdd
+4
+bl
+5.bdd
+5
+op
+xor
+4
+5
+6
+bs
+6
+4xor5.bdd2
+quit
+END
+echo "... TESTING Load/Store with sifting, varnames & varauxids ..." 
+testdddmp <<END1
+onl
+varnames.ord
+oil
+varauxids.ord
+bl
+4.bdd
+4
+bs
+4
+4v.bdd
+dr
+4
+bs
+4
+4vr.bdd2
+quit
+END1
+testdddmp <<END2
+onl
+varnames.ord
+oil
+varauxids.ord
+slm
+3
+bl
+4vr.bdd2
+4
+bs
+4
+4v.bdd2
+quit
+END2
+for bdd in 0or1.bdd 2and3.bdd 4xor5.bdd 4v.bdd; do
+    if diff -b ${bdd} ${bdd}2; then
+	echo Files ${bdd} and ${bdd}2 are identical
+    else
+	echo Files ${bdd} and ${bdd2} are different
+    fi
+done
+rm -r *.bdd2
+rm -r 4v.bdd
+

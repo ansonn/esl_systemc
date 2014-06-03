@@ -1,0 +1,38 @@
+This example shows how to overload the operation of the
+next() method inside a constraint, in order to have
+functions called before and/or after randomization.
+Overloading the next() method is a powerful way of
+customizing randomization.
+
+NOTE: You can also overload the next() method in an
+extended data object.
+
+The following source files arg part of this example:
+
+  constraint.h a user defined constraint which constrains
+               a data object with respect to the current
+               value of an sc_signal<> object.
+  test.h       a SystemC module definition with a signal to
+               which the constraint is applied 
+  test.cc      definition of the SystemC sc_main routine
+               where the SystemC module is instantiated and
+               simulation begun.
+  Makefile     Targets for sun-gnu, hppa-native and linux
+
+A makefile for use with SystemC is provided with targets for
+three different platforms:
+
+  make sun-gnu        # Gnu C++ compiler on Sun
+  make hppa-native    # HP C++ compiler on HP
+  make linux          # Gnu C++ compiler on Linux
+
+
+%%CATEGORIES            notebook examples introspection randomization
+%%TBARGS        ncsc    --sconly sctop
+%%LinePrefix    all
+%%Files         none    %%REGSRC/test.cc %%REGSRC/test_reg.cc
+%%Files         osci    %%REGSRC/test.cc
+%%Files         schdl   %%REGSRC/test.cc
+%%Files         ncsc    %%REGSRC/test_reg.cc
+%%CheckTest     all     %%REGSRC/checktest.sh %%TBLOG %%REGSRC/tb_log.au
+%%REALCLEAN             %%REGBLD/logfile.diff

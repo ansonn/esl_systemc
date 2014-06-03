@@ -1,0 +1,97 @@
+Cudd 2.3.0 and PerlDD 0.4 are now available at ftp://vlsi.colorado.edu/pub.
+
+This release of Cudd is concomitant with the release of Vis 1.3. Indeed,
+2.3.0 is the release of Cudd distributed with Glu 1.3.
+
+These are the main changes from release 2.2.0 to release 2.3.0 of Cudd:
+
+Statistics gathering has been improved. In particular, the package now
+keeps track of the maximum number of live nodes, and, if DD_COUNT is
+defined at compile time, the number of recursive calls and the number
+of elementary swaps during reordering.
+
+It is possible to set a hard limit on the number of nodes or the
+amount of memory used by a manager. If these limits are exceeded,
+computation is aborted.
+
+A new function, Cudd_DelayedDerefBdd, allows improved speed at the
+expense of higher memory usage. As the name suggests, the function
+delays the actual dereferencing of BDD nodes. This saves time when
+many nodes are reclaimed. There is some memory overhead even when the
+function is not called, because the manager keeps a FIFO for the nodes
+that should be dereferenced. To eliminate this overhead, compile with
+DD_NO_DEATH_ROW defined.
+
+Cudd's hooks have been improved. Hook functions are now passed a third
+argument, which tells whether reordering of garbage collection are for
+BDDs (and ADDs) or ZDDs.
+
+Several changes to the guts of the package have resulted in improved
+performance. Version 2.3.0 tends to use less memory
+and less CPU time than Version 2.2.0. Compared to version 2.1.2,
+version 2.3.0 still uses more memory in many cases.
+
+Perhaps the most notable change in the guts is the use of 16-byte
+entries in the computed table. Previously, each entry was 20 bytes.
+This results in improved speed and increased memory efficiency.
+The downside is that now it is imperative for nodes to be aligned on
+16-byte boundaries. This has prevented me from adding an optional "user"
+field to the node, which I have promised to a couple of friends.
+Sorry.
+
+Bugs fixed in:
+  reordering (three bugs concerning variable groups and one in linear
+	      sifting);
+  Cudd_addEvalConst
+  Cudd_addHarwell
+
+New functions:
+there are several new functions, including functions for ZDD
+manipulation, and efficient variable swapping.
+A complete list of the new functions is at the end of these notes.
+
+nanotrav has several new options detailed in its man page. A few bugs
+have been fixed.
+
+PerlDD is an object-oriented extension to Perl based on Cudd.  It is
+still experimental.  It has been tested on Linux and Solaris. Perl 5.003
+or later is required. Main changes between 0.2 and 0.3 are:
+
+Added several functions to the interface.
+Upgraded to Cudd 2.3.0.
+
+List of new functions:
+
+int Cudd_IsNonConstant(DdNode *f)
+double Cudd_ReadRecursiveCalls(DdManager * dd)
+double Cudd_ExpectedUsedSlots(DdManager * dd)
+int Cudd_ReadPeakLiveNodeCount(DdManager * dd)
+FILE * Cudd_ReadStdout(DdManager *dd)
+void Cudd_SetStdout(DdManager *dd, FILE *fp)
+FILE * Cudd_ReadStderr(DdManager *dd)
+void Cudd_SetStderr(DdManager *dd, FILE *fp)
+unsigned int Cudd_ReadNextReordering(DdManager *dd)
+double Cudd_ReadSwapSteps(DdManager *dd)
+unsigned int Cudd_ReadMaxLive(DdManager *dd)
+void Cudd_SetMaxLive(DdManager *dd, unsigned int maxLive)
+long Cudd_ReadMaxMemory(DdManager *dd)
+void Cudd_SetMaxMemory(DdManager *dd, long maxMemory)
+void Cudd_SetNextReordering(DdManager *dd, unsigned int next)
+DdNode * Cudd_BiasedUnderApprox(DdManager *dd, DdNode *f, DdNode *b, int numVars, int threshold, double quality1, double quality0)
+DdNode * Cudd_BiasedOverApprox(DdManager *dd, DdNode *f, DdNode *b, int numVars, int threshold, double quality1, double quality0)
+DdNode * Cudd_bddVarMap(DdManager *manager, DdNode *f)
+int Cudd_SetVarMap(DdManager *manager, DdNode **x, DdNode **y, int n)
+int Cudd_MinHammingDist(DdManager *dd, DdNode *f, int *minterm, int upperBound)
+void Cudd_DelayedDerefBdd(DdManager * table, DdNode * n)
+DdNode * Cudd_zddComplement(DdManager *dd, DdNode *node)
+DdNode * Cudd_MakeBddFromZddCover(DdManager *dd, DdNode *node)
+int Cudd_zddPrintCover(DdManager *zdd, DdNode *node)
+int Cudd_DumpBlifBody (DdManager *dd, int n, DdNode **f, char **inames, char **onames, FILE *fp)
+
+Unsupported functions
+
+The following function is no longer supported.
+
+void Cudd_SetMaxCache ARGS((DdManager *dd, unsigned int mc));
+
+Fabio

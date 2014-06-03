@@ -1,0 +1,263 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Gathering and Interpreting Statistics</TITLE>
+<META NAME="description" CONTENT="Gathering and Interpreting Statistics">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html604" HREF="node34.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html602" HREF="node25.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html596" HREF="node32.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html606" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html605" HREF="node34.html">Guidelines for Documentation</A>
+<B>Up:</B> <A NAME="tex2html603" HREF="node25.html">Programmer's Manual</A>
+<B> Previous:</B> <A NAME="tex2html597" HREF="node32.html">Debugging</A>
+<BR> <P>
+<H2><A NAME="SECTION00048000000000000000">Gathering and Interpreting Statistics</A></H2>
+<P>
+<A NAME="1071">&#160;</A><A NAME="secstats">&#160;</A>
+<P>
+Function <A NAME="tex2html170" HREF="cuddExtDet.html#Cudd_PrintInfo"><EM>Cudd_PrintInfo</EM></A><A NAME="1628">&#160;</A> can be called
+to print out the values of parameters and statistics for a manager.
+The output of <A NAME="tex2html171" HREF="cuddExtDet.html#Cudd_PrintInfo"><EM>Cudd_PrintInfo</EM></A> is divided in two sections. The
+first reports the values of parameters that are under the application
+control. The second reports the values of statistical counters and
+other non-modifiable parameters. A
+quick guide to the interpretation of all these quantities follows. For
+ease of exposition, we reverse the order and describe the
+non-modifiable parameters first. We'll use a sample run as
+example. There is nothing special about this run.
+<P>
+<H3><A NAME="SECTION00048100000000000000">Non Modifiable Parameters</A></H3>
+<P>
+<A NAME="secnonModPar">&#160;</A>
+<P>
+The list of non-modifiable parameters starts with:
+<PRE>    **** CUDD non-modifiable parameters ****
+    Memory in use: 32544220</PRE>
+This is the memory used by CUDD for three things mainly: Unique table
+(including all DD nodes in use), node free list, and computed table.
+This number almost never decreases in the lifetime of a CUDD manager,
+because CUDD does not release memory when it frees nodes.  Rather, it
+puts the nodes on its own free list. This number is in bytes. It does
+not represent the peak memory occupation, because it does not include
+the size of data structures created temporarily by some functions (e.g.,
+local look-up tables).
+<P>
+<PRE>    Peak number of nodes: 837018</PRE>
+This number is the number of nodes that the manager has allocated.
+This is not the largest size of the BDDs, because the manager will
+normally have some dead nodes and some nodes on the free list.
+<P>
+<PRE>    Peak number of live nodes: 836894</PRE>
+This is the largest number of live nodes that the manager has held
+since its creation.
+<P>
+<PRE>    Number of BDD variables: 198
+    Number of ZDD variables: 0</PRE>
+These numbers tell us this run was not using ZDDs.
+<P>
+<PRE>    Number of cache entries: 1048576</PRE>
+Current number of slots of the computed table.  If one has a
+performance problem, this is one of the numbers to look at. The cache
+size is always a power of 2.
+<P>
+<PRE>    Number of cache look-ups: 2996536
+    Number of cache hits: 1187087</PRE>
+These numbers give an indication of the hit rate in the computed
+table. It is not unlikely for model checking runs to get
+hit rates even higher than this one (39.62%).
+<P>
+<PRE>    Number of cache insertions: 1809473
+    Number of cache collisions: 961208
+    Number of cache deletions: 0</PRE>
+A collision<A NAME="1080">&#160;</A> occurs when a cache entry is
+overwritten. A deletion<A NAME="1081">&#160;</A>
+occurs when a cache entry is invalidated (e.g., during garbage
+collection).  If the number of deletions is high compared to the
+number of collisions, it means that garbage collection occurs too
+often. In this case there were no garbage collections; hence, no
+deletions.
+<P>
+<PRE>    Cache used slots = 80.90% (expected 82.19%)</PRE>
+Percentage of cache slots that contain a valid entry. If this
+number is small, it may signal one of three conditions:
+<OL>
+<LI> The cache may have been recently resized and it is still filling
+  up.
+<LI> The cache is too large for the BDDs. This should not happen if
+  the size of the cache is determined by CUDD.
+<LI> The hash function is not working properly. This is accompanied
+  by a degradation in performance. Conversely, a degradation in
+  performance may be due to bad hash function behavior.
+</OL>
+The expected value is computed assuming a uniformly random
+distribution of the accesses.  If the difference between the measured
+value and the expected value is large (unlike this case), the cache is
+not working properly.
+<P>
+<PRE>    Soft limit for cache size: 1318912</PRE>
+This number says how large the cache can grow. This limit is based on
+the size of the unique table.  CUDD uses a reward-based policy for
+growing the cache. (See Section&nbsp;<A HREF="node29.html#seccachesizing">4.4.1</A>.)  The default
+hit rate for resizing is 30% and the value in effect is reported
+among the modifiable parameters.
+<P>
+<PRE>    Number of buckets in unique table: 329728</PRE>
+This number is exactly one quarter of the one above. This is indeed
+how the soft limit is determined currently, unless the computed table
+hits the specified hard limit. (See below.)
+<P>
+<PRE>    Used buckets in unique table: 87.96% (expected 87.93%)</PRE>
+Percentage of unique table buckets that contain at least one
+node. Remarks analogous to those made about the used cache slots apply.
+<P>
+<PRE>    Number of BDD and ADD nodes: 836894
+    Number of ZDD nodes: 0</PRE>
+How many nodes are currently in the unique table, either alive or dead.
+<P>
+<PRE>    Number of dead BDD and ADD nodes: 0
+    Number of dead ZDD nodes: 0</PRE>
+Subtract these numbers from those above to get the number of live
+nodes. In this case there are no dead nodes because the application
+uses delayed dereferencing
+<A NAME="tex2html172" HREF="cuddExtDet.html#Cudd_DelayedDerefBdd"><EM>Cudd_DelayedDerefBdd</EM></A><A NAME="1630">&#160;</A>.
+<P>
+<PRE>    Total number of nodes allocated: 836894</PRE>
+This is the total number of nodes that were requested and obtained
+from the free list. It never decreases, and is not an indication of
+memory occupation after the first garbage collection. Rather, it is a
+measure of the package activity.
+<P>
+<PRE>    Total number of nodes reclaimed: 0</PRE>
+These are the nodes that were resuscitated from the dead.  If they are
+many more than the allocated nodes, and the total
+number of slots is low relative to the number of nodes, then one may
+want to increase the limit for fast unique table growth. In this case,
+the number is 0 because of delayed dereferencing.
+<P>
+<PRE>    Garbage collections so far: 0
+    Time for garbage collections: 0.00 sec
+    Reorderings so far: 0
+    Time for reordering: 0.00 sec</PRE>
+There is a GC for each reordering. Hence the first count will always be
+at least as large as the second.
+<P>
+<PRE>    Node swaps in reordering: 0</PRE>
+This is the number of elementary reordering steps. Each step consists
+of the re-expression of one node while swapping two adjacent
+variables. This number is a good measure of the amount of work done in
+reordering.
+<P>
+<PRE>    Next reordering threshold: 100000</PRE>
+When the number of nodes crosses this threshold, reordering will be
+triggered. (If enabled; in this case it is not.)
+<P>
+<H3><A NAME="SECTION00048200000000000000">Modifiable Parameters</A></H3>
+<P>
+<A NAME="secmodPar">&#160;</A>
+<P>
+Let us now consider the modifiable parameters, that is, those settings on
+which the application or the user has control.
+<P>
+<PRE>    **** CUDD modifiable parameters ****
+    Hard limit for cache size: 8388608</PRE>
+This number counts entries. Each entry is 16 bytes if CUDD is compiled
+to use 32-bit pointers. Two important observations are in order:
+<OL>
+<LI> If the datasize limit is set, CUDD will use it to determine this
+  number automatically. On a Unix system, one can type ``limit&quot; to
+  verify if this value is set. If the datasize limit is not set, CUDD
+  uses a default which is rather small. If you have enough memory (say
+  64MB or more) you should seriously consider <EM>not</EM> using the
+  default. So, either set the datasize limit, or override the default
+  with <A NAME="tex2html173" HREF="cuddExtDet.html#Cudd_SetMaxCacheHard"><EM>Cudd_SetMaxCacheHard</EM></A><A NAME="1632">&#160;</A>.
+<LI> If a process seems to be going nowhere, a small value for
+  this parameter may be the culprit. One cannot overemphasize the
+  importance of the computed table in BDD algorithms.
+</OL>
+In this case the limit was automatically set for a target maximum
+memory occupation of 104 MB.
+<P>
+<PRE>    Cache hit threshold for resizing: 15%</PRE>
+This number can be changed if one suspects performance is hindered by
+the small size of the cache, and the cache is not growing towards the
+soft limit sufficiently fast. In such a case one can change the
+default 30% to 15% (as in this case) or even 1%.
+<P>
+<PRE>    Garbage collection enabled: yes</PRE>
+One can disable it, but there are few good reasons for doing
+so. It is normally preferable to raise the limit for fast unique table
+growth. (See below.)
+<P>
+<PRE>    Limit for fast unique table growth: 1363148</PRE>
+See Section&nbsp;<A HREF="node30.html#secunique">4.5</A> and the comments above about reclaimed
+nodes and hard limit for the cache size. This value was chosen
+automatically by CUDD for a datasize limit of 1 GB.
+<P>
+<PRE>    Maximum number of variables sifted per reordering: 1000
+    Maximum number of variable swaps per reordering: 2000000
+    Maximum growth while sifting a variable: 1.2</PRE>
+Lowering these numbers will cause reordering to be less accurate and
+faster. Results are somewhat unpredictable, because larger BDDs after one
+reordering do not necessarily mean the process will go faster or slower.
+<P>
+<PRE>    Dynamic reordering of BDDs enabled: yes
+    Default BDD reordering method: 4
+    Dynamic reordering of ZDDs enabled: no
+    Default ZDD reordering method: 4</PRE>
+These lines tell whether automatic reordering can take place and
+what method would be used. The mapping from numbers to methods is in
+<TT>cudd.h</TT>. One may want to try different BDD
+reordering methods. If variable groups are used, however, one should
+not expect to see big differences, because CUDD uses the reported
+method only to reorder each leaf variable group (typically corresponding
+present and next state variables). For the relative order of the
+groups, it always uses the same algorithm, which is effectively
+sifting.
+<P>
+As for enabling dynamic reordering or not, a sensible recommendation is the
+following: Unless the circuit is rather small or one has a pretty good
+idea of what the order should be, reordering should be enabled.
+<P>
+<PRE>    Realignment of ZDDs to BDDs enabled: no
+    Realignment of BDDs to ZDDs enabled: no
+    Dead nodes counted in triggering reordering: no
+    Group checking criterion: 7
+    Recombination threshold: 0
+    Symmetry violation threshold: 0
+    Arc violation threshold: 0
+    GA population size: 0
+    Number of crossovers for GA: 0</PRE>
+Parameters for reordering. See the documentation of the functions used
+to control these parameters for the details.
+<P>
+<H3><A NAME="SECTION00048300000000000000">Extended Statistics and Reporting</A></H3>
+<P>
+<A NAME="secextendedStats">&#160;</A>
+<P>
+The following symbols can be defined during compilation to increase
+the amount of statistics gathered and the number of messages produced
+by the package:
+<UL>
+<LI> DD_STATS<A NAME="1101">&#160;</A>;
+<LI> DD_CACHE_PROFILE<A NAME="1102">&#160;</A>;
+<LI> DD_UNIQUE_PROFILE<A NAME="1103">&#160;</A>.
+<LI> DD_VERBOSE<A NAME="1104">&#160;</A>;
+</UL>
+Defining DD_CACHE_PROFILE causes each entry of the cache to include
+an access counter, which is used to compute simple statistics on the
+distribution of the keys.
+<P>
+<HR><A NAME="tex2html604" HREF="node34.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html602" HREF="node25.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html596" HREF="node32.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html606" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html605" HREF="node34.html">Guidelines for Documentation</A>
+<B>Up:</B> <A NAME="tex2html603" HREF="node25.html">Programmer's Manual</A>
+<B> Previous:</B> <A NAME="tex2html597" HREF="node32.html">Debugging</A>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,31 @@
+This example builds on the previous randomization examples,
+but adds a new feature: it uses a seed file to control the 
+randomization seeds.
+
+The following source files are part of this example:
+
+  data.h      The definition of a user-defined structure
+  data_ext.h  Extensions for the user-defined structures
+  test.cc     A test that uses the introspection interface to
+              randomize the data objects
+  Makefile    Targets for sun-gnu, hppa-native and linux
+
+A makefile for use with SystemC is provided with targets for
+three different platforms:
+
+  make sun-gnu        # Gnu C++ compiler on Sun
+  make hppa-native    # HP C++ compiler on HP
+  make linux          # Gnu C++ compiler on Linux
+
+This simulation must be run twice.  After first run completes
+then run the simulation again.
+
+
+%%Categories            notebook examples introspection randomization
+%%Cmdln         osci    %%REGSRC/runme %%REGSRC/test.cc "%%TBCMDLNARGS"
+%%Cmdln         schdl   %%REGSRC/runme %%REGSRC/test.cc "%%TBCMDLNARGS"
+%%Cmdln         ncsc    %%REGSRC/runme %%REGSRC/test_reg.cc "%%TBCMDLNARGS"
+%%TBARGS        ncsc    --stop hdl_elab --sconly sctop
+%%LinePrefix    all
+%%CheckTest     all     %%REGSRC/checktest.sh origrun.log %%TBLOG %%REGSRC/tb_log
+%%RealClean             %%REGBLD/seedfile.txt %%REGBLD/initval %%REGBLD/logfile.diff

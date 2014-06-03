@@ -1,0 +1,34 @@
+This is a very simple example to show how a user
+can create a distribution of values when randomizing
+an object. In this case, a distribution is created for an
+enumerated data type. The distributed values that are
+generated will fall in the distribution that is applied.
+
+
+The following source files are part of this example:
+
+  data.h      The definition of a user-defined structure that
+              has an enumerated type
+  data_ext.h  Extensions for the user-defined structures
+  test.cc     A test that uses the introspection interface to
+              randomize the data objects; uses a scv_bag object
+              to create the distribution
+  Makefile    Targets for sun-gnu, hppa-native and linux
+
+A makefile for use with SystemC is provided with targets for
+three different platforms:
+
+  make sun-gnu        # Gnu C++ compiler on Sun
+  make hppa-native    # HP C++ compiler on HP
+  make linux          # Gnu C++ compiler on Linux
+
+
+%%CATEGORIES            notebook examples introspection randomization
+%%TBARGS        ncsc    --stop hdl_elab --sconly sctop
+%%LinePrefix    all
+%%Files         none    %%REGSRC/test.cc %%REGSRC/test_reg.cc
+%%Files         osci    %%REGSRC/test.cc
+%%Files         schdl   %%REGSRC/test.cc
+%%Files         ncsc    %%REGSRC/test_reg.cc
+%%CheckTest     all     %%REGSRC/checktest.sh %%TBLOG %%REGSRC/tb_log.au
+%%REALCLEAN             %%REGBLD/logfile.diff

@@ -1,0 +1,10 @@
+This simple example shows a minimal SCV testbench.
+
+The following source files are part of this example:
+  main.cpp   a simple example.
+
+To run this example, do one of the following:
+
+  unix> make sun-gnu
+  unix> make hppa-native
+  unix> make linux

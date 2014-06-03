@@ -1,0 +1,23 @@
+Copyright 2002, Cadence Design Systems, all rights reserved.
+
+Test: introspection1
+Author: Ted Elkind
+Date: 6 Mar 2002
+
+%%CATEGORIES introspection
+%%INFO Test static and dynamic introspection, including next,
+%%INFO initialize and uninitialize
+%%TBARGS    ncsc    --sctop sctop --stop hdl_elab
+
+Description:
+
+This test is based upon a prototype created by C. Norris Ip, Stuart
+Swan, and Jasvinder Singh from Cadence Design Systems, Inc. for
+distribution to the SystemC Verification Working Group as an example
+of various introspection scenarios.
+
+This tests basic manipulation of a simple user-specified composite
+type.
+
+Until the rest of the test infrastructure is in place, use runme.ns to 
+run the test.

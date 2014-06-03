@@ -1,0 +1,12 @@
+This example provides a few pointers for debugging
+constraints.
+
+The following source files are part of this example:
+  test.cpp   a test which uses constraints.  See the
+             embedded comments.
+
+To run this example, do one of the following:
+
+  unix> make sun-gnu
+  unix> make hppa-native
+  unix> make linux

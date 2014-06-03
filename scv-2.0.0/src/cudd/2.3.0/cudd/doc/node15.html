@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Converting ADDs to BDDs and Vice Versa</TITLE>
+<META NAME="description" CONTENT="Converting ADDs to BDDs and Vice Versa">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html399" HREF="node16.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html397" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html391" HREF="node14.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html401" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html400" HREF="node16.html">Converting BDDs to ZDDs </A>
+<B>Up:</B> <A NAME="tex2html398" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html392" HREF="node14.html">Basic ZDD Manipulation</A>
+<BR> <P>
+<H2><A NAME="SECTION000310000000000000000">Converting ADDs to BDDs and Vice Versa</A></H2>
+<P>
+<A NAME="418">&#160;</A>
+<A NAME="419">&#160;</A><A NAME="secconvert">&#160;</A>
+<P>
+Several procedures are provided to convert ADDs to BDDs, according to
+different criteria. (<A NAME="tex2html57" HREF="cuddExtDet.html#Cudd_addBddPattern"><EM>
+  Cudd_addBddPattern</EM></A><A NAME="1450">&#160;</A>, <A NAME="tex2html58" HREF="cuddExtDet.html#Cudd_addBddInterval"><EM>
+  Cudd_addBddInterval</EM></A><A NAME="1452">&#160;</A>, and <A NAME="tex2html59" HREF="cuddExtDet.html#Cudd_addBddThreshold"><EM>
+  Cudd_addBddThreshold</EM></A><A NAME="1454">&#160;</A>.) The
+conversion from BDDs to ADDs (<A NAME="tex2html60" HREF="cuddExtDet.html#Cudd_BddToAdd"><EM>
+  Cudd_BddToAdd</EM></A><A NAME="1456">&#160;</A>) is based on the
+simple principle of mapping the logical 0<A NAME="433">&#160;</A> and 1 on
+the arithmetic<A NAME="434">&#160;</A> 0 and 1.  It is also possible to
+convert an ADD with integer values (more precisely, floating point
+numbers with 0 fractional part) to an array of BDDs by repeatedly
+calling <A NAME="tex2html61" HREF="cuddExtDet.html#Cudd_addIthBit"><EM>Cudd_addIthBit</EM></A><A NAME="1458">&#160;</A>.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

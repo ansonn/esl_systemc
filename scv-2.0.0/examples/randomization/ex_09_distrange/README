@@ -1,0 +1,36 @@
+This is a very simple example to show how a user can create
+a distribution range to apply to the randomization of an
+object. The idea of creating ranges of values is to set up
+buckets of values and create probabilities over the buckets.
+That is, the distribution within a bucket is uniform, but
+the particular bucket being selected is set by the
+distribution. This technique can be used to create
+approximations of non-linear distributions.
+
+The following source files are part of this example:
+
+  data.h      The definition of a user-defined structure with
+              an enumerated type
+  data_ext.h  Extensions for the user-defined structures
+  test.cc     A test that uses the introspection interface to
+              randomize the data objects; uses a scv_bag object
+              to create the distribution
+  Makefile    Targets for sun-gnu, hppa-native and linux
+
+A makefile for use with SystemC is provided with targets for
+three different platforms:
+
+  make sun-gnu        # Gnu C++ compiler on Sun
+  make hppa-native    # HP C++ compiler on HP
+  make linux          # Gnu C++ compiler on Linux
+
+
+%%CATEGORIES            notebook examples introspection randomization
+%%TBARGS        ncsc    --stop hdl_elab --sconly sctop
+%%LinePrefix    all
+%%Files         none    %%REGSRC/test.cc %%REGSRC/test_reg.cc
+%%Files         osci    %%REGSRC/test.cc
+%%Files         schdl   %%REGSRC/test.cc
+%%Files         ncsc    %%REGSRC/test_reg.cc
+%%CheckTest     all     %%REGSRC/checktest.sh %%TBLOG %%REGSRC/tb_log.au
+%%REALCLEAN             %%REGBLD/logfile.diff

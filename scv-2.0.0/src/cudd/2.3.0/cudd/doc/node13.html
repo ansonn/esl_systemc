@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Basic ADD Manipulation</TITLE>
+<META NAME="description" CONTENT="Basic ADD Manipulation">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html377" HREF="node14.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html375" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html369" HREF="node12.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html379" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html378" HREF="node14.html">Basic ZDD Manipulation</A>
+<B>Up:</B> <A NAME="tex2html376" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html370" HREF="node12.html">Basic BDD Manipulation</A>
+<BR> <P>
+<H2><A NAME="SECTION00038000000000000000">Basic ADD Manipulation</A></H2>
+<P>
+<A NAME="372">&#160;</A><A NAME="secbasicADD">&#160;</A>
+<P>
+The most common way to manipulate ADDs is via <A NAME="tex2html53" HREF="cuddExtDet.html#Cudd_addApply"><EM>
+  Cudd_addApply</EM></A><A NAME="1434">&#160;</A>.  This function can
+apply a wide variety of operators to a pair of ADDs.  Among the
+available operators are addition, multiplication, division, minimum,
+maximum, and boolean operators that work on ADDs whose leaves are
+restricted to 0 and 1 (0-1 ADDs).
+<P>
+The following fragment of code illustrates how to build the ADD for
+the function <IMG WIDTH=110 HEIGHT=25 ALIGN=MIDDLE ALT="tex2html_wrap_inline2312" SRC="img5.gif">.
+<PRE>        DdManager *manager;
+        DdNode *f, *var, *tmp;
+        int i;
+
+        ...
+
+        f = Cudd_addConst(manager,5);
+        Cudd_Ref(f);
+        for (i = 3; i &gt;= 0; i--) {
+            var = Cudd_addIthVar(manager,i);
+            Cudd_Ref(var);
+            tmp = Cudd_addApply(manager,Cudd_addTimes,var,f);
+            Cudd_Ref(tmp);
+            Cudd_RecursiveDeref(manager,f);
+            Cudd_RecursiveDeref(manager,var);
+            f = tmp;
+        }</PRE>
+This example, contrasted to the example of BDD manipulation,
+illustrates the following points:
+<UL>
+<LI> The ADD projection<A NAME="378">&#160;</A> function are not
+  maintained by the manager.  It is therefore necessary to
+  reference<A NAME="379">&#160;</A> and
+  dereference<A NAME="380">&#160;</A> them.
+<LI> The product of two ADDs is computed by calling <A NAME="tex2html49" HREF="cuddExtDet.html#Cudd_addApply"><EM>
+    Cudd_addApply</EM></A><A NAME="1436">&#160;</A> with <A NAME="tex2html50" HREF="cuddExtDet.html#Cudd_addTimes"><EM>
+    Cudd_addTimes</EM></A><A NAME="1438">&#160;</A> as parameter.  There
+  is no ``apply'' function for BDDs, because <A NAME="tex2html51" HREF="cuddExtDet.html#Cudd_bddAnd"><EM>
+    Cudd_bddAnd</EM></A><A NAME="1440">&#160;</A> and <A NAME="tex2html52" HREF="cuddExtDet.html#Cudd_bddXor"><EM>
+    Cudd_bddXor</EM></A><A NAME="1442">&#160;</A> plus complementation are
+  sufficient to implement all two-argument boolean functions.
+</UL><BR> <HR>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

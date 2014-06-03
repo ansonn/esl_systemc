@@ -1,0 +1,61 @@
+README file for the DDDMP-1.0 package
+Revision: v 1.0 May 12, 1998
+
+
+
+WHAT IS DDDMP
+=============
+
+The DDDMP package defines formats for DD storage on file, and it contains a
+set of functions to dump DDs and DD forests on file.
+
+In the present implementation, only BDDs (ROBDDs) of the CUDD package
+(version 2.2.0 or higher) are supported.
+
+
+
+MAKE DDDMP
+==========
+
+Before you build the libraries and programs, you need to check the
+Makefile in the top directory.
+Go through the definitions contained in the configuration section, and select
+the desired compiler and compilation flags.
+Instructions are provided in the comments of the Makefile.
+
+Then run "make".
+This should produce the dddmplib.a library.
+
+
+
+DOCUMENTATION
+=============
+
+Directory dddmp/doc contains HTML documentation for the package.
+The recommended starting point is package.html.
+Documentation in both postscript format and plain text format is also provided.
+
+
+
+FTP SITE
+========
+
+The package is singularly available from:
+site: ftp.polito.it
+user: anonymous
+directory: /pub/research/dddmp
+
+
+
+FEEDBACK
+========
+
+Send feedback to:
+
+Stefano Quer & Gianpiero Cabodi
+Politecnico di Torino
+Dip. Automatica e Informatica
+C.so Duca degli Abruzzi 24
+I-10129  Torino
+Italy
+E-mail:  {cabodi,quer}@polito.it

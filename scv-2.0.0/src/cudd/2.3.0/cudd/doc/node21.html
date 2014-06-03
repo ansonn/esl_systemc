@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Hooks</TITLE>
+<META NAME="description" CONTENT="Hooks">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html465" HREF="node22.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html463" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html457" HREF="node20.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html467" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html466" HREF="node22.html">The SIS/VIS Interface</A>
+<B>Up:</B> <A NAME="tex2html464" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html458" HREF="node20.html">Keeping Consistent Variable Orders </A>
+<BR> <P>
+<H2><A NAME="SECTION000316000000000000000">Hooks</A></H2>
+<P>
+<A NAME="637">&#160;</A><A NAME="sechooks">&#160;</A>
+<P>
+Hooks in CUDD are lists of application-specified functions to be run on
+certain occasions. Each hook is identified by a constant of the
+enumerated type <A NAME="tex2html96" HREF="cuddExtDet.html#Cudd_HookType"><EM>Cudd_HookType</EM></A><A NAME="1518">&#160;</A>. In Version
+2.3.0 hooks are defined for these occasions:
+<UL>
+<LI> before garbage collection (CUDD_PRE_GC_HOOK);
+<LI> after garbage collection (CDD_POST_GC_HOOK);
+<LI> before variable reordering (CDD_PRE_REORDERING_HOOK).
+<LI> after variable reordering (CDD_POST_REORDERING_HOOK).
+</UL>
+The current implementation of hooks is experimental and the number of
+hooks is likely to increase in the future. A function added to a hook
+receives a pointer to the manager, a pointer to a string, and a
+pointer to void as arguments; it must return 1 if successful; 0
+otherwise. The second argument is either ``BDD'' or ``ZDD.'' This
+allows the hook functions to tell the type of diagram for which
+reordering or garbage collection takes place. The third argument
+varies depending on the hook. The hook functions called before or
+after garbage collection<A NAME="644">&#160;</A> do not use
+it. The hook functions called before
+reordering<A NAME="645">&#160;</A> are passed, in addition to the
+pointer to the manager, also the method used for reordering. The hook
+functions called after reordering are passed the start time. To add a
+function to a hook, one uses <A NAME="tex2html97" HREF="cuddExtDet.html#Cudd_AddHook"><EM>
+  Cudd_AddHook</EM></A><A NAME="1520">&#160;</A>. The function of a given hook
+are called in the order in which they were added to the hook.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

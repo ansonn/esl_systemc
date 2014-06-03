@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Complement Arcs</TITLE>
+<META NAME="description" CONTENT="Complement Arcs">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html549" HREF="node29.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html547" HREF="node25.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html541" HREF="node27.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html551" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html550" HREF="node29.html">The Cache</A>
+<B>Up:</B> <A NAME="tex2html548" HREF="node25.html">Programmer's Manual</A>
+<B> Previous:</B> <A NAME="tex2html542" HREF="node27.html">Reference Counts</A>
+<BR> <P>
+<H2><A NAME="SECTION00043000000000000000">Complement Arcs</A></H2>
+<P>
+<A NAME="907">&#160;</A><A NAME="seccompl">&#160;</A>
+<P>
+If ADDs are restricted to use only the constants 0 and 1, they behave
+like BDDs without complement arcs. It is normally easier to write code
+that manipulates 0-1 ADDs, than to write code for BDDs. However,
+complementation is trivial with complement arcs, and is not trivial
+without. As a consequence, with complement arcs it is possible to
+check for more terminal cases and it is possible to apply De Morgan's
+laws to reduce problems that are essentially identical to a standard
+form. This in turn increases the utilization of the cache<A NAME="909">&#160;</A>.
+<P>
+The complement attribute is stored in the least significant bit of the
+``else&quot; pointer of each node. An external pointer to a function can
+also be complemented. The ``then&quot; pointer to a node, on the other
+hand, is always <EM>regular<A NAME="910">&#160;</A></EM>. It is a mistake to
+use a<A NAME="911">&#160;</A> pointer as it is to address memory. Instead, it
+is always necessary to obtain a regular version of it. This is
+normally done by calling <A NAME="tex2html142" HREF="cuddExtDet.html#Cudd_Regular"><EM>
+  Cudd_Regular</EM></A><A NAME="1584">&#160;</A>. It is also a mistake to
+call <A NAME="tex2html143" HREF="cuddAllDet.html#cuddUniqueInter"><EM>cuddUniqueInter</EM></A><A NAME="1586">&#160;</A> with a
+complemented ``then&quot; child as argument. The calling procedure must
+apply De Morgan's laws by complementing both pointers passed to <A NAME="tex2html144" HREF="cuddAllDet.html#cuddUniqueInter"><EM>
+  cuddUniqueInter</EM></A><A NAME="1588">&#160;</A> and then taking the
+complement of the result.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

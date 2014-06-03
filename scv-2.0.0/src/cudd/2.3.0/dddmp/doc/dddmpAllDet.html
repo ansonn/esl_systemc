@@ -1,0 +1,691 @@
+<html>
+<head><title>The dddmp package: all functions </title></head>
+<body>
+
+A set of internal low-level routines of the dddmp package doing:
+               <ul>
+                 <li> read and write of node codes in binary mode,
+                 <li> read and write of integers in binary mode,
+		 <li> marking/unmarking nodes as visited,
+                 <li> numbering nodes.
+	       </ul>
+<HR>
+<DL>
+<dt><pre>
+<A NAME="DddmpClearVisited"></A>
+void <I></I>
+<B>DddmpClearVisited</B>(
+  DdNode * <b>f</b> <i></i>
+)
+</pre>
+<dd> Marks a node as not visited
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#DddmpVisited()">DddmpVisited()</a>
+<a href="#DddmpSetVisited()">DddmpSetVisited()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDdNode.c"TARGET="ABSTRACT"><CODE>dddmpDdNode.c</CODE></A>
+
+<dt><pre>
+<A NAME="DddmpNumberDdNodes"></A>
+int <I></I>
+<B>DddmpNumberDdNodes</B>(
+  DdManager * <b>dd</b>, <i></i>
+  DdNode ** <b>f</b>, <i></i>
+  int  <b>n</b> <i></i>
+)
+</pre>
+<dd> Node numbering is required to convert pointers to integers.
+               Since nodes are removed from unique, no new nodes shoulld be 
+               generated before re-inserting nodes in unique
+               (DddmpUnnumberDdNodes()).
+<p>
+
+<dd> <b>Side Effects</b> Nodes are temporarily removed from unique table
+<p>
+
+<dd> <b>See Also</b> <code><a href="#RemoveFromUniqueRecur()">RemoveFromUniqueRecur()</a>
+<a href="#NumberNodeRecur()">NumberNodeRecur()</a>
+<a href="#DddmpUnnumberDdNodes()">DddmpUnnumberDdNodes()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDdNode.c"TARGET="ABSTRACT"><CODE>dddmpDdNode.c</CODE></A>
+
+<dt><pre>
+<A NAME="DddmpReadCode"></A>
+int <I></I>
+<B>DddmpReadCode</B>(
+  FILE * <b>fp</b>, <i></i>
+  struct binary_dd_code * <b>pcode</b> <i></i>
+)
+</pre>
+<dd> Reads a 1 byte node code. See DddmpWriteCode()
+               for code description
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#DddmpWriteCode()">DddmpWriteCode()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpBinary.c"TARGET="ABSTRACT"><CODE>dddmpBinary.c</CODE></A>
+
+<dt><pre>
+<A NAME="DddmpReadInt"></A>
+int <I></I>
+<B>DddmpReadInt</B>(
+  FILE * <b>fp</b>, <i></i>
+  int * <b>pid</b> <i></i>
+)
+</pre>
+<dd> Reads an integer coded on a sequence of bytes. See
+DddmpWriteInt() for format
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#DddmpWriteInt()">DddmpWriteInt()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpBinary.c"TARGET="ABSTRACT"><CODE>dddmpBinary.c</CODE></A>
+
+<dt><pre>
+<A NAME="DddmpReadNodeIndex"></A>
+int <I></I>
+<B>DddmpReadNodeIndex</B>(
+  DdNode * <b>f</b> <i></i>
+)
+</pre>
+<dd> Reads the index of a node. LSB is skipped (used as visited flag).
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#DddmpWriteNodeIndex()">DddmpWriteNodeIndex()</a>
+<a href="#DddmpSetVisited()">DddmpSetVisited()</a>
+<a href="#DddmpVisited()">DddmpVisited()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDdNode.c"TARGET="ABSTRACT"><CODE>dddmpDdNode.c</CODE></A>
+
+<dt><pre>
+<A NAME="DddmpSetVisited"></A>
+void <I></I>
+<B>DddmpSetVisited</B>(
+  DdNode * <b>f</b> <i></i>
+)
+</pre>
+<dd> Marks a node as visited
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#DddmpVisited()">DddmpVisited()</a>
+<a href="#DddmpClearVisited()">DddmpClearVisited()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDdNode.c"TARGET="ABSTRACT"><CODE>dddmpDdNode.c</CODE></A>
+
+<dt><pre>
+<A NAME="DddmpUnnumberDdNodes"></A>
+void <I></I>
+<B>DddmpUnnumberDdNodes</B>(
+  DdManager * <b>dd</b>, <i></i>
+  DdNode ** <b>f</b>, <i></i>
+  int  <b>n</b> <i></i>
+)
+</pre>
+<dd> Node indexes are no more needed. Nodes are re-linked in the unique
+               table.
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#DddmpNumberDdNode()">DddmpNumberDdNode()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDdNode.c"TARGET="ABSTRACT"><CODE>dddmpDdNode.c</CODE></A>
+
+<dt><pre>
+<A NAME="DddmpVisited"></A>
+int <I></I>
+<B>DddmpVisited</B>(
+  DdNode * <b>f</b> <i></i>
+)
+</pre>
+<dd> Returns true if node is visited
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#DddmpSetVisited()">DddmpSetVisited()</a>
+<a href="#DddmpClearVisited()">DddmpClearVisited()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDdNode.c"TARGET="ABSTRACT"><CODE>dddmpDdNode.c</CODE></A>
+
+<dt><pre>
+<A NAME="DddmpWriteCode"></A>
+int <I></I>
+<B>DddmpWriteCode</B>(
+  FILE * <b>fp</b>, <i></i>
+  struct binary_dd_code  <b>code</b> <i></i>
+)
+</pre>
+<dd> outputs a 1 byte node code using the following format:
+               <pre>
+               Unused      : 1 bit;
+               V           : 2 bits;     (variable code)
+               T           : 2 bits;     (Then code)
+               Ecompl      : 1 bit;      (Else complemented)
+               E           : 2 bits;     (Else code)
+              </pre>
+              Ecompl is set with complemented edges
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#DddmpReadCode()">DddmpReadCode()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpBinary.c"TARGET="ABSTRACT"><CODE>dddmpBinary.c</CODE></A>
+
+<dt><pre>
+<A NAME="DddmpWriteInt"></A>
+int <I></I>
+<B>DddmpWriteInt</B>(
+  FILE * <b>fp</b>, <i></i>
+  int  <b>id</b> <i></i>
+)
+</pre>
+<dd> Writes an integer as a sequence ob bytes (MSByte first).
+For each byte 7 bits are used for data and one (LSBit) as link with
+a further byte (LSB = 1 means one more byte)
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#DddmpReadInt()">DddmpReadInt()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpBinary.c"TARGET="ABSTRACT"><CODE>dddmpBinary.c</CODE></A>
+
+<dt><pre>
+<A NAME="DddmpWriteNodeIndex"></A>
+void <I></I>
+<B>DddmpWriteNodeIndex</B>(
+  DdNode * <b>f</b>, <i></i>
+  int  <b>id</b> <i></i>
+)
+</pre>
+<dd> The index of the node is written in the "next" field of
+               a DdNode struct. LSB is not used (set to 0). It is used as 
+               "visited" flag in DD traversals.
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#DddmpReadNodeIndex()">DddmpReadNodeIndex()</a>
+<a href="#DddmpSetVisited()">DddmpSetVisited()</a>
+<a href="#DddmpVisited()">DddmpVisited()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDdNode.c"TARGET="ABSTRACT"><CODE>dddmpDdNode.c</CODE></A>
+
+<dt><pre>
+<A NAME="Dddmp_Bin2Text"></A>
+int <I></I>
+<B>Dddmp_Bin2Text</B>(
+  char * <b>filein</b>, <i></i>
+  char * <b>fileout</b> <i></i>
+)
+</pre>
+<dd> Converts from binary to ASCII format. A BDD array is loaded and
+               and stored to the target file.
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#Dddmp_Text2Bin()">Dddmp_Text2Bin()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpConvert.c"TARGET="ABSTRACT"><CODE>dddmpConvert.c</CODE></A>
+
+<dt><pre>
+<A NAME="Dddmp_Text2Bin"></A>
+int <I></I>
+<B>Dddmp_Text2Bin</B>(
+  char * <b>filein</b>, <i></i>
+  char * <b>fileout</b> <i></i>
+)
+</pre>
+<dd> Converts from ASCII to binary format. A BDD array is loaded and
+               and stored to the target file.
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#Dddmp_Bin2Text()">Dddmp_Bin2Text()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpConvert.c"TARGET="ABSTRACT"><CODE>dddmpConvert.c</CODE></A>
+
+<dt><pre>
+<A NAME="Dddmp_cuddBddArrayLoad"></A>
+int <I></I>
+<B>Dddmp_cuddBddArrayLoad</B>(
+  DdManager * <b>dd</b>, <i>manager</i>
+  Dddmp_RootMatchType  <b>rootmatchmode</b>, <i>storing mode selector</i>
+  char ** <b>rootmatchnames</b>, <i>sorted names for loaded roots</i>
+  Dddmp_VarMatchType  <b>varmatchmode</b>, <i>storing mode selector</i>
+  char ** <b>varmatchnames</b>, <i>array of variable names (accessed by ids)</i>
+  int * <b>varmatchauxids</b>, <i>array of variable auxids (accessed by ids)</i>
+  int * <b>varcomposeids</b>, <i>array of new ids (accessed by ids)</i>
+  int  <b>mode</b>, <i>requested input file format (checked against file format)</i>
+  char * <b>file</b>, <i>file name</i>
+  FILE * <b>fp</b>, <i>file pointer</i>
+  DdNode *** <b>pproots</b> <i>array of returned BDD roots (by reference)</i>
+)
+</pre>
+<dd> Reads a dump file representing the argument BDDs. The header is
+  common to both text and binary mode. The node list is either 
+  in text or binary format. A dynamic vector of DD pointers 
+  is allocated to support conversion from DD indexes to pointers.
+  Several criteria are supported for variable match between file
+  and dd manager. Several changes/permutations/compositions are allowed
+  for variables while loading DDs. Variable of the dd manager are allowed 
+  to match with variables on file on ids, permids, varnames, 
+  varauxids; also direct composition between ids and 
+  composeids is supported. More in detail:
+  <ol>
+  <li> varmatchmode=DDDMP_VAR_MATCHIDS <p>
+  allows the loading of a DD keeping variable IDs unchanged
+  (regardless of the variable ordering of the reading manager); this
+  is useful, for example, when swapping DDs to file and restoring them
+  later from file, after possible variable reordering activations.
+  
+  <li> varmatchmode=DDDMP_VAR_MATCHPERMIDS <p>
+  is used to allow variable match according to the position in the ordering.
+  
+  <li> varmatchmode=DDDMP_VAR_MATCHNAMES <p>
+  requires a non NULL varmatchnames parameter; this is a vector of
+  strings in one-to-one correspondence with variable IDs of the
+  reading manager. Variables in the DD file read are matched with
+  manager variables according to their name (a non NULL varnames
+  parameter was required while storing the DD file).
+
+  <li> varmatchmode=DDDMP_VAR_MATCHIDS <p>
+  has a meaning similar to DDDMP_VAR_MATCHNAMES, but integer auxiliary
+  IDs are used instead of strings; the additional non NULL
+  varmatchauxids parameter is needed.
+
+  <li> varmatchmode=DDDMP_VAR_COMPOSEIDS <p>
+  uses the additional varcomposeids parameter is used as array of
+  variable ids to be composed with ids stored in file.
+  </ol>
+
+  In the present implementation, the array varnames (3), varauxids (4)
+  and composeids (5) need to have one entry for each variable in the 
+  DD manager (NULL pointers are allowed for unused variables
+  in varnames). Hence variables need to be already present in the 
+  manager. All arrays are sorted according to IDs.
+<p>
+
+<dd> <b>Side Effects</b> A vector of pointers to DD nodes is allocated and freed.
+<p>
+
+<dd> <b>See Also</b> <code><a href="#Dddmp_cuddBddArrayStore">Dddmp_cuddBddArrayStore</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDump.c"TARGET="ABSTRACT"><CODE>dddmpDump.c</CODE></A>
+
+<dt><pre>
+<A NAME="Dddmp_cuddBddArrayStore"></A>
+int <I></I>
+<B>Dddmp_cuddBddArrayStore</B>(
+  DdManager * <b>dd</b>, <i>manager</i>
+  char * <b>ddname</b>, <i>dd name (or NULL)</i>
+  int  <b>nroots</b>, <i>number of output BDD roots to be stored</i>
+  DdNode ** <b>f</b>, <i>array of BDD roots to be stored</i>
+  char ** <b>rootnames</b>, <i>array of root names (or NULL)</i>
+  char ** <b>varnames</b>, <i>array of variable names (or NULL)</i>
+  int * <b>auxids</b>, <i>array of converted var IDs</i>
+  int  <b>mode</b>, <i>storing mode selector</i>
+  Dddmp_VarInfoType  <b>varinfo</b>, <i>extra info for variables in text mode</i>
+  char * <b>fname</b>, <i>file name</i>
+  FILE * <b>fp</b> <i>pointer to the store file</i>
+)
+</pre>
+<dd> Dumps the argument array of BDDs to file. Dumping is
+  either in text or binary form.  BDDs are stored to the fp (already
+  open) file if not NULL. Otherwise the file whose name is fname is opened
+  in write mode.  The header has the same format for both textual and
+  binary dump.  Names are allowed for input variables (vnames) and for
+  represented functions (rnames).  For sake of generality and because
+  of dynamic variable ordering both variable IDs and permuted IDs are
+  included. New IDs are also supported (auxids).  Variables are identified with incremental       
+  numbers. according with their positiom in the support set.
+  In text mode, an extra info may be added, chosen among the following options:
+  name, ID, PermID, or an auxiliary id.  Since conversion from DD pointers to integers is
+  required, DD nodes are temporarily removed from the unique
+  hash table. This allows the use of the next field to store node IDs.
+<p>
+
+<dd> <b>Side Effects</b> Nodes are temporarily removed from the unique hash
+  table. They are re-linked after the store operation in a modified
+  order.
+<p>
+
+<dd> <b>See Also</b> <code><a href="#Dddmp_cuddBddStore">Dddmp_cuddBddStore</a>
+<a href="#Dddmp_cuddBddLoad">Dddmp_cuddBddLoad</a>
+<a href="#Dddmp_cuddBddArrayLoad">Dddmp_cuddBddArrayLoad</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDump.c"TARGET="ABSTRACT"><CODE>dddmpDump.c</CODE></A>
+
+<dt><pre>
+<A NAME="Dddmp_cuddBddDisplayBinary"></A>
+int <I></I>
+<B>Dddmp_cuddBddDisplayBinary</B>(
+  char * <b>filein</b>, <i></i>
+  char * <b>fileout</b> <i>name of text file</i>
+)
+</pre>
+<dd> Display a binary dump file in a text file
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#Dddmp_cuddBddStore">Dddmp_cuddBddStore</a>
+<a href="#Dddmp_cuddBddLoad">Dddmp_cuddBddLoad</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDbg.c"TARGET="ABSTRACT"><CODE>dddmpDbg.c</CODE></A>
+
+<dt><pre>
+<A NAME="Dddmp_cuddBddLoad"></A>
+DdNode * <I></I>
+<B>Dddmp_cuddBddLoad</B>(
+  DdManager * <b>dd</b>, <i>manager</i>
+  Dddmp_VarMatchType  <b>varmatchmode</b>, <i>storing mode selector</i>
+  char ** <b>varmatchnames</b>, <i>array of variable names (accessed by IDs)</i>
+  int * <b>varmatchauxids</b>, <i>array of variable auxids (accessed by IDs)</i>
+  int * <b>varcomposeids</b>, <i>array of new ids (accessed by ids)</i>
+  int  <b>mode</b>, <i>requested input file format (checked against file format)</i>
+  char * <b>file</b>, <i>file name</i>
+  FILE * <b>fp</b> <i>file pointer</i>
+)
+</pre>
+<dd> Reads a dump file representing the argument BDD.
+  Dddmp_cuddBddArrayLoad is used through a dummy array.
+<p>
+
+<dd> <b>Side Effects</b> A vector of pointers to DD nodes is allocated and freed.
+<p>
+
+<dd> <b>See Also</b> <code><a href="#Dddmp_cuddBddStore">Dddmp_cuddBddStore</a>
+<a href="#Dddmp_cuddBddArrayLoad">Dddmp_cuddBddArrayLoad</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDump.c"TARGET="ABSTRACT"><CODE>dddmpDump.c</CODE></A>
+
+<dt><pre>
+<A NAME="Dddmp_cuddBddStore"></A>
+int <I></I>
+<B>Dddmp_cuddBddStore</B>(
+  DdManager * <b>dd</b>, <i>manager</i>
+  char * <b>ddname</b>, <i>dd name (or NULL)</i>
+  DdNode * <b>f</b>, <i>BDD root to be stored</i>
+  char ** <b>varnames</b>, <i>array of variable names (or NULL)</i>
+  int * <b>auxids</b>, <i>array of converted var ids</i>
+  int  <b>mode</b>, <i>storing mode selector</i>
+  Dddmp_VarInfoType  <b>varinfo</b>, <i>extra info for variables in text mode</i>
+  char * <b>fname</b>, <i>file name</i>
+  FILE * <b>fp</b> <i>pointer to the store file</i>
+)
+</pre>
+<dd> Dumps the argument BDD to file. Dumping is done through
+               Dddmp_cuddBddArrayStore, And a dummy array of 1 BDD root is
+               used for this purpose.
+<p>
+
+<dd> <b>Side Effects</b> Nodes are temporarily removed from unique hash. They are 
+re-linked after the store operation in a modified order.
+<p>
+
+<dd> <b>See Also</b> <code><a href="#Dddmp_cuddBddLoad">Dddmp_cuddBddLoad</a>
+<a href="#Dddmp_cuddBddArrayLoad">Dddmp_cuddBddArrayLoad</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDump.c"TARGET="ABSTRACT"><CODE>dddmpDump.c</CODE></A>
+
+<dt><pre>
+<A NAME="FindVarname"></A>
+static int <I></I>
+<B>FindVarname</B>(
+  char * <b>name</b>, <i></i>
+  char ** <b>array</b>, <i></i>
+  int  <b>n</b> <i></i>
+)
+</pre>
+<dd> Binary search of a name within a sorted array of strings.
+               used when matching names of variables.
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDump.c"TARGET="ABSTRACT"><CODE>dddmpDump.c</CODE></A>
+
+<dt><pre>
+<A NAME="NumberNodeRecur"></A>
+int <I></I>
+<B>NumberNodeRecur</B>(
+  DdNode * <b>f</b>, <i></i>
+  int  <b>id</b> <i></i>
+)
+</pre>
+<dd> Number nodes recursively in post-order. The "visited flag is 
+               used with inverse polarity, because all nodes were set "visited"
+               when removing them from unique.
+<p>
+
+<dd> <b>Side Effects</b> "visited" flags are reset.
+<p>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDdNode.c"TARGET="ABSTRACT"><CODE>dddmpDdNode.c</CODE></A>
+
+<dt><pre>
+<A NAME="QsortStrcmp"></A>
+static int <I></I>
+<B>QsortStrcmp</B>(
+  const void * <b>ps1</b>, <i></i>
+  const void * <b>ps2</b> <i></i>
+)
+</pre>
+<dd> String compare for qsort
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDump.c"TARGET="ABSTRACT"><CODE>dddmpDump.c</CODE></A>
+
+<dt><pre>
+<A NAME="ReadByteBinary"></A>
+static int <I></I>
+<B>ReadByteBinary</B>(
+  FILE * <b>fp</b>, <i></i>
+  unsigned char * <b>cp</b> <i></i>
+)
+</pre>
+<dd> inputs a byte to file fp. 0x00 has been used as escape character
+               to filter <CR>, <LF> and <ctrl-Z>. This is done for
+               compatibility between unix and dos/windows systems.
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#WriteByteBinary()">WriteByteBinary()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpBinary.c"TARGET="ABSTRACT"><CODE>dddmpBinary.c</CODE></A>
+
+<dt><pre>
+<A NAME="RemoveFromUniqueRecur"></A>
+static void <I></I>
+<B>RemoveFromUniqueRecur</B>(
+  DdManager * <b>dd</b>, <i></i>
+  DdNode * <b>f</b> <i></i>
+)
+</pre>
+<dd> Removes a node from the unique table by locating the proper
+subtable and unlinking the node from it. It recurs on son nodes
+<p>
+
+<dd> <b>Side Effects</b> Nodes are left with the "visited" flag true.
+<p>
+
+<dd> <b>See Also</b> <code><a href="#RestoreInUniqueRecur()">RestoreInUniqueRecur()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDdNode.c"TARGET="ABSTRACT"><CODE>dddmpDdNode.c</CODE></A>
+
+<dt><pre>
+<A NAME="RestoreInUniqueRecur"></A>
+static void <I></I>
+<B>RestoreInUniqueRecur</B>(
+  DdManager * <b>dd</b>, <i></i>
+  DdNode * <b>f</b> <i></i>
+)
+</pre>
+<dd> Restores a node in unique table (recursive)
+<p>
+
+<dd> <b>Side Effects</b> Nodes are not restored in the same order as before removal
+<p>
+
+<dd> <b>See Also</b> <code><a href="#RemoveFromUnique()">RemoveFromUnique()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDdNode.c"TARGET="ABSTRACT"><CODE>dddmpDdNode.c</CODE></A>
+
+<dt><pre>
+<A NAME="StoreNodeRecur"></A>
+static int <I></I>
+<B>StoreNodeRecur</B>(
+  DdManager * <b>dd</b>, <i>dd manager</i>
+  DdNode * <b>f</b>, <i>dd node to be stored</i>
+  int  <b>mode</b>, <i>store mode</i>
+  int * <b>supportids</b>, <i>internal ids for variables</i>
+  char ** <b>varnames</b>, <i>names of variables: to be stored with nodes</i>
+  int * <b>outids</b>, <i>output ids for variables</i>
+  FILE * <b>fp</b> <i>store file</i>
+)
+</pre>
+<dd> Stores a node to file in either test or 
+  binary mode.<l>
+  In text mode a node is represented (on a text line basis) as
+  <UL>
+  <LI> node-index [var-extrainfo] var-index Then-index Else-index
+  </UL>
+  
+  where all indexes are integer numbers and var-extrainfo (optional
+  redundant field) is either an integer or a string (variable name).
+  Node-index is redundant (due to the node ordering) but we keep it
+  for readability.<p>
+
+  In binary mode nodes are represented as a sequence of bytes,
+  representing var-index, Then-index, and Else-index in an optimized
+  way.  Only the first byte (code) is mandatory. Integer indexes are
+  represented in absolute or relative mode, where relative means
+  offset wrt. a Then/Else node info.  Suppose Var(NodeId),
+  Then(NodeId) and Else(NodeId) represent infos about a given node.<p>
+
+  The generic "NodeId" node is stored as 
+
+  <UL>
+  <LI> code-byte
+  <LI> [var-info]
+  <LI> [Then-info]
+  <LI> [Else-info]
+  </UL>
+
+  where code-byte contains bit fields
+
+  <UL>
+  <LI>Unused  : 1 bit
+  <LI>Variable: 2 bits, one of the following codes
+    <UL>
+    <LI>DDDMP_ABSOLUTE_ID   var-info = Var(NodeId) follows
+    <LI>DDDMP_RELATIVE_ID   Var(NodeId) is represented in relative form as
+    var-info = Min(Var(Then(NodeId)),Var(Else(NodeId))) -Var(NodeId)
+    <LI>DDDMP_RELATIVE_1    No var-info follows, because
+    Var(NodeId) = Min(Var(Then(NodeId)),Var(Else(NodeId)))-1
+    <LI>DDDMP_TERMINAL      Node is a terminal, no var info required
+    </UL>
+  <LI>T       : 2 bits, with codes similar to V
+    <UL>
+    <LI>DDDMP_ABSOLUTE_ID   Then-info = Then(NodeId) follows
+    <LI>DDDMP_RELATIVE_ID   Then(NodeId) is represented in relative form as
+    Then-info = Nodeid-Then(NodeId)
+    <LI>DDDMP_RELATIVE_1    No info on Then(NodeId) follows, because
+    Then(NodeId) = NodeId-1
+    <LI>DDDMP_TERMINAL      Then Node is a terminal, no info required (for
+    BDDs)
+    </UL>
+  <LI>Ecompl  : 1 bit, if 1 means complemented edge
+  <LI>E       : 2 bits, with codes and meanings as for the Then edge
+  </UL>
+var-info, Then-info, Else-info (if required) are represented as unsigned 
+integer values on a sufficient set of bytes (MSByte first).
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpDump.c"TARGET="ABSTRACT"><CODE>dddmpDump.c</CODE></A>
+
+<dt><pre>
+<A NAME="WriteByteBinary"></A>
+static int <I></I>
+<B>WriteByteBinary</B>(
+  FILE * <b>fp</b>, <i></i>
+  unsigned char  <b>c</b> <i></i>
+)
+</pre>
+<dd> outputs a byte to file fp. Uses 0x00 as escape character
+               to filter <CR>, <LF> and <ctrl-Z>. This is done for
+               compatibility between unix and dos/windows systems.
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#ReadByteBinary()">ReadByteBinary()</a>
+</code>
+
+<DD> <B>Defined in </B> <A HREF="dddmpAllFile.html#dddmpBinary.c"TARGET="ABSTRACT"><CODE>dddmpBinary.c</CODE></A>
+
+
+</DL>
+<HR>
+Last updated on 980512 20h55
+</BODY></HTML>

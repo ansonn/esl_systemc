@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Writing Decision Diagrams to a File</TITLE>
+<META NAME="description" CONTENT="Writing Decision Diagrams to a File">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html487" HREF="node24.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html485" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html479" HREF="node22.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html489" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html488" HREF="node24.html">Saving and Restoring BDDs</A>
+<B>Up:</B> <A NAME="tex2html486" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html480" HREF="node22.html">The SIS/VIS Interface</A>
+<BR> <P>
+<H2><A NAME="SECTION000318000000000000000">Writing Decision Diagrams to a File</A></H2>
+<P>
+<A NAME="secdump">&#160;</A>
+<P>
+The CUDD package provides several functions to write decision diagrams
+to a file. <A NAME="tex2html101" HREF="cuddExtDet.html#Cudd_DumpBlif"><EM>Cudd_DumpBlif</EM></A><A NAME="1522">&#160;</A> writes a
+file in <EM>blif</EM> format.  It is restricted to BDDs. The diagrams
+are written as a network of multiplexers, one multiplexer for each
+internal node of the BDD.
+<P>
+<A NAME="tex2html102" HREF="cuddExtDet.html#Cudd_DumpDot"><EM>Cudd_DumpDot</EM></A><A NAME="1524">&#160;</A> produces input suitable to
+the graph-drawing<A NAME="741">&#160;</A> program
+<A NAME="tex2html103" HREF="http://www.research.att.com/sw/tools/reuse"><EM>dot</EM></A>
+written by
+Eleftherios Koutsofios and Stephen C. North. An example of drawing
+produced by dot from the output of <A NAME="tex2html104" HREF="cuddExtDet.html#Cudd_DumpDot"><EM>Cudd_DumpDot</EM></A> is shown in
+Figure&nbsp;<A HREF="node23.html#fiphase">1</A>. It is restricted to BDDs and ADDs.
+<P><A NAME="1265">&#160;</A><IMG WIDTH=424 HEIGHT=702 ALIGN=BOTTOM ALT="figure747" SRC="img10.gif"><BR>
+<STRONG>Figure 1:</STRONG> A BDD representing a phase constraint for the optimization of
+  fixed-polarity Reed-Muller forms. The label of each node is the
+  unique part of the node address. All nodes on the same level
+  correspond to the same variable, whose name is shown at the left of
+  the diagram. Dotted lines indicate complement<A NAME="749">&#160;</A>
+  arcs. Dashed lines indicate regular<A NAME="750">&#160;</A> ``else&quot;
+  arcs.<A NAME="fiphase">&#160;</A><BR>
+<P>
+<A NAME="tex2html105" HREF="cuddExtDet.html#Cudd_zddDumpDot"><EM>Cudd_zddDumpDot</EM></A><A NAME="1526">&#160;</A> is the analog of <A NAME="tex2html106" HREF="cuddExtDet.html#Cudd_DumpDot"><EM>
+  Cudd_DumpDot</EM></A> for ZDDs.
+<P>
+<A NAME="tex2html107" HREF="cuddExtDet.html#Cudd_DumpDaVinci"><EM>Cudd_DumpDaVinci</EM></A><A NAME="1528">&#160;</A> produces input suitable to
+the graph-drawing<A NAME="761">&#160;</A> program
+<A NAME="tex2html108" HREF="ftp://ftp.uni-bremen.de/pub/graphics/daVinci"><EM>
+    daVinci</EM></A> developed
+at the University of Bremen. It is  restricted to BDDs and ADDs.
+<P>
+Functions are also available to produce the input format of <EM>
+  DDcal</EM> (see Section&nbsp;<A HREF="node4.html#secgetFriends">2.2</A>) and factored forms.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

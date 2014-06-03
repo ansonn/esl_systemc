@@ -1,0 +1,29 @@
+This example illustrates data instrospection and constrained randomization
+concepts for writing transaction level models.  It:
+
+- Illustrates SCV introspection and constrained randomization concepts.
+- Shows distinction between transaction level data and constraints 
+- Shows ways of attaching different constraints to data objects in tests
+- Shows ways of generating new random values and changing constraints in tests
+  for a reusable methodology.
+- Illustrates some methodologies which should be followed for writing 
+  reusable and efficient testbenches for maniluating data and managing 
+  constraints
+
+The following source files are part of this example:
+
+  packet.h              => User-defined data type
+  packet_ext.h:         => Extensions created by SCV
+  packet_constraints.h: => Potential packet constraints defined 
+                           by Verification engineer
+  constraints.h         => Dependent variable constraint to show
+                           use_constraint and next semantics
+  packet.cpp            => Implementation of packet using packet extension
+  test.cpp              => Uses previously defined data and constraints
+                           to change constraints and manipulate constraints
+
+To run this example, do one of the following:
+
+  unix> make sun-gnu
+  unix> make hppa-native
+  unix> make linux

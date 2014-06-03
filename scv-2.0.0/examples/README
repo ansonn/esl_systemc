@@ -1,0 +1,41 @@
+Examples:
+
+1. Overview (subdir: general)
+
+   hello    : part of a venerable tradition, does nothing useful  
+
+2. Manipulation of Arbitrary Data Types (subdir: extensions)
+
+   ex_01_userdata : create an extension for a user defined data type 
+   ex_02_enumdata : create an extension for an enumerated data type
+   ex_03_nestdata : create an extension for a datatype whose definition 
+                    contains the definition of another datatype
+   introspection1 : well-annotated example illustrates several aspects 
+                    to the use of extensions
+   private        : how to create an extension for a data structure 
+
+3. Randomization, Constraints, and Weight Specification (subdir: randomization)
+
+   constraints           : techniques for applying and changing constraints
+   debug                 : provides a few pointers on debugging constraints
+   ex_04_simplerand      : how to randomize data 
+   ex_05_disablerand     : disable randomization for certain elements 
+   ex_07_seedfile        : seed file to control the randomization seeds
+   ex_08_dist            : create a distribution of values 
+   ex_09_distrange       : create a distribution range 
+   ex_10_basicconstraint : create a constraint between data objects
+   ex_11_softconstraint  : create soft constraints 
+   ex_12_hier_constraint : create hierarchical constraints
+   ex_13_custom_next     : overload the operation of the next() method 
+                           inside a constraint
+   pythagoras            : integer solutions to the Pythagorean Theorem
+
+4. Variable and Transaction Recording (subdir: transactions)
+
+   overview : small design using extensions, constrained randomization, 
+              and transactions
+
+5. Miscellaneous Supporting Facilities (subdir: data_structures)
+
+   scv_bag          : basic usage of the scv_bag data structure
+   scv_sparse_array : basic usage of the scv_sparse_array data structure  

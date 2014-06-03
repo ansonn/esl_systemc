@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Grouping Variables</TITLE>
+<META NAME="description" CONTENT="Grouping Variables">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html432" HREF="node19.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html430" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html424" HREF="node17.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html434" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html433" HREF="node19.html">Variable Reordering for ZDDs</A>
+<B>Up:</B> <A NAME="tex2html431" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html425" HREF="node17.html">Variable Reordering for BDDs </A>
+<BR> <P>
+<H2><A NAME="SECTION000313000000000000000">Grouping Variables</A></H2>
+<P>
+<A NAME="563">&#160;</A><A NAME="secgroup">&#160;</A>
+<P>
+CUDD allows the application to specify constraints on the positions of
+group of variables. It is possible to request that a group of
+contiguous variables be kept contiguous by the reordering procedures.
+It is also possible to request that the relative order of some groups
+of variables be left unchanged. The constraints on the order are
+specified by means of a tree<A NAME="565">&#160;</A>, which is created in
+one of two ways:
+<UL>
+<LI> By calling <A NAME="tex2html80" HREF="cuddExtDet.html#Cudd_MakeTreeNode"><EM>Cudd_MakeTreeNode</EM></A><A NAME="1492">&#160;</A>.
+<LI> By calling the functions of the MTR<A NAME="570">&#160;</A> library
+  (part of the distribution), and by registering the result with the
+  manager using <A NAME="tex2html81" HREF="cuddExtDet.html#Cudd_SetTree"><EM>Cudd_SetTree</EM></A><A NAME="1494">&#160;</A>. The
+  current tree registered with the manager can be read with <A NAME="tex2html82" HREF="cuddExtDet.html#Cudd_ReadTree"><EM>
+    Cudd_ReadTree</EM></A><A NAME="1496">&#160;</A>.
+</UL>
+<P>
+Each node in the tree represents a range of variables. The lower bound
+of the range is given by the <EM>low</EM> field of the node, and the
+size of the group is given by the <EM>size</EM> field of the
+node.<A NAME="tex2html83" HREF="footnode.html#1241"><IMG  ALIGN=BOTTOM ALT="gif" SRC="icons/foot_motif.gif"></A>  The variables in
+each range are kept contiguous. Furthermore, if a node is marked with
+the MTR_FIXED<A NAME="582">&#160;</A> flag, then the relative order of the
+variable ranges associated to its children is not changed.  As an
+example, suppose the initial variable order is:
+<PRE>        x0, y0, z0, x1, y1, z1, ... , x9, y9, z9.</PRE>
+Suppose we want to keep each group of three variables with the same
+index (e.g., <code>x3, y3, z3</code>) contiguous, while allowing the package
+to change the order of the groups. We can accomplish this with the
+following code:
+<PRE>        for (i = 0; i &lt; 10; i++) {
+            (void) Cudd_MakeTreeNode(manager,i*3,3,MTR_DEFAULT);
+        }</PRE>
+If we want to keep the order within each group of variables
+fixed (i.e., <code>x</code> before <code>y</code> before <code>z</code>) we need to
+change MTR_DEFAULT<A NAME="583">&#160;</A> into MTR_FIXED.
+<P>
+The <EM>low</EM> parameter passed to <A NAME="tex2html84" HREF="cuddExtDet.html#Cudd_MakeTreeNode"><EM>
+  Cudd_MakeTreeNode</EM></A><A NAME="1498">&#160;</A> is the index
+of a variable (as opposed to its level or position in the order).  The
+group tree<A NAME="588">&#160;</A> can be created at any time. The result
+obviously depends on the variable order in effect at creation time.
+<P>
+It is possible to create a variable group tree also before the
+variables themselves are created. The package assumes in this case
+that the index of the variables not yet in existence will equal their
+position in the order when they are created. Therefore, applications
+that rely on <A NAME="tex2html85" HREF="cuddExtDet.html#Cudd_bddNewVarAtLevel"><EM>
+  Cudd_bddNewVarAtLevel</EM></A><A NAME="1500">&#160;</A> or
+<A NAME="tex2html86" HREF="cuddExtDet.html#Cudd_addNewVarAtLevel"><EM>Cudd_addNewVarAtLevel</EM></A><A NAME="1502">&#160;</A> to
+create new variables have to create the variables before they group
+them.
+<P>
+The reordering procedure will skip all groups whose variables are not
+yet in existence. For groups that are only partially in existence, the
+reordering procedure will try to reorder the variables already
+instantiated, without violating the adjacency constraints.
+<P>
+<HR><A NAME="tex2html432" HREF="node19.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html430" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html424" HREF="node17.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html434" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html433" HREF="node19.html">Variable Reordering for ZDDs</A>
+<B>Up:</B> <A NAME="tex2html431" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html425" HREF="node17.html">Variable Reordering for BDDs </A>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

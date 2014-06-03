@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Debugging</TITLE>
+<META NAME="description" CONTENT="Debugging">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html593" HREF="node33.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html591" HREF="node25.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html585" HREF="node31.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html595" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html594" HREF="node33.html">Gathering and Interpreting Statistics</A>
+<B>Up:</B> <A NAME="tex2html592" HREF="node25.html">Programmer's Manual</A>
+<B> Previous:</B> <A NAME="tex2html586" HREF="node31.html">Allowing Asynchronous Reordering</A>
+<BR> <P>
+<H2><A NAME="SECTION00047000000000000000">Debugging</A></H2>
+<P>
+<A NAME="1035">&#160;</A><A NAME="secdebug">&#160;</A>
+<P>
+By defining the symbol DD_DEBUG<A NAME="1037">&#160;</A> during compilation,
+numerous checks are added to the code. In addition, the procedures
+<A NAME="tex2html159" HREF="cuddExtDet.html#Cudd_DebugCheck"><EM>Cudd_DebugCheck</EM></A><A NAME="1618">&#160;</A>, <A NAME="tex2html160" HREF="cuddExtDet.html#Cudd_CheckKeys"><EM>
+  Cudd_CheckKeys</EM></A><A NAME="1620">&#160;</A>, and <A NAME="tex2html161" HREF="cuddAllDet.html#cuddHeapProfile"><EM>
+  cuddHeapProfile</EM></A><A NAME="1622">&#160;</A> can be called at any point
+to verify the consistency of the data structure. (<A NAME="tex2html162" HREF="cuddAllDet.html#cuddHeapProfile"><EM>
+  cuddHeapProfile</EM></A> is an internal procedure. It is declared in <EM>
+  cuddInt.h</EM><A NAME="1050">&#160;</A>.) Procedures <A NAME="tex2html163" HREF="cuddExtDet.html#Cudd_DebugCheck"><EM>Cudd_DebugCheck</EM></A>
+and <A NAME="tex2html164" HREF="cuddExtDet.html#Cudd_CheckKeys"><EM>Cudd_CheckKeys</EM></A> are especially useful when CUDD reports
+that during garbage collection the number of nodes actually deleted
+from the unique table is different from the count of dead nodes kept
+by the manager. The error causing the discrepancy may have occurred
+much earlier than it is discovered.  A few strategicaly placed calls
+to the debugging procedures can considerably narrow down the search
+for the source of the problem. (For instance, a call to <A NAME="tex2html165" HREF="cuddExtDet.html#Cudd_RecursiveDeref"><EM>
+  Cudd_RecursiveDeref</EM></A> where one to <A NAME="tex2html166" HREF="cuddExtDet.html#Cudd_Deref"><EM>Cudd_Deref</EM></A> was required
+may be identified in this way.)
+<P>
+One of the most common problems encountered in debugging code based on
+the CUDD package is a missing call to <A NAME="tex2html167" HREF="cuddExtDet.html#Cudd_RecursiveDeref"><EM>
+  Cudd_RecursiveDeref</EM></A><A NAME="1624">&#160;</A>.  To help
+identify this type of problems, the package provides a function called
+<A NAME="tex2html168" HREF="cuddExtDet.html#Cudd_CheckZeroRef"><EM>Cudd_CheckZeroRef</EM></A><A NAME="1626">&#160;</A>. This
+function should be called immediately before shutting down the
+manager. <A NAME="tex2html169" HREF="cuddExtDet.html#Cudd_CheckZeroRef"><EM>Cudd_CheckZeroRef</EM></A> checks that the only nodes left
+with non-zero reference<A NAME="1067">&#160;</A> counts are the
+predefined constants, the BDD projection<A NAME="1068">&#160;</A>
+functions, and nodes whose reference counts are
+saturated<A NAME="1069">&#160;</A>.
+<P>
+For this function to be effective the application must explicitly
+dispose of all diagrams to which it has pointers before calling it.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

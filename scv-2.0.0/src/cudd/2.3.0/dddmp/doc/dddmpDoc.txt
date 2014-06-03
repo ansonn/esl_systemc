@@ -1,0 +1,176 @@
+The dddmp package
+
+Functions to read in and write out bdds to file
+
+Gianpiero Cabodi & Stefano Quer
+
+**********************************************************************
+
+Dddmp_Bin2Text()               Converts from binary to ASCII format
+
+Dddmp_Text2Bin()               Converts from ASCII to binary format
+
+Dddmp_cuddBddArrayLoad()       Reads a dump file representing the argument
+                               BDDs.
+
+Dddmp_cuddBddArrayStore()      Writes a dump file representing the argument
+                               Array of BDDs.
+
+Dddmp_cuddBddDisplayBinary()   Display a binary dump file in a text file
+
+Dddmp_cuddBddLoad()            Reads a dump file representing the argument
+                               BDD.
+
+Dddmp_cuddBddStore()           Writes a dump file representing the argument
+                               BDD.
+
+**********************************************************************
+
+
+
+int
+Dddmp_Bin2Text(
+  char *            filein,
+  char *            fileout
+)
+  Converts from binary to ASCII format. A BDD array is loaded and and stored
+  to the target file.
+
+  Side Effects: None
+
+int
+Dddmp_Text2Bin(
+  char *            filein,
+  char *            fileout
+)
+  Converts from ASCII to binary format. A BDD array is loaded and and stored
+  to the target file.
+
+  Side Effects: None
+
+int
+Dddmp_cuddBddArrayLoad(
+  DdManager *       dd,              manager
+  Dddmp_RootMatchTy rootmatchmode,   storing mode selector
+  char **           rootmatchnames,  sorted names for loaded roots
+  Dddmp_VarMatchTyp varmatchmode,    storing mode selector
+  char **           varmatchnames,   array of variable names (accessed by ids)
+  int *             varmatchauxids,  array of variable auxids (accessed by
+                                     ids)
+  int *             varcomposeids,   array of new ids (accessed by ids)
+  int               mode,            requested input file format (checked
+                                     against file format)
+  char *            file,            file name
+  FILE *            fp,              file pointer
+  DdNode ***        pproots          array of returned BDD roots (by
+                                     reference)
+)
+  Reads a dump file representing the argument BDDs. The header is common to
+  both text and binary mode. The node list is either in text or binary format.
+  A dynamic vector of DD pointers is allocated to support conversion from DD
+  indexes to pointers. Several criteria are supported for variable match
+  between file and dd manager. Several changes/permutations/compositions are
+  allowed for variables while loading DDs. Variable of the dd manager are
+  allowed to match with variables on file on ids, permids, varnames,
+  varauxids; also direct composition between ids and composeids is supported.
+  More in detail: <ol> <li> varmatchmode=DDDMP_VAR_MATCHIDS <p> allows the
+  loading of a DD keeping variable IDs unchanged (regardless of the variable
+  ordering of the reading manager); this is useful, for example, when swapping
+  DDs to file and restoring them later from file, after possible variable
+  reordering activations. <li> varmatchmode=DDDMP_VAR_MATCHPERMIDS <p> is used
+  to allow variable match according to the position in the ordering. <li>
+  varmatchmode=DDDMP_VAR_MATCHNAMES <p> requires a non NULL varmatchnames
+  parameter; this is a vector of strings in one-to-one correspondence with
+  variable IDs of the reading manager. Variables in the DD file read are
+  matched with manager variables according to their name (a non NULL varnames
+  parameter was required while storing the DD file). <li>
+  varmatchmode=DDDMP_VAR_MATCHIDS <p> has a meaning similar to
+  DDDMP_VAR_MATCHNAMES, but integer auxiliary IDs are used instead of strings;
+  the additional non NULL varmatchauxids parameter is needed. <li>
+  varmatchmode=DDDMP_VAR_COMPOSEIDS <p> uses the additional varcomposeids
+  parameter is used as array of variable ids to be composed with ids stored in
+  file. </ol> In the present implementation, the array varnames (3), varauxids
+  (4) and composeids (5) need to have one entry for each variable in the DD
+  manager (NULL pointers are allowed for unused variables in varnames). Hence
+  variables need to be already present in the manager. All arrays are sorted
+  according to IDs.
+
+  Side Effects: A vector of pointers to DD nodes is allocated and freed.
+
+int
+Dddmp_cuddBddArrayStore(
+  DdManager *       dd,              manager
+  char *            ddname,          dd name (or NULL)
+  int               nroots,          number of output BDD roots to be stored
+  DdNode **         f,               array of BDD roots to be stored
+  char **           rootnames,       array of root names (or NULL)
+  char **           varnames,        array of variable names (or NULL)
+  int *             auxids,          array of converted var IDs
+  int               mode,            storing mode selector
+  Dddmp_VarInfoType varinfo,         extra info for variables in text mode
+  char *            fname,           file name
+  FILE *            fp               pointer to the store file
+)
+  Dumps the argument array of BDDs to file. Dumping is either in text or
+  binary form. BDDs are stored to the fp (already open) file if not NULL.
+  Otherwise the file whose name is fname is opened in write mode. The header
+  has the same format for both textual and binary dump. Names are allowed for
+  input variables (vnames) and for represented functions (rnames). For sake of
+  generality and because of dynamic variable ordering both variable IDs and
+  permuted IDs are included. New IDs are also supported (auxids). Variables
+  are identified with incremental numbers. according with their positiom in
+  the support set. In text mode, an extra info may be added, chosen among the
+  following options: name, ID, PermID, or an auxiliary id. Since conversion
+  from DD pointers to integers is required, DD nodes are temporarily removed
+  from the unique hash table. This allows the use of the next field to store
+  node IDs.
+
+  Side Effects: Nodes are temporarily removed from the unique hash table. They
+  are re-linked after the store operation in a modified order.
+
+int
+Dddmp_cuddBddDisplayBinary(
+  char *            filein,
+  char *            fileout          name of text file
+)
+  Display a binary dump file in a text file
+
+  Side Effects: None
+
+DdNode *
+Dddmp_cuddBddLoad(
+  DdManager *       dd,              manager
+  Dddmp_VarMatchTyp varmatchmode,    storing mode selector
+  char **           varmatchnames,   array of variable names (accessed by IDs)
+  int *             varmatchauxids,  array of variable auxids (accessed by
+                                     IDs)
+  int *             varcomposeids,   array of new ids (accessed by ids)
+  int               mode,            requested input file format (checked
+                                     against file format)
+  char *            file,            file name
+  FILE *            fp               file pointer
+)
+  Reads a dump file representing the argument BDD. Dddmp_cuddBddArrayLoad is
+  used through a dummy array.
+
+  Side Effects: A vector of pointers to DD nodes is allocated and freed.
+
+int
+Dddmp_cuddBddStore(
+  DdManager *       dd,              manager
+  char *            ddname,          dd name (or NULL)
+  DdNode *          f,               BDD root to be stored
+  char **           varnames,        array of variable names (or NULL)
+  int *             auxids,          array of converted var ids
+  int               mode,            storing mode selector
+  Dddmp_VarInfoType varinfo,         extra info for variables in text mode
+  char *            fname,           file name
+  FILE *            fp               pointer to the store file
+)
+  Dumps the argument BDD to file. Dumping is done through
+  Dddmp_cuddBddArrayStore, And a dummy array of 1 BDD root is used for this
+  purpose.
+
+  Side Effects: Nodes are temporarily removed from unique hash. They are re-
+  linked after the store operation in a modified order.
+

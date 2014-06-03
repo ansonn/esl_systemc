@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Variable Reordering for BDDs and ADDs</TITLE>
+<META NAME="description" CONTENT="Variable Reordering for BDDs and ADDs">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html421" HREF="node18.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html419" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html413" HREF="node16.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html423" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html422" HREF="node18.html">Grouping Variables</A>
+<B>Up:</B> <A NAME="tex2html420" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html414" HREF="node16.html">Converting BDDs to ZDDs </A>
+<BR> <P>
+<H2><A NAME="SECTION000312000000000000000">Variable Reordering for BDDs and ADDs</A></H2>
+<P>
+<A NAME="467">&#160;</A><A NAME="secreorder">&#160;</A>
+<P>
+The CUDD package provides a rich set of
+dynamic<A NAME="469">&#160;</A> reordering algorithms.  Some of them
+are slight variations of existing techniques
+[<A HREF="node39.html#Rudell93">16</A>, <A HREF="node39.html#Drechs95">6</A>, <A HREF="node39.html#Bollig95">2</A>, <A HREF="node39.html#Ishiur91">10</A>, <A HREF="node39.html#Plessi93">15</A>, <A HREF="node39.html#Jeong93">11</A>]; some
+others have been developed specifically for this package
+[<A HREF="node39.html#Panda94">14</A>, <A HREF="node39.html#Panda95b">13</A>].
+<P>
+Reordering affects a unique<A NAME="472">&#160;</A> table. This means that
+BDDs and ADDs, which share the same unique table are simultaneously
+reordered. ZDDs, on the other hand, are reordered separately. In the
+following we discuss the reordering of BDDs and ADDs. Reordering for
+ZDDs is the subject of Section&nbsp;<A HREF="node19.html#secreordZ">3.14</A>.
+<P>
+Reordering of the variables can be invoked directly by the application
+by calling <A NAME="tex2html75" HREF="cuddExtDet.html#Cudd_ReduceHeap"><EM>Cudd_ReduceHeap</EM></A><A NAME="1468">&#160;</A>. Or it
+can be automatically triggered by the package when the number of nodes
+has reached a given threshold<A NAME="477">&#160;</A>.  (The
+threshold is initialized and automatically adjusted after each
+reordering by the package.) To enable automatic dynamic reordering
+(also called <EM>asynchronous<A NAME="478">&#160;</A></EM>
+dynamic reordering in this document) the application must call <A NAME="tex2html76" HREF="cuddExtDet.html#Cudd_AutodynEnable"><EM>
+  Cudd_AutodynEnable</EM></A><A NAME="1470">&#160;</A>.  Automatic
+dynamic reordering can subsequently be disabled by calling <A NAME="tex2html77" HREF="cuddExtDet.html#Cudd_AutodynDisable"><EM>
+  Cudd_AutodynDisable</EM></A><A NAME="1472">&#160;</A>.
+<P>
+All reordering methods are available in both the case of direct call
+to <A NAME="tex2html78" HREF="cuddExtDet.html#Cudd_ReduceHeap"><EM>Cudd_ReduceHeap</EM></A><A NAME="1474">&#160;</A> and the case of
+automatic invocation. For many methods, the reordering procedure is
+iterated until no further improvement is obtained. We call these
+methods the <EM>converging<A NAME="488">&#160;</A></EM> methods.
+When constraints are imposed on the relative position of variables
+(see Section&nbsp;<A HREF="node18.html#secgroup">3.13</A>) the reordering methods apply inside the
+groups. The groups<A NAME="490">&#160;</A> themselves are reordered by
+sifting<A NAME="491">&#160;</A>.  Each method is identified by a
+constant of the enumerated type <EM>
+  Cudd_ReorderingType<A NAME="492">&#160;</A></EM>
+defined in <EM>cudd.h<A NAME="493">&#160;</A></EM> (the external
+header<A NAME="494">&#160;</A> file of the CUDD package):
+<P>
+<DL ><DT><STRONG>CUDD_REORDER_NONE<A NAME="496">&#160;</A>:</STRONG>
+<DD> This method
+  causes no reordering.
+<DT><STRONG>CUDD_REORDER_SAME<A NAME="497">&#160;</A>:</STRONG>
+<DD> If passed to
+  <A NAME="tex2html68" HREF="cuddExtDet.html#Cudd_AutodynEnable"><EM>Cudd_AutodynEnable</EM></A><A NAME="1476">&#160;</A>, this
+  method leaves the current method for automatic reordering unchanged.
+  If passed to <A NAME="tex2html69" HREF="cuddExtDet.html#Cudd_ReduceHeap"><EM>Cudd_ReduceHeap</EM></A><A NAME="1478">&#160;</A>,
+  this method causes the current method for automatic reordering to be
+  used.
+<DT><STRONG>CUDD_REORDER_RANDOM<A NAME="504">&#160;</A>:</STRONG>
+<DD> Pairs of
+  variables are randomly chosen, and swapped in the order. The swap is
+  performed by a series of swaps of adjacent variables. The best order
+  among those obtained by the series of swaps is retained. The number
+  of pairs chosen for swapping<A NAME="505">&#160;</A> equals the
+  number of variables in the diagram.
+<DT><STRONG>CUDD_REORDER_RANDOM_PIVOT<A NAME="506">&#160;</A>:</STRONG>
+<DD>
+  Same as CUDD_REORDER_RANDOM, but the two variables are chosen so
+  that the first is above the variable with the largest number of
+  nodes, and the second is below that variable.  In case there are
+  several variables tied for the maximum number of nodes, the one
+  closest to the root is used.
+<DT><STRONG>CUDD_REORDER_SIFT<A NAME="507">&#160;</A>:</STRONG>
+<DD> This method is
+  an implementation of Rudell's sifting<A NAME="508">&#160;</A>
+  algorithm [<A HREF="node39.html#Rudell93">16</A>]. A simplified description of sifting is as
+  follows: Each variable is considered in turn. A variable is moved up
+  and down in the order so that it takes all possible positions. The
+  best position is identified and the variable is returned to that
+  position.
+<P>
+  In reality, things are a bit more complicated. For instance, there
+  is a limit on the number of variables that will be sifted. This
+  limit can be read with <A NAME="tex2html70" HREF="cuddExtDet.html#Cudd_ReadSiftMaxVar"><EM>
+    Cudd_ReadSiftMaxVar</EM></A><A NAME="1480">&#160;</A> and set
+  with <A NAME="tex2html71" HREF="cuddExtDet.html#Cudd_SetSiftMaxVar"><EM>Cudd_SetSiftMaxVar</EM></A><A NAME="1482">&#160;</A>. In
+  addition, if the diagram grows too much while moving a variable up
+  or down, that movement is terminated before the variable has reached
+  one end of the order. The maximum ratio by which the diagram is
+  allowed to grow while a variable is being sifted can be read with
+  <A NAME="tex2html72" HREF="cuddExtDet.html#Cudd_ReadMaxGrowth"><EM>Cudd_ReadMaxGrowth</EM></A><A NAME="1484">&#160;</A> and
+  set with <A NAME="tex2html73" HREF="cuddExtDet.html#Cudd_SetMaxGrowth"><EM>Cudd_SetMaxGrowth</EM></A><A NAME="1486">&#160;</A>.
+<DT><STRONG>CUDD_REORDER_SIFT_CONVERGE<A NAME="522">&#160;</A>:</STRONG>
+<DD>
+  This is the converging<A NAME="523">&#160;</A> variant of
+  CUDD_REORDER_SIFT.
+<DT><STRONG>CUDD_REORDER_SYMM_SIFT<A NAME="524">&#160;</A>:</STRONG>
+<DD>
+  This method is an implementation of
+  symmetric<A NAME="525">&#160;</A> sifting [<A HREF="node39.html#Panda94">14</A>]. It is
+  similar to sifting, with one addition: Variables that become
+  adjacent during sifting are tested for symmetry<A NAME="527">&#160;</A>. If
+  they are symmetric, they are linked in a group.  Sifting then
+  continues with a group being moved, instead of a single variable.
+  After symmetric sifting has been run, <A NAME="tex2html74" HREF="cuddExtDet.html#Cudd_SymmProfile"><EM>
+    Cudd_SymmProfile</EM></A><A NAME="1488">&#160;</A> can be called
+  to report on the symmetry groups found. (Both positive and negative
+  symmetries are reported.)
+<DT><STRONG>CUDD_REORDER_SYMM_SIFT_CONV<A NAME="531">&#160;</A>:</STRONG>
+<DD>
+  This is the converging<A NAME="532">&#160;</A> variant of
+  CUDD_REORDER_SYMM_SIFT.
+<DT><STRONG>CUDD_REORDER_GROUP_SIFT<A NAME="533">&#160;</A>:</STRONG>
+<DD>
+  This method is an implementation of group<A NAME="534">&#160;</A>
+  sifting [<A HREF="node39.html#Panda95b">13</A>]. It is similar to symmetric sifting, but
+  aggregation<A NAME="536">&#160;</A> is not restricted to symmetric
+  variables.
+<DT><STRONG>CUDD_REORDER_GROUP_SIFT_CONV<A NAME="537">&#160;</A>:</STRONG>
+<DD>
+  This method repeats until convergence the combination of
+  CUDD_REORDER_GROUP_SIFT and CUDD_REORDER_WINDOW4.
+<DT><STRONG>CUDD_REORDER_WINDOW2<A NAME="538">&#160;</A>:</STRONG>
+<DD> This
+  method implements the window<A NAME="539">&#160;</A> permutation
+  approach of Fujita [<A HREF="node39.html#Fujita91b">8</A>] and Ishiura [<A HREF="node39.html#Ishiur91">10</A>].
+  The size of the window is 2.
+<DT><STRONG>CUDD_REORDER_WINDOW3<A NAME="542">&#160;</A>:</STRONG>
+<DD> Similar
+  to CUDD_REORDER_WINDOW2, but with a window of size 3.
+<DT><STRONG>CUDD_REORDER_WINDOW4<A NAME="543">&#160;</A>:</STRONG>
+<DD> Similar
+  to CUDD_REORDER_WINDOW2, but with a window of size 4.
+<DT><STRONG>CUDD_REORDER_WINDOW2_CONV<A NAME="544">&#160;</A>:</STRONG>
+<DD>
+  This is the converging<A NAME="545">&#160;</A> variant of
+  CUDD_REORDER_WINDOW2.
+<DT><STRONG>CUDD_REORDER_WINDOW3_CONV<A NAME="546">&#160;</A>:</STRONG>
+<DD>
+  This is the converging variant of CUDD_REORDER_WINDOW3.
+<DT><STRONG>CUDD_REORDER_WINDOW4_CONV<A NAME="547">&#160;</A>:</STRONG>
+<DD>
+  This is the converging variant of CUDD_REORDER_WINDOW4.
+<DT><STRONG>CUDD_REORDER_ANNEALING<A NAME="548">&#160;</A>:</STRONG>
+<DD> This
+  method is an implementation of simulated
+  annealing<A NAME="549">&#160;</A> for variable
+  ordering, vaguely resemblant of the algorithm of [<A HREF="node39.html#Bollig95">2</A>].
+  This method is potentially very slow.
+<DT><STRONG>CUDD_REORDER_GENETIC:<A NAME="551">&#160;</A></STRONG>
+<DD> This
+  method is an implementation of a genetic<A NAME="552">&#160;</A>
+  algorithm for variable ordering, inspired by the work of Drechsler
+  [<A HREF="node39.html#Drechs95">6</A>]. This method is potentially very slow.
+<DT><STRONG>CUDD_REORDER_EXACT<A NAME="554">&#160;</A>:</STRONG>
+<DD> This method
+  implements a dynamic programming approach to
+  exact<A NAME="555">&#160;</A> reordering
+  [<A HREF="node39.html#Held62">9</A>, <A HREF="node39.html#Friedman90">7</A>, <A HREF="node39.html#Ishiur91">10</A>], with improvements described in
+  [<A HREF="node39.html#Jeong93">11</A>]. It only stores one BDD at the time. Therefore, it is
+  relatively efficient in terms of memory.  Compared to other
+  reordering strategies, it is very slow, and is not recommended for
+  more than 16 variables.
+<P>
+</DL>
+So far we have described methods whereby the package selects an order
+automatically. A given order of the variables can also be imposed by
+calling <A NAME="tex2html79" HREF="cuddExtDet.html#Cudd_ShuffleHeap"><EM>Cudd_ShuffleHeap</EM></A><A NAME="1490">&#160;</A>.
+<P>
+<HR><A NAME="tex2html421" HREF="node18.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html419" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html413" HREF="node16.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html423" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html422" HREF="node18.html">Grouping Variables</A>
+<B>Up:</B> <A NAME="tex2html420" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html414" HREF="node16.html">Converting BDDs to ZDDs </A>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,10 @@
+This example illustrates use of transactions.
+
+The following source files are part of this example:
+  main.cpp   a test which uses transactions.
+
+To run this example, do one of the following:
+
+  unix> make sun-gnu
+  unix> make hppa-native
+  unix> make linux

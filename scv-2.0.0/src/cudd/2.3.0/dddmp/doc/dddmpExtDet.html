@@ -1,0 +1,226 @@
+<HTML>
+<HEAD><TITLE>The dddmp package</TITLE></HEAD>
+<BODY>
+
+<DL>
+<dt><pre>
+<A NAME="Dddmp_Bin2Text"></A>
+int <I></I>
+<B>Dddmp_Bin2Text</B>(
+  char * <b>filein</b>, <i></i>
+  char * <b>fileout</b> <i></i>
+)
+</pre>
+<dd> Converts from binary to ASCII format. A BDD array is loaded and
+               and stored to the target file.
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#Dddmp_Text2Bin()">Dddmp_Text2Bin()</a>
+</code>
+
+<dt><pre>
+<A NAME="Dddmp_Text2Bin"></A>
+int <I></I>
+<B>Dddmp_Text2Bin</B>(
+  char * <b>filein</b>, <i></i>
+  char * <b>fileout</b> <i></i>
+)
+</pre>
+<dd> Converts from ASCII to binary format. A BDD array is loaded and
+               and stored to the target file.
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#Dddmp_Bin2Text()">Dddmp_Bin2Text()</a>
+</code>
+
+<dt><pre>
+<A NAME="Dddmp_cuddBddArrayLoad"></A>
+int <I></I>
+<B>Dddmp_cuddBddArrayLoad</B>(
+  DdManager * <b>dd</b>, <i>manager</i>
+  Dddmp_RootMatchType  <b>rootmatchmode</b>, <i>storing mode selector</i>
+  char ** <b>rootmatchnames</b>, <i>sorted names for loaded roots</i>
+  Dddmp_VarMatchType  <b>varmatchmode</b>, <i>storing mode selector</i>
+  char ** <b>varmatchnames</b>, <i>array of variable names (accessed by ids)</i>
+  int * <b>varmatchauxids</b>, <i>array of variable auxids (accessed by ids)</i>
+  int * <b>varcomposeids</b>, <i>array of new ids (accessed by ids)</i>
+  int  <b>mode</b>, <i>requested input file format (checked against file format)</i>
+  char * <b>file</b>, <i>file name</i>
+  FILE * <b>fp</b>, <i>file pointer</i>
+  DdNode *** <b>pproots</b> <i>array of returned BDD roots (by reference)</i>
+)
+</pre>
+<dd> Reads a dump file representing the argument BDDs. The header is
+  common to both text and binary mode. The node list is either 
+  in text or binary format. A dynamic vector of DD pointers 
+  is allocated to support conversion from DD indexes to pointers.
+  Several criteria are supported for variable match between file
+  and dd manager. Several changes/permutations/compositions are allowed
+  for variables while loading DDs. Variable of the dd manager are allowed 
+  to match with variables on file on ids, permids, varnames, 
+  varauxids; also direct composition between ids and 
+  composeids is supported. More in detail:
+  <ol>
+  <li> varmatchmode=DDDMP_VAR_MATCHIDS <p>
+  allows the loading of a DD keeping variable IDs unchanged
+  (regardless of the variable ordering of the reading manager); this
+  is useful, for example, when swapping DDs to file and restoring them
+  later from file, after possible variable reordering activations.
+  
+  <li> varmatchmode=DDDMP_VAR_MATCHPERMIDS <p>
+  is used to allow variable match according to the position in the ordering.
+  
+  <li> varmatchmode=DDDMP_VAR_MATCHNAMES <p>
+  requires a non NULL varmatchnames parameter; this is a vector of
+  strings in one-to-one correspondence with variable IDs of the
+  reading manager. Variables in the DD file read are matched with
+  manager variables according to their name (a non NULL varnames
+  parameter was required while storing the DD file).
+
+  <li> varmatchmode=DDDMP_VAR_MATCHIDS <p>
+  has a meaning similar to DDDMP_VAR_MATCHNAMES, but integer auxiliary
+  IDs are used instead of strings; the additional non NULL
+  varmatchauxids parameter is needed.
+
+  <li> varmatchmode=DDDMP_VAR_COMPOSEIDS <p>
+  uses the additional varcomposeids parameter is used as array of
+  variable ids to be composed with ids stored in file.
+  </ol>
+
+  In the present implementation, the array varnames (3), varauxids (4)
+  and composeids (5) need to have one entry for each variable in the 
+  DD manager (NULL pointers are allowed for unused variables
+  in varnames). Hence variables need to be already present in the 
+  manager. All arrays are sorted according to IDs.
+<p>
+
+<dd> <b>Side Effects</b> A vector of pointers to DD nodes is allocated and freed.
+<p>
+
+<dd> <b>See Also</b> <code><a href="#Dddmp_cuddBddArrayStore">Dddmp_cuddBddArrayStore</a>
+</code>
+
+<dt><pre>
+<A NAME="Dddmp_cuddBddArrayStore"></A>
+int <I></I>
+<B>Dddmp_cuddBddArrayStore</B>(
+  DdManager * <b>dd</b>, <i>manager</i>
+  char * <b>ddname</b>, <i>dd name (or NULL)</i>
+  int  <b>nroots</b>, <i>number of output BDD roots to be stored</i>
+  DdNode ** <b>f</b>, <i>array of BDD roots to be stored</i>
+  char ** <b>rootnames</b>, <i>array of root names (or NULL)</i>
+  char ** <b>varnames</b>, <i>array of variable names (or NULL)</i>
+  int * <b>auxids</b>, <i>array of converted var IDs</i>
+  int  <b>mode</b>, <i>storing mode selector</i>
+  Dddmp_VarInfoType  <b>varinfo</b>, <i>extra info for variables in text mode</i>
+  char * <b>fname</b>, <i>file name</i>
+  FILE * <b>fp</b> <i>pointer to the store file</i>
+)
+</pre>
+<dd> Dumps the argument array of BDDs to file. Dumping is
+  either in text or binary form.  BDDs are stored to the fp (already
+  open) file if not NULL. Otherwise the file whose name is fname is opened
+  in write mode.  The header has the same format for both textual and
+  binary dump.  Names are allowed for input variables (vnames) and for
+  represented functions (rnames).  For sake of generality and because
+  of dynamic variable ordering both variable IDs and permuted IDs are
+  included. New IDs are also supported (auxids).  Variables are identified with incremental       
+  numbers. according with their positiom in the support set.
+  In text mode, an extra info may be added, chosen among the following options:
+  name, ID, PermID, or an auxiliary id.  Since conversion from DD pointers to integers is
+  required, DD nodes are temporarily removed from the unique
+  hash table. This allows the use of the next field to store node IDs.
+<p>
+
+<dd> <b>Side Effects</b> Nodes are temporarily removed from the unique hash
+  table. They are re-linked after the store operation in a modified
+  order.
+<p>
+
+<dd> <b>See Also</b> <code><a href="#Dddmp_cuddBddStore">Dddmp_cuddBddStore</a>
+<a href="#Dddmp_cuddBddLoad">Dddmp_cuddBddLoad</a>
+<a href="#Dddmp_cuddBddArrayLoad">Dddmp_cuddBddArrayLoad</a>
+</code>
+
+<dt><pre>
+<A NAME="Dddmp_cuddBddDisplayBinary"></A>
+int <I></I>
+<B>Dddmp_cuddBddDisplayBinary</B>(
+  char * <b>filein</b>, <i></i>
+  char * <b>fileout</b> <i>name of text file</i>
+)
+</pre>
+<dd> Display a binary dump file in a text file
+<p>
+
+<dd> <b>Side Effects</b> None
+<p>
+
+<dd> <b>See Also</b> <code><a href="#Dddmp_cuddBddStore">Dddmp_cuddBddStore</a>
+<a href="#Dddmp_cuddBddLoad">Dddmp_cuddBddLoad</a>
+</code>
+
+<dt><pre>
+<A NAME="Dddmp_cuddBddLoad"></A>
+DdNode * <I></I>
+<B>Dddmp_cuddBddLoad</B>(
+  DdManager * <b>dd</b>, <i>manager</i>
+  Dddmp_VarMatchType  <b>varmatchmode</b>, <i>storing mode selector</i>
+  char ** <b>varmatchnames</b>, <i>array of variable names (accessed by IDs)</i>
+  int * <b>varmatchauxids</b>, <i>array of variable auxids (accessed by IDs)</i>
+  int * <b>varcomposeids</b>, <i>array of new ids (accessed by ids)</i>
+  int  <b>mode</b>, <i>requested input file format (checked against file format)</i>
+  char * <b>file</b>, <i>file name</i>
+  FILE * <b>fp</b> <i>file pointer</i>
+)
+</pre>
+<dd> Reads a dump file representing the argument BDD.
+  Dddmp_cuddBddArrayLoad is used through a dummy array.
+<p>
+
+<dd> <b>Side Effects</b> A vector of pointers to DD nodes is allocated and freed.
+<p>
+
+<dd> <b>See Also</b> <code><a href="#Dddmp_cuddBddStore">Dddmp_cuddBddStore</a>
+<a href="#Dddmp_cuddBddArrayLoad">Dddmp_cuddBddArrayLoad</a>
+</code>
+
+<dt><pre>
+<A NAME="Dddmp_cuddBddStore"></A>
+int <I></I>
+<B>Dddmp_cuddBddStore</B>(
+  DdManager * <b>dd</b>, <i>manager</i>
+  char * <b>ddname</b>, <i>dd name (or NULL)</i>
+  DdNode * <b>f</b>, <i>BDD root to be stored</i>
+  char ** <b>varnames</b>, <i>array of variable names (or NULL)</i>
+  int * <b>auxids</b>, <i>array of converted var ids</i>
+  int  <b>mode</b>, <i>storing mode selector</i>
+  Dddmp_VarInfoType  <b>varinfo</b>, <i>extra info for variables in text mode</i>
+  char * <b>fname</b>, <i>file name</i>
+  FILE * <b>fp</b> <i>pointer to the store file</i>
+)
+</pre>
+<dd> Dumps the argument BDD to file. Dumping is done through
+               Dddmp_cuddBddArrayStore, And a dummy array of 1 BDD root is
+               used for this purpose.
+<p>
+
+<dd> <b>Side Effects</b> Nodes are temporarily removed from unique hash. They are 
+re-linked after the store operation in a modified order.
+<p>
+
+<dd> <b>See Also</b> <code><a href="#Dddmp_cuddBddLoad">Dddmp_cuddBddLoad</a>
+<a href="#Dddmp_cuddBddArrayLoad">Dddmp_cuddBddArrayLoad</a>
+</code>
+
+
+</DL>
+<HR>
+Last updated on 980512 20h55
+</BODY></HTML>

@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Guidelines for Documentation</TITLE>
+<META NAME="description" CONTENT="Guidelines for Documentation">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html613" HREF="node35.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html611" HREF="node25.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html607" HREF="node33.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html615" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html614" HREF="node35.html">The C++ Interface</A>
+<B>Up:</B> <A NAME="tex2html612" HREF="node25.html">Programmer's Manual</A>
+<B> Previous:</B> <A NAME="tex2html608" HREF="node33.html">Gathering and Interpreting Statistics</A>
+<BR> <P>
+<H2><A NAME="SECTION00049000000000000000">Guidelines for Documentation</A></H2>
+<P>
+<A NAME="secdoc">&#160;</A><A NAME="1108">&#160;</A>
+<P>
+The documentation of the CUDD functions is extracted automatically
+from the sources by Stephen Edwards's extdoc. (The Ext system is
+available via anonymous FTP<A NAME="1109">&#160;</A> from
+<A NAME="tex2html174" HREF="ftp://ic.eecs.berkeley.edu"><TT>ic.eecs.berkeley.edu</TT></A>.)
+The following guidelines are followed in CUDD to insure consistent and
+effective use of automatic extraction. It is recommended that
+extensions to CUDD follow the same documentation guidelines.
+<UL>
+<LI> The documentation of an exported procedure should be sufficient
+  to allow one to use it without reading the code. It is not necessary
+  to explain how the procedure works; only what it does.
+<LI> The <em>SeeAlso</em><A NAME="1338">&#160;</A>
+  fields should be space-separated lists of function names.  The
+  <em>SeeAlso</em> field of an exported procedure should only reference
+  other exported procedures. The <em>SeeAlso</em> field of an internal
+  procedure may reference other internal procedures as well as
+  exported procedures, but no static procedures.
+<LI> The return values are detailed in the
+  <em>Description</em><A NAME="1339">&#160;</A>
+  field, not in the
+  <em>Synopsis</em><A NAME="1340">&#160;</A> field.
+<LI> The parameters are documented alongside their declarations.
+  Further comments may appear in the <em>Description</em> field.
+<LI> If the <em>Description</em> field is non-empty--which is the
+  normal case for an exported procedure--then the synopsis is
+  repeated--possibly slightly changed--at the beginning of the
+  <em>Description</em> field. This is so because extdoc will not put the
+  synopsis in the same HTML file<A NAME="1124">&#160;</A> as
+  the description.
+<LI> The <em>Synopsis</em> field should be about one line long.
+</UL><BR> <HR>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

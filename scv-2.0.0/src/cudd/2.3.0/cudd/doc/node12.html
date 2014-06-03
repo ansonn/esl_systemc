@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Basic BDD Manipulation</TITLE>
+<META NAME="description" CONTENT="Basic BDD Manipulation">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html366" HREF="node13.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html364" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html358" HREF="node11.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html368" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html367" HREF="node13.html">Basic ADD Manipulation</A>
+<B>Up:</B> <A NAME="tex2html365" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html359" HREF="node11.html">Creating Variables</A>
+<BR> <P>
+<H2><A NAME="SECTION00037000000000000000">Basic BDD Manipulation</A></H2>
+<P>
+<A NAME="336">&#160;</A><A NAME="secbasicBDD">&#160;</A>
+<P>
+Common manipulations of BDDs can be accomplished by calling <A NAME="tex2html45" HREF="cuddExtDet.html#Cudd_bddIte"><EM>
+  Cudd_bddIte</EM></A>.  This function takes three BDDs, <I>f</I>, <I>g</I>, and <I>h</I>,
+as arguments and computes <IMG WIDTH=88 HEIGHT=29 ALIGN=MIDDLE ALT="tex2html_wrap_inline2308" SRC="img3.gif">. Like all the
+functions that create new BDDs or ADDs, <A NAME="tex2html46" HREF="cuddExtDet.html#Cudd_bddIte"><EM>
+  Cudd_bddIte</EM></A><A NAME="1424">&#160;</A> returns a result that must
+be explicitly referenced by the caller. <A NAME="tex2html47" HREF="cuddExtDet.html#Cudd_bddIte"><EM>Cudd_bddIte</EM></A> can be
+used to implement all two-argument boolean functions. However, the
+package also provides <A NAME="tex2html48" HREF="cuddExtDet.html#Cudd_bddAnd"><EM>Cudd_bddAnd</EM></A><A NAME="1426">&#160;</A>
+as well as the other two-operand boolean functions, which are slightly
+more efficient when a two-operand function is called for. The
+following fragment of code illustrates how to build the BDD for the
+function <IMG WIDTH=101 HEIGHT=28 ALIGN=MIDDLE ALT="tex2html_wrap_inline2310" SRC="img4.gif">.
+<PRE>        DdManager *manager;
+        DdNode *f, *var, *tmp;
+        int i;
+
+        ...
+
+        f = Cudd_ReadOne(manager);
+        Cudd_Ref(f);
+        for (i = 3; i &gt;= 0; i--) {
+            var = Cudd_bddIthVar(manager,i);
+            tmp = Cudd_bddAnd(manager,Cudd_Not(var),f);
+            Cudd_Ref(tmp);
+            Cudd_RecursiveDeref(manager,f);
+            f = tmp;
+        }</PRE>
+This example illustrates the following points:
+<UL>
+<LI> Intermediate results must be ``referenced&quot; and ``dereferenced.&quot;
+  However, <TT>var</TT> is a projection<A NAME="350">&#160;</A>
+  function, and its reference<A NAME="351">&#160;</A> count is always
+  greater than 0. Therefore, there is no call to <A NAME="tex2html42" HREF="cuddExtDet.html#Cudd_Ref"><EM>
+    Cudd_Ref</EM></A><A NAME="1428">&#160;</A>.
+<LI> The new <TT>f</TT> must be assigned to a temporary variable (<TT>
+    tmp</TT> in this example). If the result of <A NAME="tex2html43" HREF="cuddExtDet.html#Cudd_bddAnd"><EM>
+    Cudd_bddAnd</EM></A><A NAME="1430">&#160;</A> were assigned directly
+  to <TT>f</TT>, the old <TT>f</TT> would be lost, and there would be no way
+  to free its nodes.
+<LI> The statement <TT>f = tmp</TT> has the same effect as:
+<PRE>            f = tmp;
+            Cudd_Ref(f);
+            Cudd_RecursiveDeref(manager,tmp);</PRE>
+  but is more efficient. The reference<A NAME="363">&#160;</A> is
+  ``passed&quot; from <TT>tmp</TT> to <TT>f</TT>, and <TT>tmp</TT> is now ready to
+  be reutilized.
+<LI> It is normally more efficient to build BDDs ``bottom-up.&quot; This
+  is why the loop goes from 3 to 0. Notice, however, that after
+  variable reordering, higher index does not necessarily mean ``closer
+  to the bottom.&quot; Of course, in this simple example, efficiency is not
+  a concern.
+<LI> Had we wanted to conjoin the variables in a bottom-up fashion
+  even after reordering, we should have used <A NAME="tex2html44" HREF="cuddExtDet.html#Cudd_ReadInvPerm"><EM>
+    Cudd_ReadInvPerm</EM></A><A NAME="1432">&#160;</A>.  One has to be
+  careful, though, to fix the order of conjunction before entering the
+  loop. Otherwise, if reordering takes place, it is possible to use
+  one variable twice and skip another variable.
+</UL><HR><A NAME="tex2html366" HREF="node13.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html364" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html358" HREF="node11.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html368" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html367" HREF="node13.html">Basic ADD Manipulation</A>
+<B>Up:</B> <A NAME="tex2html365" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html359" HREF="node11.html">Creating Variables</A>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

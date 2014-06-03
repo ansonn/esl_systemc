@@ -1,0 +1,386 @@
+<html>
+<head>
+<title>St Library Documentation</title>
+</head>
+<body>
+<h1>St Library Documentation</h1>
+The st library provides functions to create, maintain, and query
+symbol tables.
+<ul>
+<li> <a href="#basic_functions"> Basic Functions</a>
+<ul>
+<li> <code><a href="#st_init_table"> st_init_table </a></code>
+<li> <code><a href="#st_free_table"> st_free_table </a></code>
+<li> <code><a href="#st_insert"> st_insert </a></code>
+<li> <code><a href="#st_lookup"> st_lookup </a></code>
+<li> <code><a href="#st_is_member"> st_is_member </a></code>
+<li> <code><a href="#st_delete"> st_delete </a></code>
+<li> <code><a href="#st_foreach"> st_foreach </a></code>
+<li> <code><a href="#st_init_gen"> st_init_gen </a></code>
+<li> <code><a href="#st_gen"> st_gen </a></code>
+<li> <code><a href="#st_gen_int"> st_gen_int </a></code>
+<li> <code><a href="#st_free_gen"> st_free_gen </a></code>
+<li> <code><a href="#st_foreach_item"> st_foreach_item </a></code>
+<li> <code><a href="#st_foreach_item_int"> st_foreach_item_int </a></code>
+<li> <code><a href="#st_count"> st_count </a></code>
+</ul>
+<li> <a href="#fancier_functions"> Fancier Functions</a>
+<ul>
+<li> <code><a href="#st_init_table_with_params"> st_init_table_with_params </a></code>
+<li> <code><a href="#st_find_or_add"> st_find_or_add </a></code>
+<li> <code><a href="#st_find"> st_find </a></code>
+<li> <code><a href="#st_add_direct"> st_add_direct </a></code>
+<li> <code><a href="#st_copy"> st_copy </a></code>
+</ul>
+</ul>
+<hr>
+<h2><a name="basic_functions">Basic Functions</a></h2>
+<hr>
+<pre> <a name="st_init_table">
+st_table *st_init_table(compare_fn, hash_fn)
+int (*compare_fn);
+int (*hash_fn);
+</pre>
+    Create and initialize a table with the comparison function
+    <code>compare_fn</code> and
+    hash function <code>hash_fn</code>. <code>compare_fn</code> is
+<pre>
+	int compare_fn(char *key1, char *key2)
+	    /*
+	     * returns <,=,> 0 depending on whether 
+	     * key1 <,=,> key2 by some measure
+	     */
+</pre>    
+    and <code>hash_fn</code> is
+<pre>	
+	int hash_fn(char *key, int modulus)
+	    /*
+	     * returns a integer between 0 and modulus-1
+	     * such that if compare_fn(key1,key2) == 0 then
+	     * hash_fn(key1) == hash_fn(key2)
+	     */
+</pre>
+     There are five predefined hash and comparison functions in st.
+     For keys as numbers:
+<pre>
+	 st_numhash(key, modulus) { return (unsigned int) key % modulus; }
+	 st_numcmp(x,y) { return (int) x - (int) y; }
+</pre>
+     For keys as pointers:
+<pre>
+	 st_ptrhash(key, modulus) { return ((unsigned int) key/4) % modulus }
+	 st_ptrcmp(x,y) { return (int) x - (int) y; }
+</pre>
+     For keys as strings:
+<pre>
+         st_strhash(x,y) - a reasonable hashing function for strings
+	 strcmp(x,y)     - the standard library function
+</pre>
+
+     It is recommended to use these particular functions if they fit your 
+     needs, since st will recognize certain of them and run more quickly
+     because of it.
+<hr>
+<pre> <a name="st_free_table">
+void st_free_table(table)
+st_table *table;
+</pre>    
+    Any internal storage associated with table is freed.  It is the user's
+    responsibility to free any storage associated with the pointers he 
+    placed in the table (by perhaps using
+    <code><a href="#st_foreach">st_foreach</a></code>).
+<hr>
+<pre> <a name="st_insert">
+int st_insert(table, key, value)
+st_table *table;
+char *key;
+char *value;
+</pre>    
+    Insert value in table under the key '<code>key</code>'.  Returns 1 if
+    there was an entry already under the key, 0 if there was no entry
+    under the key and insertion was successful; ST_OUT_OF_MEM otherewise. 
+    In either case the new value is added.
+<hr>
+<pre> <a name="st_lookup">
+int st_lookup(table, key, value_ptr)
+st_table *table;
+char *key;
+char **value_ptr;
+</pre>
+    Lookup up `<code>key</code>' in `<code>table</code>'.
+    If an entry is found, 1 is returned
+    and if `<code>value_ptr</code>' is not nil, the variable it points
+    to is set to associated value.  If an entry is not found, 0 is returned
+    and <code>value_ptr</code> is unchanged.
+<hr>
+<pre> <a name="st_lookup_int">
+int st_lookup_int(table, key, int_ptr)
+st_table *table;
+char *key;
+int *int_ptr;
+</pre>
+    Lookup up `<code>key</code>' in `<code>table</code>'.
+    If an entry is found, 1 is returned
+    and if `<code>int_ptr</code>' is not nil, the variable it points
+    to is set to associated integer value.  If an entry is not found,
+    0 is returned and <code>int_ptr</code> is unchanged.
+<hr>
+<pre> <a name="st_is_member">
+int st_is_member(table, key)
+st_table *table;
+char *key;
+</pre>
+     Returns 1 if there is an entry under `<code>key</code>' in
+     `<code>table</code>', 0 otherwise. This is a macro.
+<hr>
+<pre> <a name="st_delete">
+int st_delete(table, key_ptr, entry_ptr)
+st_table *table;
+char **key_ptr;
+char **value_ptr;
+</pre>
+   Delete the entry with the key pointed to by `<code>key_ptr</code>'.
+   If the entry is found, 1 is returned and `<code>key_ptr</code>' is set
+   to the actual key and `<code>entry_ptr</code>' is set to the
+   corresponding entry (This allows the freeing of the associated storage).
+   If the entry is not found, then 0 is returned and nothing is changed.
+<hr>
+<pre> <a name="st_delete_int">
+int st_delete_int(table, key_ptr, entry_ptr)
+st_table *table;
+int *key_ptr;
+char **value_ptr;
+</pre>
+   Delete the entry with the key pointed to by `<code>key_ptr</code>'.
+   `<code>key_ptr</code>' should be specifically a pointer to an
+   integer.  If the entry is found, 1 is returned and
+   `<code>key_ptr</code>' is set to the actual key and
+   `<code>entry_ptr</code>' is set to the corresponding entry (This
+   allows the freeing of the associated storage).  If the entry is not
+   found, then 0 is returned and nothing is changed.
+<hr>
+<pre> <a name="st_foreach">
+int st_foreach(table, func, arg)
+st_table table;
+enum st_retval (*func)();
+char *arg;
+</pre>
+     For each <code>(key, value)</code> record in `<code>table</code>',
+     <code>st_foreach</code> calls <code>func</code> with the arguments
+<pre>
+	  (*func)(key, value, arg)
+</pre>	  
+     If <code>func</code> returns <code>ST_CONTINUE</code>,
+     <code>st_foreach</code> continues processing entries.
+     If <code>func</code> returns <code>ST_STOP</code>, <code>st_foreach</code>
+     stops processing and returns immediately.
+     If <code>func</code> returns <code>ST_DELETE</code>, then the entry is
+     deleted from the symbol table and <code>st_foreach</code> continues. 
+     In the case of <code>ST_DELETE</code>, it is <code>func</code>'s
+     responsibility to free the key and value, if necessary.  
+
+     The routine returns 1 if all items in the table were generated and
+     0 if the generation sequence was aborted using <code>ST_STOP</code>. 
+     The order in which the records are visited will be seemingly random.
+<hr>
+<pre> <a name="st_init_gen">
+st_generator *st_init_gen(table)
+st_table *table;
+</pre>
+     Returns a generator handle which, when used with <code><a
+     href="#st_gen">st_gen()</a></code>, will
+     progressively return each <code>(key, value)</code> record in
+     `<code>table</code>'.
+<hr>
+<pre> <a name="st_gen">
+int st_gen(gen, key_p, value_p)
+st_generator *gen;
+char **key_p;
+char **value_p;
+</pre>
+     Given a generator returned by <code><a
+     href="#st_init_gen">st_init_gen()</a></code>,  this routine returns
+     the next <code>(key, value)</code> pair in the generation sequence. 
+     The pointer `<code>value_p</code>' can be zero which means no value
+     will be returned.
+     When there are no more items in the generation sequence, the routine
+     returns 0.
+
+     While using a generation sequence,  deleting any <code>(key, value)</code>
+     pair other than the one just generated may cause a fatal error
+     when <code>st_gen()</code> is called later in the sequence and is
+     therefore not recommended.
+<hr>
+<pre> <a name="st_gen_int">
+int st_gen_int(gen, key_p, value_p)
+st_generator *gen;
+char **key_p;
+int *value_p;
+</pre>
+     Given a generator returned by <code><a
+     href="#st_init_gen">st_init_gen()</a></code>,  this routine returns
+     the next <code>(key, value)</code> pair in the generation sequence. 
+     <code>value</code> must be a pointer to an integer.
+     The pointer `<code>value_p</code>' can be zero which means no value
+     will be returned.
+     When there are no more items in the generation sequence, the routine
+     returns 0.
+<hr>
+<pre> <a name="st_free_gen">
+void st_free_gen(gen)
+st_generator *gen;
+</pre>
+     After generating all items in a generation sequence,  this
+     routine must be called to reclaim the resources associated
+     with `<code>gen</code>'.
+<hr>
+<pre> <a name="st_foreach_item">
+st_foreach_item(table, gen, key_p, value_p)
+st_table *table;
+st_generator *gen;
+char **key_p;
+char **value_p;
+</pre>
+     An iteration macro which loops over all the entries in
+     `<code>table</code>', setting
+     `<code>key_p</code>' to point to the key and `<code>value_p</code>'
+     to the associated value (if it is not nil).
+     `<code>gen</code>' is a generator variable used internally.
+     Sample usage:
+<pre>
+     	char *key, *value;
+	st_generator *gen;
+
+	st_foreach_item(table, gen, &key, &value) {
+	    process_item(value);
+	}
+</pre>
+<hr>
+<pre> <a name="st_foreach_item_int">
+st_foreach_item_int(table, gen, key_p, value_p)
+st_table *table;
+st_generator *gen;
+char **key_p;
+int *value_p;
+</pre>
+     An iteration macro which loops over all the entries in
+     `<code>table</code>', setting
+     `<code>key_p</code>' to point to the key and `<code>value_p</code>'
+     to the associated value (if it is not nil). `<code>value_p</code>'
+     is assumed to be a pointer to an integer.
+     `<code>gen</code>' is a generator variable used internally.
+     Sample usage:
+<pre>
+     	char *key;
+	int value;
+	st_generator *gen;
+
+	st_foreach_item(table, gen, &key, &value) {
+	    process_item(value);
+	}
+</pre>
+<hr>
+<pre> <a name="st_count">
+int st_count(table)
+st_table *table;
+</pre>
+	Returns the number of entries in the table `<code>table</code>'.
+<hr>
+<h2> <a name="fancier_functions"> Fancier Functions</a></h2>
+<hr>
+<pre> <a name="st_init_table_with_params">
+st_table *st_init_table_with_params(compare, hash, size, density, grow_factor,
+                                    reorder_flag)
+int (*compare)();
+int (*hash)();
+int size;
+int density;
+double grow_factor;
+int reorder_flag;
+</pre>
+    The full blown table initializer.  <code>compare</code> and
+    <code>hash</code> are the same as in <code><a href="#st_init_table">
+    st_init_table</a></code>. <code>density</code> is the largest the
+    average number of entries per hash bin there should be before the
+    table is grown.  <code>grow_factor</code> is the factor the table is
+    grown by when it becomes too full. <code>size</code> is the initial
+    number of bins to be allocated for the hash table. 
+    If <code>reorder_flag</code> is non-zero, then every time an entry is
+    found, it is moved to the top of the chain.<p>
+
+    <code>st_init_table(compare, hash)</code> is equivelent to
+<pre>
+    st_init_table_with_params(compare, hash, ST_DEFAULT_INIT_TABLE_SIZE,
+				     ST_DEFAULT_MAX_DENSITY,
+				     ST_DEFAULT_GROW_FACTOR,
+				     ST_DEFAULT_REORDER_FLAG);
+</pre>
+<hr>
+<pre> <a name="st_find_or_add">
+int st_find_or_add(table, key, slot_ptr)
+st_table *table;
+char *key;
+char ***slot_ptr;
+</pre>
+   Lookup `<code>key</code>' in `<code>table</code>'.  If not found,
+   create an entry. In either case
+   set <code>slot_ptr</code> to point to the field in the entry where
+   the value is stored.
+   The value associated with `<code>key</code>' may then be changed by
+   accessing directly through <code>slot_ptr</code>.  Returns 1 if an
+   entry already existed; 0 if it did not exist and creation was
+   successful; ST_OUT_OF_MEM otherwise. As an example:
+<pre>
+      char **slot;
+      char *key;
+      char *value = (char *) item_ptr /* ptr to a malloc'd structure */
+
+      if (st_find_or_add(table, key, &slot) == 1) {
+	 FREE(*slot); /* free the old value of the record */
+      }
+      *slot = value;  /* attach the new value to the record */
+</pre>
+   This replaces the equivelent code:
+<pre>
+      if (st_lookup(table, key, &ovalue) == 1) {
+         FREE(ovalue);
+      }
+      st_insert(table, key, value);
+</pre>
+<hr>
+<pre> <a name="st_find">
+int st_find(table, key, slot_ptr)
+st_table *table;
+char *key;
+char ***slot_ptr;
+</pre>
+    Like <code><a href="#st_find_or_add">st_find_or_add</a></code>, but
+    does not create an entry if one is not found.
+<hr>
+<pre> <a name="st_add_direct">
+int st_add_direct(table, key, value)
+st_table *table;
+char *key;
+char *value;
+</pre>
+    Place '<code>value</code>' in '<code>table</code>' under the key
+    '<code>key</code>'.  This is done
+    without checking if '<code>key</code>' is in '<code>table</code>'
+    already.  This should
+    only be used if you are sure there is not already an entry for
+    '<code>key</code>', since it is undefined which entry you would later
+    get from <code><a href="#st_lookup">st_lookup</a></code> or
+    <code><a href="#st_find_or_add">st_find_or_add</a></code>.
+    Returns 1 if successful; ST_OUT_OF_MEM otherwise.
+<hr>
+<pre> <a name="st_copy">
+st_table *st_copy(old_table)
+st_table *old_table;
+</pre>
+    Return a copy of <code>old_table</code> and all its members. 
+    <code>(st_table *) 0</code> is
+    returned if there was insufficient memory to do the copy.
+<hr>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+This simple example uses the SCV constraint solver to find 
+integer solutions to the Pythagorean Theorem:
+
+  a*a + b*b == c*c
+
+The following source files are part of this example:
+  test.cpp   a simple example.
+
+When you run the testcase, it will print out the number of 
+solutions it will calculate; after a delay, it will print 
+the solutions.  During the delay, SCV is building the data 
+structures it uses to enforce the constraints.  This 
+overhead occurs once: generating the constrained random
+values themselves is relatively fast.
+
+To run this example, do one of the following:
+
+  unix> make sun-gnu
+  unix> make hppa-native
+  unix> make linux

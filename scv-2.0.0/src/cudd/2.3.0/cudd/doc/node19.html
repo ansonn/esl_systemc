@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Variable Reordering for ZDDs</TITLE>
+<META NAME="description" CONTENT="Variable Reordering for ZDDs">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html443" HREF="node20.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html441" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html435" HREF="node18.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html445" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html444" HREF="node20.html">Keeping Consistent Variable Orders </A>
+<B>Up:</B> <A NAME="tex2html442" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html436" HREF="node18.html">Grouping Variables</A>
+<BR> <P>
+<H2><A NAME="SECTION000314000000000000000">Variable Reordering for ZDDs</A></H2>
+<P>
+<A NAME="596">&#160;</A><A NAME="secreordZ">&#160;</A>
+<P>
+Reordering of ZDDs is done in much the same way as the reordering of
+BDDs and ADDs. The functions corresponding to <A NAME="tex2html87" HREF="cuddExtDet.html#Cudd_ReduceHeap"><EM>Cudd_ReduceHeap</EM></A>
+and <A NAME="tex2html88" HREF="cuddExtDet.html#Cudd_ShuffleHeap"><EM>Cudd_ShuffleHeap</EM></A> are <A NAME="tex2html89" HREF="cuddExtDet.html#Cudd_zddReduceHeap"><EM>
+  Cudd_zddReduceHeap</EM></A><A NAME="1504">&#160;</A> and <A NAME="tex2html90" HREF="cuddExtDet.html#Cudd_zddShuffleHeap"><EM>
+  Cudd_zddShuffleHeap</EM></A><A NAME="1506">&#160;</A>. To enable
+dynamic<A NAME="608">&#160;</A> reordering, the application must
+call <A NAME="tex2html91" HREF="cuddExtDet.html#Cudd_AutodynEnableZdd"><EM>Cudd_AutodynEnableZdd</EM></A><A NAME="1508">&#160;</A>,
+and to disable dynamic reordering, it must call <A NAME="tex2html92" HREF="cuddExtDet.html#Cudd_AutodynDisableZdd"><EM>
+  Cudd_AutodynDisableZdd</EM></A><A NAME="1510">&#160;</A>.  In
+the current implementation, however, the choice of reordering methods
+for ZDDs is more limited. Specifically, these methods are available:
+<P>
+<DL ><DT><STRONG>CUDD_REORDER_NONE<A NAME="616">&#160;</A>;</STRONG>
+<DD>
+<DT><STRONG>CUDD_REORDER_SAME<A NAME="617">&#160;</A>;</STRONG>
+<DD>
+<DT><STRONG>CUDD_REORDER_RANDOM<A NAME="618">&#160;</A>;</STRONG>
+<DD>
+<DT><STRONG>CUDD_REORDER_RANDOM_PIVOT<A NAME="619">&#160;</A>;</STRONG>
+<DD>
+<DT><STRONG>CUDD_REORDER_SIFT<A NAME="620">&#160;</A>;</STRONG>
+<DD>
+<DT><STRONG>CUDD_REORDER_SIFT_CONVERGE<A NAME="621">&#160;</A>;</STRONG>
+<DD>
+<DT><STRONG>CUDD_REORDER_SYMM_SIFT<A NAME="622">&#160;</A>;</STRONG>
+<DD>
+<DT><STRONG>CUDD_REORDER_SYMM_SIFT_CONV<A NAME="623">&#160;</A>.</STRONG>
+<DD>
+<P>
+</DL>
+<P>
+To create ZDD variable groups, the application calls <A NAME="tex2html93" HREF="cuddExtDet.html#Cudd_MakeZddTreeNode"><EM>
+  Cudd_MakeZddTreeNode</EM></A><A NAME="1512">&#160;</A>.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

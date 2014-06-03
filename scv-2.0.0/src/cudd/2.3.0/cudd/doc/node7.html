@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Basic Data Structures</TITLE>
+<META NAME="description" CONTENT="Basic Data Structures">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="cuddIntro.css">
+</HEAD>
+<BODY LANG="EN" >
+ <A NAME="tex2html311" HREF="node8.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html309" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html303" HREF="node6.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html313" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html312" HREF="node8.html">Initializing and Shutting Down </A>
+<B>Up:</B> <A NAME="tex2html310" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html304" HREF="node6.html">Compiling and Linking</A>
+<BR> <P>
+<H2><A NAME="SECTION00032000000000000000">Basic Data Structures</A></H2>
+<P>
+<A NAME="secstruct">&#160;</A>
+<P>
+<H3><A NAME="SECTION00032100000000000000">Nodes</A></H3>
+<P>
+<A NAME="secnodes">&#160;</A>
+<P>
+BDDs, ADDs, and ZDDs are made of DdNode's. A DdNode<A NAME="90">&#160;</A>
+(node<A NAME="91">&#160;</A> for short) is a structure with several fields. Those
+that are of interest to the application that uses the CUDD package as
+a black box are the variable index<A NAME="92">&#160;</A>, the
+reference<A NAME="93">&#160;</A> count, and the value. The
+remaining fields are pointers that connect nodes among themselves and
+that are used to implement the unique<A NAME="94">&#160;</A> table. (See
+Section&nbsp;<A HREF="node7.html#secmanager">3.2.2</A>.)
+<P>
+The <EM>index</EM> field holds the name of the variable that labels the
+node. The index of a variable is a permanent attribute that reflects
+the order<A NAME="97">&#160;</A> of creation.  Index 0 corresponds to
+the variable created first. On a machine with 32-bit pointers, the
+maximum number of variables is the largest value that can be stored in
+an unsigned short integer minus 1. The largest index is reserved for
+the constant<A NAME="98">&#160;</A> nodes. When 64-bit pointers are
+used, the maximum number of variables is the largest value that can be
+stored in an unsigned integer minus 1.
+<P>
+When variables are reordered to reduce the size of the decision
+diagrams, the variables may shift in the order, but they retain their
+indices. The package keeps track of the variable
+permutation<A NAME="99">&#160;</A> (and its inverse). The
+application is not affected by variable reordering<A NAME="100">&#160;</A>,
+except in the following cases.
+<UL>
+<LI> If the application uses
+  generators<A NAME="102">&#160;</A> (<A NAME="tex2html3" HREF="cuddExtDet.html#Cudd_ForeachCube"><EM>Cudd_ForeachCube</EM></A>
+  <A NAME="1352">&#160;</A> and <A NAME="tex2html4" HREF="cuddExtDet.html#Cudd_ForeachNode"><EM>Cudd_ForeachNode</EM></A>
+  <A NAME="1354">&#160;</A>) and reordering is enabled, then it
+  must take care not to call any operation that may create new nodes
+  (and hence possibly trigger reordering). This is because the cubes
+  (i.e., paths) and nodes of a diagram change as a result of reordering.
+<LI> If the application uses <A NAME="tex2html5" HREF="cuddExtDet.html#Cudd_bddConstrain"><EM>
+    Cudd_bddConstrain</EM></A><A NAME="1356">&#160;</A> and reordering
+  takes place, then the property of <A NAME="tex2html6" HREF="cuddExtDet.html#Cudd_bddConstrain"><EM>Cudd_bddConstrain</EM></A> of being an
+  image restrictor is lost.
+</UL>
+<P>
+The CUDD package relies on garbage<A NAME="115">&#160;</A>
+collection to reclaim the memory used by diagrams that are no longer
+in use. The scheme employed for garbage collection is based on keeping
+a reference<A NAME="116">&#160;</A> count for each node.  The
+references that are counted are both the internal references
+(references from other nodes) and external references (typically
+references from the calling environment).  When an application creates
+a new BDD<A NAME="117">&#160;</A>, ADD<A NAME="118">&#160;</A>, or ZDD<A NAME="119">&#160;</A>,
+it must increase its reference count explicitly, through
+a call to <A NAME="tex2html7" HREF="cuddExtDet.html#Cudd_Ref"><EM>Cudd_Ref</EM></A><A NAME="1358">&#160;</A>.  Similarly, when a
+diagram is no longer needed, the application must call <A NAME="tex2html8" HREF="cuddExtDet.html#Cudd_RecursiveDeref"><EM>
+  Cudd_RecursiveDeref</EM></A><A NAME="1360">&#160;</A> (for BDDs
+and ADDs) or <A NAME="tex2html9" HREF="cuddExtDet.html#Cudd_RecursiveDerefZdd"><EM>
+  Cudd_RecursiveDerefZdd</EM></A><A NAME="1362">&#160;</A>
+(for ZDDs) to ``recycle<A NAME="129">&#160;</A>&quot; the nodes of the
+diagram.
+<P>
+Terminal<A NAME="130">&#160;</A> nodes carry a value. This is especially
+important for ADDs.  By default, the value is a double<A NAME="131">&#160;</A>.
+To change to something different (e.g., an integer), the
+package must be modified and recompiled.  Support for this process is
+currently very rudimentary.
+<P>
+<H3><A NAME="SECTION00032200000000000000">The Manager</A></H3>
+<P>
+<A NAME="133">&#160;</A><A NAME="secmanager">&#160;</A>
+<P>
+All nodes used in BDDs, ADDs, and ZDDs are kept in special
+hash<A NAME="135">&#160;</A> tables called the <EM>
+  unique<A NAME="136">&#160;</A> tables</EM>. Specifically, BDDs and ADDs
+share the same unique table, whereas ZDDs have their own table.  As
+the name implies, the main purpose of the unique table is to guarantee
+that each node is unique; that is, there is no other node labeled by
+the same variable and with the same children. This uniqueness property
+makes decision diagrams canonical<A NAME="137">&#160;</A>. The
+unique<A NAME="138">&#160;</A> tables and some auxiliary data structures
+make up the DdManager<A NAME="139">&#160;</A> (manager<A NAME="140">&#160;</A> for
+short).  Though the application that uses only the exported functions
+needs not be concerned with most details of the manager, it has to
+deal with the manager in the following sense. The application must
+initialize the manager by calling an appropriate function. (See
+Section&nbsp;<A HREF="node8.html#secinit">3.3</A>.) Subsequently, it must pass a pointer to the
+manager to all the functions that operate on decision diagrams.
+<P>
+With the exception of a few statistical counters<A NAME="142">&#160;</A>, there are no global<A NAME="143">&#160;</A> variables in
+the CUDD package. Therefore, it is quite possible to have multiple
+managers simultaneously active in the same application.<A NAME="tex2html10" HREF="footnode.html#144"><IMG  ALIGN=BOTTOM ALT="gif" SRC="icons/foot_motif.gif"></A> It is the pointers to
+the managers that tell the functions on what data they should operate.
+<P>
+<H3><A NAME="SECTION00032300000000000000">Cache</A></H3>
+<P>
+<A NAME="146">&#160;</A><A NAME="secmemoize">&#160;</A>
+<P>
+Efficient recursive manipulation of decision diagrams requires the use
+of a table to store computed results. This table<A NAME="148">&#160;</A>
+is called here the <EM>cache<A NAME="149">&#160;</A></EM> because it is
+effectively handled like a cache of variable but limited capacity. The
+CUDD package starts by default with a small cache, and increases its
+size until either no further benefit is achieved, or a limit size is
+reached. The user can influence this policy by choosing initial and
+limit values for the cache size.
+<P>
+Too small a cache will cause frequent overwriting of useful results.
+Too large a cache will cause overhead, because the whole cache is
+scanned every time garbage<A NAME="150">&#160;</A> collection takes
+place. The optimal parameters depend on the specific application. The
+default parameters work reasonably well for a large spectrum of
+applications.
+<P>
+The cache<A NAME="151">&#160;</A> of the CUDD package is used by most recursive
+functions of the package, and can be used by user-supplied functions
+as well. (See Section&nbsp;<A HREF="node29.html#seccache">4.4</A>.)
+<P>
+<HR><A NAME="tex2html311" HREF="node8.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="icons/next_motif.gif"></A> <A NAME="tex2html309" HREF="node5.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="icons/up_motif.gif"></A> <A NAME="tex2html303" HREF="node6.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="icons/previous_motif.gif"></A>  <A NAME="tex2html313" HREF="node40.html"><IMG WIDTH=43 HEIGHT=24 ALIGN=BOTTOM ALT="index" SRC="icons/index_motif.gif"></A> <BR>
+<B> Next:</B> <A NAME="tex2html312" HREF="node8.html">Initializing and Shutting Down </A>
+<B>Up:</B> <A NAME="tex2html310" HREF="node5.html">User's Manual</A>
+<B> Previous:</B> <A NAME="tex2html304" HREF="node6.html">Compiling and Linking</A>
+<P><ADDRESS>
+<I>Fabio Somenzi <BR>
+Thu Sep 24 23:44:34 MDT 1998</I>
+</ADDRESS>
+</BODY>
+</HTML>
