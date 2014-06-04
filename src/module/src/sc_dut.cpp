@@ -24,7 +24,7 @@ void DUT::work_thread(void)
 				std::cout << "		" << std::setw(3) << data[inner_i]
 					 	  << "		" << sc_time_stamp()	<< endl;
 			}
-			for (int inner_i = 0; inner_i < outer_i; inner_++)
+			for (int inner_i = 0; inner_i < outer_i; inner_i++)
 			{
 				m_output = data[inner_i];
 			}

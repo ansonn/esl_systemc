@@ -177,9 +177,9 @@ class sc_rvd
 		// data to be transferred
 		sc_signal<D>			m_data;
 		// true if the channel reader if ready for data
-		sc_signal<D>			m_ready;
+		sc_signal<bool>		m_ready;
 		// true if the channel writer has provided data
-		sc_signal<D>			m_valid;
+		sc_signal<bool>		m_valid;
 };
 
 #endif

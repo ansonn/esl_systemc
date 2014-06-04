@@ -21,6 +21,7 @@
 *.app
 
 *.vcd
+*~
 
 Debug/
 Release/
