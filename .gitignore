@@ -23,6 +23,8 @@
 *.vcd
 *~
 
+*.tag
+html/
 Debug/
 Release/
 
