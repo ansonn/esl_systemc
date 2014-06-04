@@ -1,7 +1,0 @@
-config_db_path=/usr/local/DS-5/sw/eclipse/dropins/plugins/com.arm.debug.configdatabase.data.community_5.18.0.20140404_100548\:/usr/local/DS-5/sw/debugger/configdb\:
-config_db_path0_defaultid=com.arm.ds\:1
-config_db_path0_enabled=true
-config_db_path1_defaultid=com.arm.ds\:0
-config_db_path1_enabled=true
-eclipse.preferences.version=1
-enabled_config_db_path=/usr/local/DS-5/sw/eclipse/dropins/plugins/com.arm.debug.configdatabase.data.community_5.18.0.20140404_100548\:/usr/local/DS-5/sw/debugger/configdb\:
