@@ -20,7 +20,7 @@ SC_MODULE(DUT)
 
 	void work_thread(void);
 
-	SC_STOR(DUT)
+	SC_CTOR(DUT)
 	{
 		SC_CTHREAD(work_thread, m_clk.pos());
 		reset_signal_is(m_reset, false);
