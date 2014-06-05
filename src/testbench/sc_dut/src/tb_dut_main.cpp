@@ -8,7 +8,7 @@
 
 int sc_main(int, char *argv[])
 {
-	sc_clock			clock;
+	sc_clock			clock("clock");
 	DUT					dut("dut");
 	sc_rvd<sc_uint<8> >	dut_to_tb;
 	sc_rvd<sc_uint<8> >	tb_to_dut;
@@ -29,12 +29,12 @@ int sc_main(int, char *argv[])
 
 	tf = sc_create_vcd_trace_file("../results/wave");
 	sc_trace(tf, clock, "clk");
-	sc_trace(tf, dut_to_tb.m_data, "data_0");
-	sc_trace(tf, dut_to_tb.m_ready, "ready_0");
-	sc_trace(tf, dut_to_tb.m_valid, "valid_0");
-	sc_trace(tf, tb_to_dut.m_data, "data_1");
-	sc_trace(tf, tb_to_dut.m_ready, "ready_1");
-	sc_trace(tf, tb_to_dut.m_valid, "valid_1");
+	sc_trace(tf, dut_to_tb.m_data, "data_d");
+	sc_trace(tf, dut_to_tb.m_ready, "ready_d");
+	sc_trace(tf, dut_to_tb.m_valid, "valid_d");
+	sc_trace(tf, tb_to_dut.m_data, "data_t");
+	sc_trace(tf, tb_to_dut.m_ready, "ready_t");
+	sc_trace(tf, tb_to_dut.m_valid, "valid_t");
 	
 	std::cout << "producer dut consumer" << endl;
 	reset = false;

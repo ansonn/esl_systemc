@@ -1,6 +1,6 @@
 include ../../../build-unix/Makefile.config
 
-OBJ_NAME = tb_dut
+OBJ_NAME = simple_fifo
 
 SRCDIR           = ../src
 SRCDIRMODULE     = ../../../module/src
@@ -10,9 +10,7 @@ INCDIR =    -I../include \
 
 CFLAGS = $(FLAGS) $(INCDIR)
 
-OBJS   =    tb_dut_main.o \
-            tb_dut.o \
-            sc_dut.o
+OBJS   =    simple_fifo_main.o
 
 .PHONY: clean all check
 
@@ -36,13 +34,7 @@ run: announce $(OBJ_NAME).exe
 $(OBJ_NAME).exe: $(OBJS)
 	$(LD) -o $@ $(OBJS) $(LDFLAGS)
 
-tb_dut_main.o: $(SRCDIR)/tb_dut_main.cpp
-	$(GXX) $(CFLAGS) -c $< -o $@
-
-tb_dut.o: $(SRCDIR)/tb_dut.cpp
-	$(GXX) $(CFLAGS) -c $< -o $@
-
-sc_dut.o: $(SRCDIRMODULE)/sc_dut.cpp
+simple_fifo_main.o: $(SRCDIR)/simple_fifo_main.cpp
 	$(GXX) $(CFLAGS) -c $< -o $@
 
 clean:

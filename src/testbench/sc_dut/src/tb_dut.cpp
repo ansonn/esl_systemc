@@ -15,7 +15,7 @@ void TB_DUT::consumer(void)
 	for (int i = 0; i < 40; i++)
 	{
 		data = m_from_dut.read();
-		std::cout << "		" << std::setw(3) << data << "		"
+		std::cout << "		c" << std::setw(3) << data << "		"
 				  << sc_time_stamp()	<< endl;
 	}
 	sc_stop();
@@ -30,7 +30,7 @@ void TB_DUT::producer(void)
 
 	for (int i = 0;; i++)
 	{
-		std::cout << "		" << std::setw(3) << i << "		"
+		std::cout << "		->" << std::setw(3) << i << "		"
 				  << sc_time_stamp() << endl;
 		data = i;
 		m_to_dut = data;
