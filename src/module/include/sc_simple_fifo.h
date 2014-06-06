@@ -32,10 +32,10 @@ class read_if : virtual public sc_interface
 /*-----------------------------------------------------------------------------
 //	fifo
 */
-class fifo : public sc_module, public write_if, public read_if
+class fifo : public sc_channel, public write_if, public read_if
 {
 	public:
-		fifo(sc_module_name name, int size_) : sc_module(name), size(size_)
+		fifo(sc_module_name name, int size_) : sc_channel(name), size(size_)
 		{
 			data		= new char[size];
 			nr_elm		= 0;
@@ -49,12 +49,12 @@ class fifo : public sc_module, public write_if, public read_if
 		{
 			delete [] data;
 			
-			cout << endl << "Fifo size							:" << size << endl
-						 << "Average fifo fill depth			:" << double(average)/nr_read << endl
-						 << "Maximum fifo fill depth			:" << max_used << endl
-						 << "Average transfer time per character:" << last_time/nr_read << endl
-						 << "Total character transferred		:" << nr_read << endl 
-						 << "Total time							:" << last_time << endl;
+			cout << endl << "Fifo size\t\t\t\t:" 						<< size << endl
+						 << "Average fifo fill depth\t\t\t:" 			<< double(average)/nr_read << endl
+						 << "Maximum fifo fill depth\t\t\t:" 			<< max_used << endl
+						 << "Average transfer time per character\t:" 	<< last_time/nr_read << endl
+						 << "Total character transferred\t\t:" 			<< nr_read << endl 
+						 << "Total time\t\t\t\t:" 						<< last_time << endl;
 		}
 
 		void write(char c)
@@ -70,10 +70,12 @@ class fifo : public sc_module, public write_if, public read_if
 		void read(char &c)
 		{
 			last_time = sc_time_stamp();
+			
 			if (nr_elm == 0)
 				wait(w_event);
 
 			compute_stats();
+
 			c = data[first];
 			--nr_elm;
 			first = (first + 1)%size;
@@ -104,12 +106,12 @@ class fifo : public sc_module, public write_if, public read_if
 		char 		*data;
 		int 		nr_elm;
 		int 		first;
-		sc_event	w_event;
-		sc_event	r_event;
 		int 		size;
 		int			nr_read;
 		int			max_used;
 		int			average;
+		sc_event	w_event;
+		sc_event	r_event;
 		sc_time		last_time;
 };
 

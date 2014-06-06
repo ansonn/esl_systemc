@@ -1,0 +1,37 @@
+systemc中各类端口解释：
+
+1、基本端口sc_in<T>、sc_out<T>、sc_inout<T>
+   利用基本端口我们可以完成RTL级设计。
+   正常情况下，端口总是与一个且仅有一个信号相连，也可以说基本端口总是与一个信号绑定的。
+   只有一种情况是特殊的，就是当一个模块被实例化时候，它的端口可以直接绑定到高一层模块的端口上。
+
+2、自定义端口类型sc_port<interfaceType, ChannelNumber = 1>
+   为了满足行为建模的需要，systemc引入用户自定义端口类型。
+   为了支持进程同步和通信细化，systemc定义了接口<interface>、端口<port>和通道<channel>
+   通道实现一个或者多个接口。也就是说，通道必须继承一个或者多个接口，这些接口中定义的抽象
+   方法必须在通道中实现。通过端口，模块中的进程可以链接到通道并使用通道提供的方法。
+   端口总是与一定的接口类型相关联，端口只能链接到实现了该类接口的通道上。
+
+   端口基类sc_port<IF, N>
+   该类是所有端口的基类，是一个模版类。IF是接口类型，N是所链接的同一类型的通道数目，也就是接口数，缺省是1。
+       
+   重载操作符operator()(IF & interface) 用于将端口与接口绑定起来，实现端口与通道的接口的互通，这是端口的最
+   基本操作。操作符operator()用于将端口与父模块的端口绑定起来，使端口支持分层的模块化设计。
+   IF *operator->()和const IF *operator->() const实现接口方法的调用。利用size()可以查询当前端口所链接的同
+   一类型的接口数。当多个接口链接到同一个端口上时，可以利用operator[](int index)来调用不同的接口的方法。
+
+3、sc_export
+   sc_export在sc_module内
+   sc_export通过sc_interface绑定到channel上
+   sc_port能够直接绑定到sc_export上。
+   other sc_module calls sc_interface function through sc_port and sc_export
+   如果你发现sc_moudle上有sc_export；那么该sc_module内部已经包含了channel。
+
+
+
+
+
+
+
+
+

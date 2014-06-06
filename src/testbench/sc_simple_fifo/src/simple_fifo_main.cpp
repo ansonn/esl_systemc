@@ -15,14 +15,14 @@ SC_MODULE(producer)
 		SC_HAS_PROCESS(producer);
 		producer(sc_module_name name) : sc_module(name)
 		{
-			SC_THREAD(main);
+			SC_THREAD(worker);
 		}
 
-		void main(void)
+		void worker(void)
 		{
 			const char *str = "ansonn.wang@spreadtrum.com,ansonn.wang@foxmail.com/n";
 			const char *p	= str;
-			int total		= 1000000;
+			int total		= 100000;
 
 			while (1)
 			{
@@ -42,6 +42,7 @@ SC_MODULE(producer)
 			}
 		}
 };
+
 class consumer : public sc_module
 {
 	public:
@@ -50,14 +51,14 @@ class consumer : public sc_module
 		SC_HAS_PROCESS(consumer);
 		consumer(sc_module_name name) : sc_module(name)
 		{
-			SC_THREAD(main);
+			SC_THREAD(worker);
 		}
 
-		void main()
+		void worker()
 		{
 			char c;
 
-			while (true) 
+			while (1) 
 			{
 				in->read(c);
 				wait(100, SC_NS);
@@ -94,6 +95,9 @@ int sc_main (int argc , char *argv[])
 	if (size > 100000)
 		size = 100000;
 
+	//sc_set_time_resolution(10, SC_PS);
+	cout << sc_get_time_resolution() << endl;
+	
 	top top1("Top1", size);
 	sc_start();
 	return 0;
