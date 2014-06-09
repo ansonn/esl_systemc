@@ -47,7 +47,10 @@ template<class T> SC_MODULE(reader)
 		{
 			SC_METHOD(extract);
 			sensitive << m_clk.pos();
-			//dont_initialize();
+
+			// don't schedule the spawned process for an initial execution, 
+			// by default it is scheduled for an initial execution
+			dont_initialize();
 		}
 
 		void extract(void)
