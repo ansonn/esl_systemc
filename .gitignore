@@ -22,6 +22,7 @@
 
 *.vcd
 *~
+*.swp
 
 *.tag
 html/
