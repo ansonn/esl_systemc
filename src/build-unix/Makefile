@@ -3,7 +3,15 @@ include ./Makefile.config
 export FLAG_BATCH = 1
 
 SUBDIRS = \
-          ../testbench/demo
+          ../testbench/at_1_phase \
+          ../testbench/fork_join \
+          ../testbench/sc_dut \
+          ../testbench/sc_report \
+          ../testbench/scx_mutex_w_policy \
+          ../testbench/dpipe \
+          ../testbench/reset_signal_is \
+          ../testbench/sc_export \
+          ../testbench/sc_simple_fifo
 
 .PHONY: all clean check run
 
