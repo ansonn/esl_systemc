@@ -14,23 +14,23 @@ instance of D and also contains another instance of C. E exports both
 interfaces as interface-ports IFP1 and IFP2. Both IFP1 and IFP2 are
 bound to ports P1 and P2 of module X.
 
-              +-------------+             +------------------+
-              |     X       |             |    E    +----+   |
-              |             |P1       IFP1|         | C  |   |
-              |            [ ]------------O---------@    |   |
-              |             |             |         |    |   |
-              |             |             |         +----+   |
-              |             |             |                  |
-              |             |             |     +----------+ |
-              |             |             |     | D        | |
-              |             |             |     |   +----+ | |
-              |             |P2       IFP2|  IFP|   | C  | | |
-              |            [ ]------------O-----O---@    | | |
-              |             |             |     |   |    | | |
-              |             |             |     |   +----+ | |
-              |             |             |     |          | |
-              |             |             |     +----------+ |
-              +-------------+             +------------------+
+              +-------------+             +-------------------+
+              |     x       |             |     e    +----+   |
+              |             |p_1     ifp_1|          | c  |   |
+              |            [ ]------------O----------@    |   |
+              |             |             |          |    |   |
+              |             |             |          +----+   |
+              |             |             |                   |
+              |             |             |      +----------+ |
+              |             |             |      | d        | |
+              |             |             |      |   +----+ | |
+              |             |p_2     ifp_2| ipf_0|   | c  | | |
+              |            [ ]------------O------O---@    | | |
+              |             |             |      |   |    | | |
+              |             |             |      |   +----+ | |
+              |             |             |      |          | |
+              |             |             |      +----------+ |
+              +-------------+             +-------------------+
 
  Legend:
    [ ]   port
@@ -47,7 +47,8 @@ bound to ports P1 and P2 of module X.
 #include "systemc.h"
 
 
-/* interface */
+/*-----------------------------------------------------------------------------
+/  interface */
 class c_interface : virtual public sc_interface
 {
 	public:
@@ -68,7 +69,8 @@ class c : public c_interface, public sc_channel
 		}
 };
 
-/* module D;  export channel c throught ifp */
+/*-----------------------------------------------------------------------------
+/  module D;  export channel c throught ifp */
 SC_MODULE(d)
 {
 	sc_export<c_interface>	ifp_0;
@@ -85,7 +87,8 @@ SC_MODULE(d)
 
 };
 
-/* module e; export two interface port */
+/*-----------------------------------------------------------------------------
+/  module e; export two interface port */
 SC_MODULE(e)
 {
 	private:
@@ -109,7 +112,8 @@ SC_MODULE(e)
 
 };
 
-/* module x; connected to the channels through e */
+/*-----------------------------------------------------------------------------
+/  module x; connected to the channels through e */
 SC_MODULE(x)
 {
 	sc_port<c_interface>	p_1;
@@ -134,7 +138,9 @@ SC_MODULE(x)
 
 
 
-
+/*-----------------------------------------------------------------------------
+/
+*/
 int sc_main (int argc , char *argv[])
 {
 	e 	the_e("e");
